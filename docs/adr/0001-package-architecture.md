@@ -6,7 +6,7 @@
 
 ## Context
 
-SpartaCSS is becoming an independent package so it can serve as reusable design-system infrastructure across RedSpartan Systems products, not just RedSpartan HQ — versioned and released on its own schedule rather than tied to any single consumer's timeline.
+SpartaCSS is becoming an independent package so it can serve as reusable design-system infrastructure across RedSpartan Labs products, not just RedSpartan HQ — versioned and released on its own schedule rather than tied to any single consumer's timeline.
 
 Ownership separation matters because shared infrastructure that lives inside a single consumer's repository tends to accumulate duplicated or diverging copies as more consumers appear. A single, independently owned source of truth avoids that outcome and keeps each consuming repository scoped to what it actually owns.
 
