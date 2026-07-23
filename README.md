@@ -39,6 +39,16 @@ package's own files; it would only matter if a consumer ever wanted to
 interleave its own cascade layers with SpartaCSS's before this stylesheet
 loads.
 
+**Note on `lightningcss --version` output:** running the installed CLI
+directly (e.g. `./node_modules/.bin/lightningcss --version`) prints something
+like `lightningcss 1.0.0-alpha.72`, not the npm package version. This is
+expected — that string is the underlying Rust crate's own internal version
+(baked into the binary at compile time), which the upstream project
+versions independently from its npm releases. It is not a sign of an
+outdated or wrong package; the actual installed/maintained package version
+is whatever `lightningcss-cli` resolves to in `package-lock.json` (verified
+current against upstream's GitHub releases as of this writing).
+
 ## License
 
 Apache License 2.0 — see [LICENSE](./LICENSE). RedSpartan Labs branding,

@@ -1,7 +1,10 @@
 /* ============================================================
-   SpartaCSS v1.2 — Complete Edition
-   Disciplined. Modular. Battle-tested.
-   Core locked. Do not add components to this file.
+   SpartaCSS — Core Foundation
+   Part of @redspartanlabs/spartacss (pre-release).
+   Tokens, reset, layout, and core components.
+   Disciplined. Modular. Core is stable — feature modules live in
+   separate files (see sparta-icons.css, sparta-notifications.css);
+   do not add feature components to this file.
    ============================================================ */
 
 @layer tokens, reset, layout, components, accessibility;
