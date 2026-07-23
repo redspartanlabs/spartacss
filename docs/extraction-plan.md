@@ -1,6 +1,10 @@
 # SpartaCSS v1 Source Extraction Plan
 
-**Status:** Planning document — analysis only, no files have been moved or modified.
+**Status:** `spartacss.css` (core) extracted to `src/styles/spartacss.css`, with the ADR-0001 Toast cleanup applied. `sparta-icons.css` and `sparta-notifications.css` extraction has not started.
+
+**New finding from the core extraction pass:** `spartacss.css` contains an "ICON SLOTS" section (base `.sp-icon` class plus `.sp-icon--xs` through `.sp-icon--2xl` size modifiers) that duplicates the base icon class and identical size modifiers already defined in `sparta-icons.css`. This was not caught during the original planning-only inventory (Section 5 flagged the accessibility layer and Navbar section as needing verification, but this section was missed). It is a separate, additional duplication from the already-resolved Toast issue and has **not** been touched — it's out of scope for this extraction pass and needs its own decision before icon extraction begins.
+
+**Toast cleanup, as actually applied:** removed the self-contained legacy component block (`.sp-toast-stack`, `.sp-toast`, and their modifiers/parts) and the two duplicate keyframes (`sp-toast-in`, `sp-toast-out`). Also removed one dangling reference to `.sp-toast-stack` inside a `@media print` selector list (a direct consequence of removing that class — left in place it would have been a reference to a deleted selector). Left untouched: the `--sp-z-toast` token and a `.sp-toast__close { color: ... }` rule, both of which are still used by the canonical Toast in `sparta-notifications.css` via the shared class name/token.
 
 This document inventories the existing SpartaCSS v1 implementation and defines what belongs in this repository. It is not an ADR; ADR-0001 (`docs/adr/0001-package-architecture.md`) records the accepted architecture this plan implements.
 
