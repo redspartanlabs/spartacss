@@ -1,6 +1,12 @@
 # SpartaCSS v1 Source Extraction Plan
 
-**Status:** `spartacss.css` (core) and `sparta-icons.css` (icon system) both extracted to `src/styles/`. `sparta-notifications.css` extraction has not started.
+**Status:** `spartacss.css` (core), `sparta-icons.css` (icon system), and `sparta-notifications.css` (notifications module) are all extracted to `src/styles/`. Extraction is complete; no `package.json` or build tooling exists yet.
+
+**Notifications extraction — remaining core cleanup:** two toast-related items were still present in core after the initial Toast cleanup (commit 85d8c2d): the `--sp-z-toast` token, and a `.sp-toast__close { color: var(--sp-text-muted); }` rule in core's per-component icon-color section.
+- `--sp-z-toast` **stays in core** — it's one entry in the shared z-index token scale (alongside `--sp-z-modal`, `--sp-z-drawer`, etc.), consumed by the notifications module via `var()`. This is shared infrastructure, not notification-module ownership; moving a single token out of a cohesive scale would fragment it across two files.
+- `.sp-toast__close`'s color rule **was removed from core** — it was pure redundancy: `sparta-notifications.css`'s own `.sp-toast__close` rule already includes the identical `color: var(--sp-text-muted)` declaration among its full property set. Since Toast is now entirely module-owned, this leftover core rule matched a component core no longer has at all.
+
+After this cleanup, core contains zero `.sp-toast*` class selectors — only the shared `--sp-z-toast` token remains, referenced (not duplicated) by the notifications module.
 
 **ICON SLOTS duplication — resolved:** `spartacss.css` contained an "ICON SLOTS" section (base `.sp-icon` class plus `.sp-icon--xs` through `.sp-icon--2xl` size modifiers) byte-identical to the same classes in `sparta-icons.css`. Ownership was confirmed as belonging to `sparta-icons.css` — its own comments already self-declared this exact code "the single authoritative .sp-icon definition" and "single authoritative block," and ADR-0001 Decision 4 already names the icon system as its own package-boundary component separate from core. The 44-line duplicate block was removed from `src/styles/spartacss.css`; `sparta-icons.css` was extracted unmodified. Core's separate, non-duplicated per-component icon-color rules (Select, Accordion, Modal close, Drawer close, Navbar toggle, Toast close, Chip remove, Alert) were left untouched — they don't duplicate anything in the icon system, they just set `color` on icons rendered inside specific core components.
 

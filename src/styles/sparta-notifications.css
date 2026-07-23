@@ -1,0 +1,595 @@
+/* ============================================================
+   SpartaCSS Module — sparta-notifications.css  v1.0
+   Toast notifications, dismissible alert banners, and
+   confirm/dialog modals. All system-to-user messaging in
+   one file since they're commonly imported together.
+   Requires: spartacss.css (core tokens)
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   TOAST — transient, auto-dismissing notifications
+   ---------------------------------------------------------- */
+
+.sp-toast-wrap {
+  position: fixed;
+  z-index: var(--sp-z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-space-2);
+  pointer-events: none;
+  padding: var(--sp-space-6);
+  max-width: 380px;
+  width: 100%;
+}
+
+/* Position variants — apply to .sp-toast-wrap */
+.sp-toast-wrap--bottom-right { bottom: 0; right: 0; align-items: flex-end; }
+.sp-toast-wrap--bottom-left  { bottom: 0; left: 0;  align-items: flex-start; }
+.sp-toast-wrap--top-right    { top: 0; right: 0;    align-items: flex-end; }
+.sp-toast-wrap--top-left     { top: 0; left: 0;     align-items: flex-start; }
+.sp-toast-wrap--top-center   { top: 0; left: 50%; transform: translateX(-50%); align-items: center; }
+.sp-toast-wrap--bottom-center{ bottom: 0; left: 50%; transform: translateX(-50%); align-items: center; }
+
+.sp-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-space-3);
+  padding: var(--sp-space-3) var(--sp-space-4);
+  background: var(--sp-bg-elevated);
+  border: 1px solid var(--sp-border-strong);
+  border-left-width: 3px;
+  border-radius: var(--sp-radius-lg);
+  box-shadow: var(--sp-shadow-md);
+  font-size: var(--sp-text-sm);
+  color: var(--sp-text-primary);
+  min-width: 240px;
+  max-width: 380px;
+  width: 100%;
+  pointer-events: all;
+  animation: sp-toast-in var(--sp-duration-base) var(--sp-ease-out);
+}
+
+.sp-toast--out {
+  animation: sp-toast-out var(--sp-duration-base) var(--sp-ease-in) forwards;
+}
+
+/* Color variants — set left border + icon tint */
+.sp-toast--success { border-left-color: var(--sp-color-success); }
+.sp-toast--error   { border-left-color: var(--sp-color-error); }
+.sp-toast--warning { border-left-color: var(--sp-color-warning); }
+.sp-toast--info     { border-left-color: var(--sp-color-info); }
+.sp-toast--neutral  { border-left-color: var(--sp-border-strong); }
+
+.sp-toast__icon {
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+  margin-top: 0.0625rem;
+}
+
+.sp-toast--success .sp-toast__icon { color: var(--sp-color-success); }
+.sp-toast--error   .sp-toast__icon { color: var(--sp-color-error); }
+.sp-toast--warning .sp-toast__icon { color: var(--sp-color-warning); }
+.sp-toast--info     .sp-toast__icon { color: var(--sp-color-info); }
+
+.sp-toast__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.sp-toast__title {
+  font-size: var(--sp-text-sm);
+  font-weight: var(--sp-font-semibold);
+  color: var(--sp-text-primary);
+  line-height: var(--sp-leading-snug);
+}
+
+.sp-toast__text {
+  font-size: var(--sp-text-sm);
+  color: var(--sp-text-secondary);
+  line-height: var(--sp-leading-snug);
+}
+
+/* Optional inline action link inside a toast (e.g. "Undo") */
+.sp-toast__action {
+  margin-top: var(--sp-space-1);
+  font-size: var(--sp-text-xs);
+  font-weight: var(--sp-font-semibold);
+  color: var(--sp-color-primary);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  border-radius: var(--sp-radius-sm);
+}
+
+.sp-toast__action:focus-visible {
+  outline: none;
+  box-shadow: var(--sp-shadow-focus);
+}
+
+.sp-toast__close {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--sp-text-muted);
+  cursor: pointer;
+  border-radius: var(--sp-radius-sm);
+  font-size: 0.875rem;
+  line-height: 1;
+  transition: color var(--sp-duration-fast) var(--sp-ease),
+              background var(--sp-duration-fast) var(--sp-ease);
+}
+
+.sp-toast__close:hover {
+  color: var(--sp-text-primary);
+  background: var(--sp-bg-surface);
+}
+
+.sp-toast__close:focus-visible {
+  outline: none;
+  box-shadow: var(--sp-shadow-focus);
+}
+
+/* Progress bar showing time until auto-dismiss */
+.sp-toast__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.3;
+  border-radius: 0 0 0 var(--sp-radius-lg);
+  animation-name: sp-toast-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.sp-toast { position: relative; overflow: hidden; }
+
+/* ----------------------------------------------------------
+   ALERT BANNER — persistent, page-level dismissible message
+   Unlike toast: stays until dismissed, sits inline in layout
+   (not fixed-position), used for page-level state (e.g.
+   "You're in read-only mode", "3 validation errors below").
+   ---------------------------------------------------------- */
+
+.sp-alert-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-space-3);
+  padding: var(--sp-space-3) var(--sp-space-4);
+  border: 1px solid;
+  border-left-width: 3px;
+  border-radius: var(--sp-radius-lg);
+  font-size: var(--sp-text-sm);
+  line-height: var(--sp-leading-relaxed);
+}
+
+.sp-alert-banner--success {
+  background: var(--sp-color-success-subtle);
+  border-color: color-mix(in srgb, var(--sp-color-success) 35%, transparent);
+  border-left-color: var(--sp-color-success);
+  color: var(--sp-color-success);
+}
+
+.sp-alert-banner--error {
+  background: var(--sp-color-error-subtle);
+  border-color: color-mix(in srgb, var(--sp-color-error) 35%, transparent);
+  border-left-color: var(--sp-color-error);
+  color: var(--sp-color-error);
+}
+
+.sp-alert-banner--warning {
+  background: var(--sp-color-warning-subtle);
+  border-color: color-mix(in srgb, var(--sp-color-warning) 35%, transparent);
+  border-left-color: var(--sp-color-warning);
+  color: var(--sp-color-warning);
+}
+
+.sp-alert-banner--info {
+  background: var(--sp-color-info-subtle);
+  border-color: color-mix(in srgb, var(--sp-color-info) 35%, transparent);
+  border-left-color: var(--sp-color-info);
+  color: var(--sp-color-info);
+}
+
+.sp-alert-banner--neutral {
+  background: var(--sp-bg-elevated);
+  border-color: var(--sp-border);
+  border-left-color: var(--sp-border-strong);
+  color: var(--sp-text-secondary);
+}
+
+.sp-alert-banner__icon {
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.0625rem;
+}
+
+.sp-alert-banner__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.sp-alert-banner__title {
+  font-weight: var(--sp-font-semibold);
+  color: inherit;
+  margin-bottom: 0.125rem;
+}
+
+.sp-alert-banner__text {
+  color: var(--sp-text-secondary);
+}
+
+.sp-alert-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-space-3);
+  margin-top: var(--sp-space-2);
+}
+
+.sp-alert-banner__link {
+  font-size: var(--sp-text-xs);
+  font-weight: var(--sp-font-semibold);
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: var(--sp-radius-sm);
+}
+
+.sp-alert-banner__link:focus-visible {
+  outline: none;
+  box-shadow: var(--sp-shadow-focus);
+}
+
+.sp-alert-banner__close {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: currentColor;
+  opacity: 0.6;
+  cursor: pointer;
+  border-radius: var(--sp-radius-sm);
+  font-size: 0.875rem;
+  transition: opacity var(--sp-duration-fast) var(--sp-ease);
+}
+
+.sp-alert-banner__close:hover { opacity: 1; }
+
+.sp-alert-banner__close:focus-visible {
+  outline: none;
+  opacity: 1;
+  box-shadow: var(--sp-shadow-focus);
+}
+
+/* Full-width variant — no border-radius, spans container edge to edge */
+.sp-alert-banner--full {
+  border-radius: 0;
+  border-left-width: 0;
+  border-right: none;
+  border-top: none;
+  border-bottom: 1px solid;
+  padding-left: var(--sp-space-6);
+  padding-right: var(--sp-space-6);
+}
+
+.sp-alert-banner--full.sp-alert-banner--success { border-bottom-color: color-mix(in srgb, var(--sp-color-success) 35%, transparent); }
+.sp-alert-banner--full.sp-alert-banner--error   { border-bottom-color: color-mix(in srgb, var(--sp-color-error) 35%, transparent); }
+.sp-alert-banner--full.sp-alert-banner--warning { border-bottom-color: color-mix(in srgb, var(--sp-color-warning) 35%, transparent); }
+.sp-alert-banner--full.sp-alert-banner--info    { border-bottom-color: color-mix(in srgb, var(--sp-color-info) 35%, transparent); }
+
+/* Compact variant — tighter padding, single line */
+.sp-alert-banner--compact {
+  padding: var(--sp-space-2) var(--sp-space-3);
+  align-items: center;
+}
+
+.sp-alert-banner--compact .sp-alert-banner__title {
+  margin-bottom: 0;
+  display: inline;
+}
+
+.sp-alert-banner--compact .sp-alert-banner__text {
+  display: inline;
+}
+
+/* ----------------------------------------------------------
+   CONFIRM / DIALOG — modal replacement for confirm()/prompt()
+   Used for destructive action confirmation, blocking
+   decisions the user must make before continuing.
+   ---------------------------------------------------------- */
+
+.sp-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: var(--sp-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-space-6);
+  backdrop-filter: blur(2px);
+  animation: sp-overlay-in var(--sp-duration-base) var(--sp-ease-out);
+}
+
+.sp-dialog-overlay--out {
+  animation: sp-overlay-out var(--sp-duration-fast) var(--sp-ease-in) forwards;
+}
+
+.sp-dialog {
+  background: var(--sp-bg-surface);
+  border: 1px solid var(--sp-border-strong);
+  border-radius: var(--sp-radius-xl);
+  box-shadow: var(--sp-shadow-xl);
+  width: 100%;
+  max-width: 420px;
+  padding: var(--sp-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-space-4);
+  animation: sp-dialog-in var(--sp-duration-slow) var(--sp-ease-back);
+}
+
+.sp-dialog--sm { max-width: 340px; }
+.sp-dialog--lg { max-width: 560px; }
+
+/* Icon + title header */
+.sp-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-space-4);
+}
+
+.sp-dialog__icon {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--sp-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.sp-dialog__icon--danger  { background: var(--sp-color-error-subtle);   color: var(--sp-color-error); }
+.sp-dialog__icon--warning { background: var(--sp-color-warning-subtle); color: var(--sp-color-warning); }
+.sp-dialog__icon--info    { background: var(--sp-color-info-subtle);    color: var(--sp-color-info); }
+.sp-dialog__icon--success { background: var(--sp-color-success-subtle); color: var(--sp-color-success); }
+
+.sp-dialog__title-group {
+  flex: 1;
+  min-width: 0;
+  padding-top: 0.25rem;
+}
+
+.sp-dialog__title {
+  font-size: var(--sp-text-lg);
+  font-weight: var(--sp-font-semibold);
+  color: var(--sp-text-primary);
+  line-height: var(--sp-leading-snug);
+  margin-bottom: var(--sp-space-1);
+}
+
+.sp-dialog__desc {
+  font-size: var(--sp-text-sm);
+  color: var(--sp-text-secondary);
+  line-height: var(--sp-leading-relaxed);
+}
+
+/* Prompt-style text input inside dialog */
+.sp-dialog__input {
+  width: 100%;
+  height: 2.25rem;
+  padding: 0 var(--sp-space-3);
+  font-size: var(--sp-text-sm);
+  font-family: inherit;
+  color: var(--sp-text-primary);
+  background: var(--sp-bg-elevated);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius-md);
+  outline: none;
+  transition: border-color var(--sp-duration-fast) var(--sp-ease);
+}
+
+.sp-dialog__input:focus {
+  border-color: var(--sp-color-primary);
+  box-shadow: var(--sp-shadow-focus);
+}
+
+/* "Type to confirm" pattern — e.g. type project name to delete */
+.sp-dialog__confirm-hint {
+  font-size: var(--sp-text-xs);
+  color: var(--sp-text-muted);
+}
+
+.sp-dialog__confirm-hint strong {
+  color: var(--sp-text-secondary);
+  font-family: var(--sp-font-mono);
+  font-weight: var(--sp-font-semibold);
+}
+
+.sp-dialog__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--sp-space-2);
+  margin-top: var(--sp-space-2);
+}
+
+.sp-dialog__footer--split {
+  justify-content: space-between;
+}
+
+/* Button styles scoped to dialog footer — mirrors core button
+   variants so dialogs work even before core buttons load */
+.sp-dialog-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-space-2);
+  height: 2.25rem;
+  padding: 0 var(--sp-space-4);
+  font-size: var(--sp-text-sm);
+  font-weight: var(--sp-font-semibold);
+  font-family: inherit;
+  border-radius: var(--sp-radius-md);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--sp-duration-fast) var(--sp-ease),
+              border-color var(--sp-duration-fast) var(--sp-ease),
+              color var(--sp-duration-fast) var(--sp-ease);
+}
+
+.sp-dialog-btn--ghost {
+  color: var(--sp-text-secondary);
+  background: transparent;
+  border: 1px solid var(--sp-border);
+}
+
+.sp-dialog-btn--ghost:hover {
+  color: var(--sp-text-primary);
+  border-color: var(--sp-border-strong);
+  background: var(--sp-bg-elevated);
+}
+
+.sp-dialog-btn--primary {
+  color: var(--sp-text-on-color);
+  background: var(--sp-color-primary);
+  border: 1px solid var(--sp-color-primary);
+}
+
+.sp-dialog-btn--primary:hover {
+  background: var(--sp-color-primary-hover);
+  border-color: var(--sp-color-primary-hover);
+}
+
+.sp-dialog-btn--danger {
+  color: var(--sp-text-on-color);
+  background: var(--sp-color-error);
+  border: 1px solid var(--sp-color-error);
+}
+
+.sp-dialog-btn--danger:hover {
+  background: var(--sp-color-error-hover);
+  border-color: var(--sp-color-error-hover);
+}
+
+.sp-dialog-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.sp-dialog__close {
+  position: absolute;
+  top: var(--sp-space-4);
+  right: var(--sp-space-4);
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--sp-text-muted);
+  cursor: pointer;
+  border-radius: var(--sp-radius-sm);
+  font-size: 1rem;
+  transition: color var(--sp-duration-fast) var(--sp-ease),
+              background var(--sp-duration-fast) var(--sp-ease);
+}
+
+.sp-dialog__close:hover {
+  color: var(--sp-text-primary);
+  background: var(--sp-bg-elevated);
+}
+
+.sp-dialog { position: relative; }
+
+/* ----------------------------------------------------------
+   SHARED ANIMATIONS
+   ---------------------------------------------------------- */
+
+@keyframes sp-toast-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes sp-toast-out {
+  from { opacity: 1; transform: translateX(0); max-height: 200px; margin-bottom: 0; }
+  to   { opacity: 0; transform: translateX(12px); max-height: 0; margin-bottom: calc(-1 * var(--sp-space-2)); }
+}
+
+@keyframes sp-toast-progress {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
+
+@keyframes sp-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes sp-overlay-out {
+  to { opacity: 0; }
+}
+
+@keyframes sp-dialog-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes sp-banner-in {
+  from { opacity: 0; transform: translateY(-4px); max-height: 0; }
+  to   { opacity: 1; transform: translateY(0); max-height: 200px; }
+}
+
+.sp-alert-banner {
+  animation: sp-banner-in var(--sp-duration-base) var(--sp-ease-out);
+}
+
+/* ----------------------------------------------------------
+   REDUCED MOTION
+   ---------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-toast,
+  .sp-toast--out,
+  .sp-dialog-overlay,
+  .sp-dialog-overlay--out,
+  .sp-dialog,
+  .sp-alert-banner {
+    animation: none;
+  }
+
+  .sp-toast__progress {
+    animation: none;
+    width: 0%;
+  }
+}

@@ -4235,10 +4235,6 @@
   color: var(--sp-color-primary);
 }
 
-.sp-toast__close {
-  color: var(--sp-text-muted);
-}
-
 .sp-chip__remove {
   color: inherit;
 }
