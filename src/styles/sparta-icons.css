@@ -1,0 +1,1092 @@
+/**
+ * SpartaIcons v1.8 — Audited & Fixed
+ * Pure CSS icon system for SpartaCSS
+ * Framework-agnostic · No dependencies · Production-ready
+ *
+ * AUDIT FIXES (v1.0 → v1.1):
+ *   [FIX-1] Removed duplicate .sp-icon base block (fill/stroke variant was
+ *           incompatible with mask-image approach and caused invisible icons).
+ *   [FIX-2] Removed duplicate size modifier block — consolidated into single
+ *           authoritative set using explicit width/height values.
+ *   [FIX-3] sp-icon-info: dot was a zero-length line (y1=8, y2=8 → invisible).
+ *           Replaced with a proper circle dot <circle cx='12' cy='8' r='1'/>.
+ *   [FIX-4] CORRECTED (this audit, two passes): earlier changelog text
+ *           claimed the selector was already narrowed to exclude modifier
+ *           classes — it wasn't; no attribute-substring pattern can
+ *           distinguish "sp-icon-" followed by a name from "sp-icon-"
+ *           followed by another hyphen. The actual fix, applied now: the
+ *           wildcard attribute selector is replaced with an explicit
+ *           enumeration of every real icon-name class (see MASK ICON
+ *           ENGINE below). Exact class-token matching has no false
+ *           positives against modifiers. Cost: adding a new icon now
+ *           requires adding its class to that list as well as its
+ *           mask-image rule — two touchpoints, documented in place.
+ *   [FIX-5] CORRECTED (this audit): earlier changelog text claimed the
+ *           button integration class was "corrected from .sp-button to
+ *           .sp-btn." That never happened — spartacss.css's button class
+ *           has always been .sp-button, and this file's integration rules
+ *           (.sp-button .sp-icon etc., below) have always used it
+ *           correctly. The changelog entry itself was wrong, not the code;
+ *           left here so the correction has a record rather than silently
+ *           deleting the original mistaken claim.
+ *   [ADD-1] Added 5 new icons: bell, copy, calendar, chart-bar, bookmark.
+ *
+ * v1.1 → v1.2:
+ *   [ADD-2] Added more-vertical (kebab) icon — compact-tier overflow
+ *           triggers (e.g. DocumentationShell's TOC drawer trigger),
+ *           paired with the existing more-horizontal icon.
+ *
+ * v1.2 → v1.3 (superseded, see v1.4):
+ *   [FIX-6] Added a Navbar Toggle component-integration rule sizing
+ *           .sp-icon up one step inside .sp-navbar__toggle.
+ *
+ * v1.3 → v1.4:
+ *   [FIX-7] Removed the v1.3 Navbar Toggle rule. DocumentationShell's
+ *           TOC trigger moved from .sp-navbar__toggle to .sp-button--ghost
+ *           (a visual-hierarchy fix, not an icon fix — a bordered nav-
+ *           style control was reading as equal-weight to real navigation
+ *           for what's meant to be a lightweight document action), so
+ *           that rule's one consumer no longer exists. Left in place it
+ *           would've been dead framework CSS. The icon-size concern the
+ *           removed rule addressed didn't disappear — it now lives as a
+ *           local override in DocumentationShell, scoped to this one
+ *           icon-only button rather than every .sp-navbar__toggle,
+ *           since that's genuinely where the need is specific.
+ *
+ * v1.4 → v1.5 (Phase 1 — icon integration, bug fixes):
+ *   [FIX-8] .sp-icon-x, .sp-icon-chevron-down, .sp-icon-check now source
+ *           from --sp-icon-mask-x / --sp-icon-mask-chevron-down /
+ *           --sp-icon-mask-check (spartacss.css tokens layer) instead of
+ *           carrying their own literal SVG copies. These three shapes are
+ *           also consumed directly by .sp-modal__close, .sp-drawer__close,
+ *           and .sp-accordion__trigger::after in spartacss.css — one
+ *           shape, one definition, referenced from both files.
+ *   [FIX-9] Removed the dead Drawer component-integration rules
+ *           (background-image:none override + .sp-icon sizing rule).
+ *           .sp-drawer__close now always renders its own icon via
+ *           ::before, same as .sp-modal__close; a .sp-icon child is not
+ *           expected inside either and would render a second icon if
+ *           added. This file has never had integration rules for
+ *           .sp-modal__close — Drawer no longer needs its own exception.
+ *
+ * v1.5 → v1.6 (Phase 2 batch 1 — Unicode-arrow migrations):
+ *   [FIX-10] .sp-icon-trending-up, .sp-icon-trending-down,
+ *            .sp-icon-arrow-right, .sp-icon-external-link now source
+ *            from --sp-icon-mask-trending-up / -trending-down /
+ *            -arrow-right / -external-link (spartacss.css tokens
+ *            layer). These four shapes are also consumed directly by
+ *            .sp-stat__delta--up/down/neutral::before,
+ *            .sp-link--standalone::after, and .sp-link--external::after
+ *            in spartacss.css, replacing what were previously literal
+ *            Unicode arrow characters (↑ ↓ → ↗) in those rules.
+ *
+ * v1.6 → v1.7 (Phase 2 batch 2 — token architecture formalized):
+ *   [ARCH-1] Formally defined two icon token families in spartacss.css's
+ *            tokens layer (see the ICON TOKEN FAMILIES comment there):
+ *            --sp-icon-mask-* for mask-image-only shapes shared by 2+
+ *            consumers, and the new --sp-icon-bg-* for background-image-
+ *            only shapes shared by 2+ consumers (color baked in, does
+ *            not track theme changes — a real tradeoff, not a bug).
+ *            A shape with exactly one consumer, regardless of which
+ *            property it uses, stays a local literal rather than
+ *            becoming a token — tokenizing a single-consumer value adds
+ *            indirection without deduplication. This is now framework
+ *            policy, not a case-by-case judgment call.
+ *   [FIX-11] .sp-icon-sort-asc, .sp-icon-sort-desc now source from
+ *            --sp-icon-mask-sort-asc / -sort-desc, also consumed
+ *            directly by .sp-table th.sp-sort-asc/desc::after, which
+ *            previously rendered plain "↑"/"↓" Unicode characters
+ *            instead of these already-existing (but previously unused
+ *            anywhere in spartacss.css) icons.
+ *   [FIX-12] Introduced --sp-icon-bg-check-white (the first --sp-icon-bg-*
+ *            token), consumed by .sp-checkbox input:checked and
+ *            .sp-list--checked .sp-list__item::before — two independent
+ *            copies of the same literal SVG, now one shared definition.
+ *            No rendering or behavior change to either component.
+ *   [DECIDE-1] Evaluated the Select chevron (.sp-select's background-image
+ *            arrow) for the same treatment and deliberately did NOT
+ *            tokenize it: single consumer, no second copy anywhere to
+ *            deduplicate against, and color would have to be baked in
+ *            as a static hex rather than track a live token. Documented
+ *            in place as a permanent, intentional exception rather than
+ *            revisited each time this file is audited.
+ *
+ * v1.7 → v1.8 (final architectural audit — icon system frozen for v1):
+ *   [FIX-4]  See corrected entry above (v1.0 → v1.1) — the modifier-
+ *            matching selector bug was real, unresolved since v1.1
+ *            despite being marked fixed, and is now actually fixed via
+ *            explicit enumeration rather than pattern matching.
+ *   [FIX-5]  See corrected entry above (v1.0 → v1.1) — false historical
+ *            claim about a .sp-button/.sp-btn rename corrected in place.
+ *   [ARCH-2] Formalized the "foundational primitive" exception to the
+ *            multi-consumer token rule: --sp-icon-mask-x,
+ *            --sp-icon-mask-chevron-down, and --sp-icon-mask-check remain
+ *            shared tokens even where a shape currently has only one
+ *            direct consumer, because SpartaCSS treats these three as
+ *            framework-level primitives expected to be reused as new
+ *            components are built. This is a named, closed exception —
+ *            it does not extend to any other icon. See ICON TOKEN
+ *            FAMILIES in spartacss.css's tokens layer.
+ *   [ARCH-3] Documented the repeated mask-sizing boilerplate across
+ *            Modal/Drawer/Accordion/Stat delta/Standalone link/External
+ *            link/Table sort as an accepted tradeoff of staying
+ *            dependency-free, not technical debt — see spartacss.css's
+ *            tokens layer, ACCEPTED TRADEOFF note.
+ *   Updated .sp-icon-check's comment (was stale, described a Phase-2-not-
+ *            yet-done state that Phase 2 itself resolved) and this
+ *            version banner (was stuck at v1.4 through four rounds of
+ *            real changes).
+ *   Full audit confirmed: zero duplicate SVG literals anywhere in either
+ *            file: every --sp-icon-mask-* / --sp-icon-bg-* token resolves
+ *            to exactly one definition and every enumerated selector in
+ *            the mask engine maps 1:1 to an icon with a real mask-image
+ *            rule (86/86, no orphans in either direction). Icon system
+ *            considered production-ready for SpartaCSS v1 as of this
+ *            entry.
+ */
+
+/* ============================================================
+   BASE ICON CLASS
+   ============================================================ */
+
+/* Single authoritative .sp-icon definition.
+   Uses display:inline-flex so the ::before pseudo-element fills
+   the slot properly. The fill/stroke properties from the old SVG
+   approach are NOT included here — mask icons use background-color,
+   not fill/stroke. Including them was a silent no-op at best and
+   a source of confusion at worst. */
+
+.sp-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;   /* 20px — default (md) */
+  height: 1.25rem;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* ============================================================
+   SIZE MODIFIERS — single authoritative block
+   ============================================================ */
+
+.sp-icon--xs  { width: 0.75rem;  height: 0.75rem;  } /* 12px */
+.sp-icon--sm  { width: 1rem;     height: 1rem;     } /* 16px */
+.sp-icon--md  { width: 1.25rem;  height: 1.25rem;  } /* 20px — default */
+.sp-icon--lg  { width: 1.5rem;   height: 1.5rem;   } /* 24px */
+.sp-icon--xl  { width: 2rem;     height: 2rem;     } /* 32px */
+.sp-icon--2xl { width: 2.5rem;   height: 2.5rem;   } /* 40px */
+
+/* ============================================================
+   ALIGNMENT UTILITIES
+   ============================================================ */
+
+.sp-icon--align-top          { vertical-align: top;          }
+.sp-icon--align-bottom       { vertical-align: bottom;       }
+.sp-icon--align-text-top     { vertical-align: text-top;     }
+.sp-icon--align-text-bottom  { vertical-align: text-bottom;  }
+
+/* ============================================================
+   COMPONENT INTEGRATION — Button
+   ============================================================ */
+
+.sp-button .sp-icon {
+  margin-right: 0.5em;
+}
+
+.sp-button .sp-icon:only-child {
+  margin-right: 0;
+}
+
+/* Icon-only button variant */
+.sp-button--icon-only {
+  padding: 0.5em;
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sp-button--icon-only .sp-icon {
+  margin: 0;
+}
+
+/* ============================================================
+   COMPONENT INTEGRATION — Alert
+   ============================================================ */
+
+.sp-alert .sp-icon {
+  flex-shrink: 0;
+  margin-right: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.sp-alert--info    .sp-icon { color: var(--sp-info-base);    }
+.sp-alert--success .sp-icon { color: var(--sp-success-base); }
+.sp-alert--warning .sp-icon { color: var(--sp-warning-base); }
+.sp-alert--danger  .sp-icon,
+.sp-alert--error   .sp-icon { color: var(--sp-error-base);   }
+
+/* ============================================================
+   COMPONENT INTEGRATION — Drawer
+   ============================================================ */
+
+/* This section intentionally holds no rules. .sp-drawer__close
+   (spartacss.css) sources its own icon from --sp-icon-mask-x and
+   always renders it via ::before — same as .sp-modal__close, which
+   has never had a rule in this section either. A .sp-icon child is
+   not expected inside .sp-drawer__close; dropping one in would
+   render a second icon alongside the component's own. This section
+   previously held a background-image:none override and a sizing
+   rule written for a .sp-icon child — both removed as dead code
+   once the component's own ::before implementation (mask-based,
+   not background-image) made that override a no-op. */
+
+/* No integration rule needed here, deliberately. .sp-button--ghost
+   already defines color: var(--sp-text-secondary) at rest and
+   var(--sp-text-primary) on hover (spartacss.css) — a real, intentional
+   token pair, not a placeholder. .sp-icon's ::before renders via
+   background-color: currentColor and declares no color of its own, so
+   any icon dropped into a ghost button already inherits both states
+   correctly through that existing chain. Layering an opacity or color
+   adjustment on top here would fight tokens that already do the job,
+   and would put the fix back at the icon level — exactly what this
+   round of changes was meant to move away from. The button owns visual
+   weight; the icon just follows currentColor, same as everywhere else
+   in this file. */
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+.sp-icon[aria-hidden="true"] {
+  pointer-events: none;
+}
+
+/* ============================================================
+   MASK ICON ENGINE
+   ============================================================
+   Each .sp-icon-* class renders via a ::before pseudo-element.
+   The pseudo fills with currentColor, masked by the SVG shape.
+   Set `color` on any ancestor → icon inherits it automatically.
+
+   USAGE:
+   <span class="sp-icon sp-icon--md sp-icon-check" aria-hidden="true"></span>
+
+   [FIX-4] The previous selector, [class^="sp-icon-"] /
+   [class*=" sp-icon-"], was an attribute-substring match against
+   the whole class attribute string. That's the wrong tool for this
+   job: BEM modifier classes (.sp-icon--md, .sp-icon--lg, etc.) use
+   a double hyphen, and "sp-icon--md" textually contains "sp-icon-"
+   as its own first 8 characters — so the attribute selector matched
+   modifier classes too, not just icon-name classes. A changelog
+   entry once claimed this was fixed by narrowing the attribute
+   pattern; it wasn't — no attribute-selector pattern can distinguish
+   "sp-icon-" followed by a name from "sp-icon-" followed by another
+   hyphen, since CSS attribute selectors match substrings, not
+   per-token boundaries. The actual fix is structural: this rule now
+   enumerates every real icon-name class explicitly (below) instead
+   of pattern-matching for one. A class selector matches a token in
+   the class list exactly, so this is correct regardless of what
+   other classes (modifiers, .sp-icon, anything else) share the
+   element. TRADEOFF: adding a new icon now means adding its class
+   to this list in addition to writing its mask-image rule below —
+   two touchpoints instead of one. That's a real, deliberate cost,
+   accepted in exchange for the selector being provably correct
+   rather than merely "correct for today's modifier names."
+   ============================================================ */
+
+.sp-icon-alert-triangle::before,
+.sp-icon-archive::before,
+.sp-icon-arrow-left::before,
+.sp-icon-arrow-right::before,
+.sp-icon-arrow-up-down::before,
+.sp-icon-at-sign::before,
+.sp-icon-award::before,
+.sp-icon-bell::before,
+.sp-icon-bookmark::before,
+.sp-icon-briefcase::before,
+.sp-icon-calendar::before,
+.sp-icon-camera::before,
+.sp-icon-chart-bar::before,
+.sp-icon-check::before,
+.sp-icon-check-circle::before,
+.sp-icon-check-square::before,
+.sp-icon-chevron-down::before,
+.sp-icon-chevron-left::before,
+.sp-icon-chevron-right::before,
+.sp-icon-chevron-up::before,
+.sp-icon-clock::before,
+.sp-icon-code::before,
+.sp-icon-copy::before,
+.sp-icon-database::before,
+.sp-icon-download::before,
+.sp-icon-drag-handle::before,
+.sp-icon-edit::before,
+.sp-icon-expand::before,
+.sp-icon-external-link::before,
+.sp-icon-eye::before,
+.sp-icon-eye-off::before,
+.sp-icon-file-text::before,
+.sp-icon-filter::before,
+.sp-icon-flag::before,
+.sp-icon-globe::before,
+.sp-icon-grid::before,
+.sp-icon-heart::before,
+.sp-icon-help-circle::before,
+.sp-icon-home::before,
+.sp-icon-image::before,
+.sp-icon-info::before,
+.sp-icon-layers::before,
+.sp-icon-link::before,
+.sp-icon-list-view::before,
+.sp-icon-lock::before,
+.sp-icon-log-out::before,
+.sp-icon-mail::before,
+.sp-icon-maximize::before,
+.sp-icon-menu::before,
+.sp-icon-message-circle::before,
+.sp-icon-minimize::before,
+.sp-icon-minus::before,
+.sp-icon-moon::before,
+.sp-icon-more-horizontal::before,
+.sp-icon-more-vertical::before,
+.sp-icon-paper-clip::before,
+.sp-icon-pause::before,
+.sp-icon-percent::before,
+.sp-icon-phone::before,
+.sp-icon-play::before,
+.sp-icon-plus::before,
+.sp-icon-refresh::before,
+.sp-icon-rss::before,
+.sp-icon-search::before,
+.sp-icon-send::before,
+.sp-icon-settings::before,
+.sp-icon-share::before,
+.sp-icon-shield-check::before,
+.sp-icon-slash::before,
+.sp-icon-sort-asc::before,
+.sp-icon-sort-desc::before,
+.sp-icon-star::before,
+.sp-icon-sun::before,
+.sp-icon-table-2::before,
+.sp-icon-tag::before,
+.sp-icon-target::before,
+.sp-icon-terminal::before,
+.sp-icon-trash::before,
+.sp-icon-trending-down::before,
+.sp-icon-trending-up::before,
+.sp-icon-upload::before,
+.sp-icon-user::before,
+.sp-icon-users::before,
+.sp-icon-x::before,
+.sp-icon-x-circle::before,
+.sp-icon-zap::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* ============================================================
+   SYSTEM UI ICONS
+   ============================================================ */
+
+/* Close — modal, drawer, toast, chip remove, navbar X */
+/* Sourced from --sp-icon-mask-x (spartacss.css tokens layer) —
+   also consumed directly by .sp-modal__close and .sp-drawer__close,
+   which render this same shape without a .sp-icon child. */
+.sp-icon-x::before {
+  mask-image: var(--sp-icon-mask-x);
+  -webkit-mask-image: var(--sp-icon-mask-x);
+}
+
+/* Chevron Down — select, accordion, dropdown trigger */
+/* Sourced from --sp-icon-mask-chevron-down (spartacss.css tokens
+   layer) — also consumed directly by .sp-accordion__trigger::after,
+   which renders this same shape without a .sp-icon child. */
+.sp-icon-chevron-down::before {
+  mask-image: var(--sp-icon-mask-chevron-down);
+  -webkit-mask-image: var(--sp-icon-mask-chevron-down);
+}
+
+/* Chevron Right — dropdown submenu, breadcrumb sep, pagination next */
+.sp-icon-chevron-right::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 18 15 12 9 6'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 18 15 12 9 6'/></svg>");
+}
+
+/* Chevron Left — pagination prev, sidebar collapse, back nav */
+.sp-icon-chevron-left::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 18 9 12 15 6'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 18 9 12 15 6'/></svg>");
+}
+
+/* Menu — navbar mobile hamburger */
+.sp-icon-menu::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='3' y1='6' x2='21' y2='6'/><line x1='3' y1='12' x2='21' y2='12'/><line x1='3' y1='18' x2='21' y2='18'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='3' y1='6' x2='21' y2='6'/><line x1='3' y1='12' x2='21' y2='12'/><line x1='3' y1='18' x2='21' y2='18'/></svg>");
+}
+
+/* Check — checkbox checked state, feature list */
+/* Sourced from --sp-icon-mask-check (spartacss.css tokens layer).
+   Kept as a shared token despite having only this one direct
+   consumer today — check is one of three foundational primitives
+   (with x and chevron-down) under SpartaCSS's token policy, not
+   an exception requiring 2+ consumers. See the ICON TOKEN FAMILIES
+   note in spartacss.css's tokens layer for the full reasoning.
+   Not related to --sp-icon-bg-check-white: that's a separate
+   background-image token (fixed white, two-layer composite),
+   consumed by .sp-checkbox and .sp-list--checked, which cannot
+   use this mask token since mask-image only controls shape, not
+   a second overlay color. */
+.sp-icon-check::before {
+  mask-image: var(--sp-icon-mask-check);
+  -webkit-mask-image: var(--sp-icon-mask-check);
+}
+
+/* ============================================================
+   SEMANTIC / FEEDBACK ICONS
+   ============================================================ */
+
+/* Check Circle — alert/toast success */
+.sp-icon-check-circle::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 11.08V12a10 10 0 1 1-5.93-9.14'/><polyline points='22 4 12 14.01 9 11.01'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 11.08V12a10 10 0 1 1-5.93-9.14'/><polyline points='22 4 12 14.01 9 11.01'/></svg>");
+}
+
+/* Alert Triangle — alert/toast warning */
+.sp-icon-alert-triangle::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/><line x1='12' y1='9' x2='12' y2='13'/><line x1='12' y1='17' x2='12.01' y2='17'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/><line x1='12' y1='9' x2='12' y2='13'/><line x1='12' y1='17' x2='12.01' y2='17'/></svg>");
+}
+
+/* X Circle — alert/toast error */
+.sp-icon-x-circle::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='15' y1='9' x2='9' y2='15'/><line x1='9' y1='9' x2='15' y2='15'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='15' y1='9' x2='9' y2='15'/><line x1='9' y1='9' x2='15' y2='15'/></svg>");
+}
+
+/* Info — alert/toast info
+   [FIX-3] Was: <line x1='12' y1='8' x2='12' y2='8'/> (zero-length, invisible)
+   Fixed: <circle cx='12' cy='8' r='1'/> for a proper dot indicator */
+.sp-icon-info::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><circle cx='12' cy='8' r='1' fill='currentColor' stroke='none'/><line x1='12' y1='12' x2='12' y2='16'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><circle cx='12' cy='8' r='1' fill='currentColor' stroke='none'/><line x1='12' y1='12' x2='12' y2='16'/></svg>");
+}
+
+/* ============================================================
+   NAVIGATION & ACTION ICONS
+   ============================================================ */
+
+/* Arrow Right — CTA buttons, hero links */
+/* Sourced from --sp-icon-mask-arrow-right (spartacss.css tokens
+   layer) — also consumed directly by .sp-link--standalone::after
+   and .sp-stat__delta--neutral::before. */
+.sp-icon-arrow-right::before {
+  mask-image: var(--sp-icon-mask-arrow-right);
+  -webkit-mask-image: var(--sp-icon-mask-arrow-right);
+}
+
+/* External Link — opens in new tab */
+/* Sourced from --sp-icon-mask-external-link (spartacss.css tokens
+   layer) — also consumed directly by .sp-link--external::after. */
+.sp-icon-external-link::before {
+  mask-image: var(--sp-icon-mask-external-link);
+  -webkit-mask-image: var(--sp-icon-mask-external-link);
+}
+
+/* Search — search inputs, command palette */
+.sp-icon-search::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+}
+
+/* Settings — settings nav, config */
+.sp-icon-settings::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>");
+}
+
+/* User — avatar fallback, account nav */
+.sp-icon-user::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>");
+}
+
+/* ============================================================
+   MARKETING & CONTENT ICONS
+   ============================================================ */
+
+/* Shield Check — security features, trust signals */
+.sp-icon-shield-check::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/><polyline points='9 12 11 14 15 10'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/><polyline points='9 12 11 14 15 10'/></svg>");
+}
+
+/* Zap — performance features, quick actions, toast primary */
+.sp-icon-zap::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>");
+}
+
+/* Star — ratings, testimonials, favorites */
+.sp-icon-star::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>");
+}
+
+/* Lock — gated features, auth, premium */
+.sp-icon-lock::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='11' width='18' height='11' rx='2' ry='2'/><path d='M7 11V7a5 5 0 0 1 10 0v4'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='11' width='18' height='11' rx='2' ry='2'/><path d='M7 11V7a5 5 0 0 1 10 0v4'/></svg>");
+}
+
+/* Globe — international, platform-wide */
+.sp-icon-globe::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='2' y1='12' x2='22' y2='12'/><path d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='2' y1='12' x2='22' y2='12'/><path d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/></svg>");
+}
+
+/* ============================================================
+   EXTENDED ICONS
+   ============================================================ */
+
+/* Arrow Up/Down — table sort indicator */
+.sp-icon-arrow-up-down::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='12 18 12 6'/><polyline points='7 13 12 18 17 13'/><polyline points='7 11 12 6 17 11'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='12 18 12 6'/><polyline points='7 13 12 18 17 13'/><polyline points='7 11 12 6 17 11'/></svg>");
+}
+
+/* Home — sidebar home link, breadcrumb root */
+.sp-icon-home::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>");
+}
+
+/* Plus — add/create actions, empty state CTA */
+.sp-icon-plus::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='12' y1='5' x2='12' y2='19'/><line x1='5' y1='12' x2='19' y2='12'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='12' y1='5' x2='12' y2='19'/><line x1='5' y1='12' x2='19' y2='12'/></svg>");
+}
+
+/* Edit (Pencil) — table edit actions, inline rename */
+.sp-icon-edit::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'/><path d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'/><path d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'/></svg>");
+}
+
+/* Trash — destructive/delete actions */
+.sp-icon-trash::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='3 6 5 6 21 6'/><path d='M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6'/><path d='M10 11v6'/><path d='M14 11v6'/><path d='M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='3 6 5 6 21 6'/><path d='M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6'/><path d='M10 11v6'/><path d='M14 11v6'/><path d='M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2'/></svg>");
+}
+
+/* More Horizontal — overflow menu, row actions */
+.sp-icon-more-horizontal::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='5' cy='12' r='1'/><circle cx='12' cy='12' r='1'/><circle cx='19' cy='12' r='1'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='5' cy='12' r='1'/><circle cx='12' cy='12' r='1'/><circle cx='19' cy='12' r='1'/></svg>");
+}
+
+/* More Vertical — kebab menu, compact-tier overflow triggers (e.g.
+   DocumentationShell's TOC drawer trigger). Same three-dot shape as
+   more-horizontal, rotated to a vertical axis. */
+.sp-icon-more-vertical::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='5' r='1'/><circle cx='12' cy='12' r='1'/><circle cx='12' cy='19' r='1'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='5' r='1'/><circle cx='12' cy='12' r='1'/><circle cx='12' cy='19' r='1'/></svg>");
+}
+
+/* Filter — table filters, list refinement */
+.sp-icon-filter::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3'/></svg>");
+}
+
+/* Download — file/data download */
+.sp-icon-download::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><polyline points='7 10 12 15 17 10'/><line x1='12' y1='15' x2='12' y2='3'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><polyline points='7 10 12 15 17 10'/><line x1='12' y1='15' x2='12' y2='3'/></svg>");
+}
+
+/* Upload — file/data upload */
+.sp-icon-upload::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><polyline points='17 8 12 3 7 8'/><line x1='12' y1='3' x2='12' y2='15'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><polyline points='17 8 12 3 7 8'/><line x1='12' y1='3' x2='12' y2='15'/></svg>");
+}
+
+/* Minus — collapse, decrement, remove row */
+.sp-icon-minus::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='5' y1='12' x2='19' y2='12'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='5' y1='12' x2='19' y2='12'/></svg>");
+}
+
+/* ============================================================
+   ADDITIONS — v1.1
+   [ADD-1] 5 new icons for common RedSpartan UI patterns
+   ============================================================ */
+
+/* Bell — notifications, alerts, reminders */
+.sp-icon-bell::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9'/><path d='M13.73 21a2 2 0 0 1-3.46 0'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9'/><path d='M13.73 21a2 2 0 0 1-3.46 0'/></svg>");
+}
+
+/* Copy — clipboard copy, duplicate actions */
+.sp-icon-copy::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='9' y='9' width='13' height='13' rx='2' ry='2'/><path d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='9' y='9' width='13' height='13' rx='2' ry='2'/><path d='M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1'/></svg>");
+}
+
+/* Calendar — date fields, scheduling, timeline */
+.sp-icon-calendar::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'/><line x1='16' y1='2' x2='16' y2='6'/><line x1='8' y1='2' x2='8' y2='6'/><line x1='3' y1='10' x2='21' y2='10'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'/><line x1='16' y1='2' x2='16' y2='6'/><line x1='8' y1='2' x2='8' y2='6'/><line x1='3' y1='10' x2='21' y2='10'/></svg>");
+}
+
+/* Chart Bar — analytics, stat cards, dashboards */
+.sp-icon-chart-bar::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='20' x2='18' y2='10'/><line x1='12' y1='20' x2='12' y2='4'/><line x1='6' y1='20' x2='6' y2='14'/><line x1='2' y1='20' x2='22' y2='20'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='20' x2='18' y2='10'/><line x1='12' y1='20' x2='12' y2='4'/><line x1='6' y1='20' x2='6' y2='14'/><line x1='2' y1='20' x2='22' y2='20'/></svg>");
+}
+
+/* Bookmark — save items, origin log entries, pinned content */
+.sp-icon-bookmark::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z'/></svg>");
+}
+
+/* ============================================================
+   COMPONENT ICON WIRING
+   These rules wire SpartaCSS component slots to SpartaIcons.
+   Components get the correct shape; color still flows from the
+   component's own color rules.
+   ============================================================ */
+
+/* Select — chevron in the wrapper's trailing slot */
+.sp-select-wrapper .sp-select-icon {
+  color: var(--sp-text-muted);
+}
+.sp-select:focus ~ .sp-select-icon,
+.sp-select:hover ~ .sp-select-icon {
+  color: var(--sp-text-secondary);
+}
+
+/* Accordion icon — inherits open/closed states */
+.sp-accordion__icon {
+  color: var(--sp-text-muted);
+}
+.sp-accordion__item--open .sp-accordion__icon {
+  color: var(--sp-color-primary);
+}
+
+/* Accordion trigger chevron */
+.sp-accordion__trigger::after {
+  color: var(--sp-text-muted);
+}
+.sp-accordion__item--open .sp-accordion__trigger::after {
+  color: var(--sp-color-primary);
+}
+
+/* Modal / Drawer close button */
+.sp-modal__close {
+  color: var(--sp-text-muted);
+}
+.sp-modal__close:hover {
+  color: var(--sp-color-primary);
+}
+.sp-drawer__close {
+  color: var(--sp-text-muted);
+}
+.sp-drawer__close:hover {
+  color: var(--sp-color-primary);
+}
+
+/* Navbar toggle */
+.sp-navbar__toggle {
+  color: var(--sp-text-secondary);
+}
+.sp-navbar__toggle:hover {
+  color: var(--sp-color-primary);
+}
+
+/* Toast close */
+.sp-toast__close {
+  color: var(--sp-text-muted);
+}
+
+/* Chip remove */
+.sp-chip__remove {
+  color: inherit;
+}
+
+/* Alert icon — auto-colored by alert variant's color property */
+.sp-alert__icon {
+  color: currentColor;
+}
+
+/* ============================================================
+   ADDITIONS — v1.2
+   22 new icons. Every one justified by a real product screen.
+
+   FORMS:       eye, eye-off
+   AVATAR:      camera
+   STAT:        trending-up, trending-down
+   CAREERTRACKER: mail, phone, briefcase, clock, users, tag, link
+   MISSIONCONTROL: refresh, layers, target, flag, archive
+   REDQUERY:    database, code, play, pause
+   REDWIRE:     message-circle, at-sign, heart, share
+   ============================================================ */
+
+/* ── Forms ──────────────────────────────────────────────── */
+
+/* Eye — password show/hide toggle, visibility control */
+.sp-icon-eye::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/><circle cx='12' cy='12' r='3'/></svg>");
+}
+
+/* Eye Off — hide password, private/hidden state */
+.sp-icon-eye-off::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/><line x1='1' y1='1' x2='23' y2='23'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'/><line x1='1' y1='1' x2='23' y2='23'/></svg>");
+}
+
+/* ── Avatar ──────────────────────────────────────────────── */
+
+/* Camera — avatar upload, photo capture */
+.sp-icon-camera::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/><circle cx='12' cy='13' r='4'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/><circle cx='12' cy='13' r='4'/></svg>");
+}
+
+/* ── Stat ────────────────────────────────────────────────── */
+
+/* Trending Up — positive stat delta, growth indicator */
+/* Sourced from --sp-icon-mask-trending-up (spartacss.css tokens
+   layer) — also consumed directly by .sp-stat__delta--up::before. */
+.sp-icon-trending-up::before {
+  mask-image: var(--sp-icon-mask-trending-up);
+  -webkit-mask-image: var(--sp-icon-mask-trending-up);
+}
+
+/* Trending Down — negative stat delta, decline indicator */
+/* Sourced from --sp-icon-mask-trending-down (spartacss.css tokens
+   layer) — also consumed directly by .sp-stat__delta--down::before. */
+.sp-icon-trending-down::before {
+  mask-image: var(--sp-icon-mask-trending-down);
+  -webkit-mask-image: var(--sp-icon-mask-trending-down);
+}
+
+/* ── CareerTracker ───────────────────────────────────────── */
+
+/* Mail — email candidate, contact actions */
+.sp-icon-mail::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/><polyline points='22,6 12,13 2,6'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/><polyline points='22,6 12,13 2,6'/></svg>");
+}
+
+/* Phone — candidate contact, call actions */
+.sp-icon-phone::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.09-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.09-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'/></svg>");
+}
+
+/* Briefcase — job roles, positions, career context */
+.sp-icon-briefcase::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='7' width='20' height='14' rx='2' ry='2'/><path d='M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='7' width='20' height='14' rx='2' ry='2'/><path d='M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16'/></svg>");
+}
+
+/* Clock — time to hire, deadlines, duration, timestamps */
+.sp-icon-clock::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/></svg>");
+}
+
+/* Users — team, group, multiple candidates, cohort */
+.sp-icon-users::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M23 21v-2a4 4 0 0 0-3-3.87'/><path d='M16 3.13a4 4 0 0 1 0 7.75'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M23 21v-2a4 4 0 0 0-3-3.87'/><path d='M16 3.13a4 4 0 0 1 0 7.75'/></svg>");
+}
+
+/* Tag — labels, categories, pipeline stages */
+.sp-icon-tag::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z'/><line x1='7' y1='7' x2='7.01' y2='7'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z'/><line x1='7' y1='7' x2='7.01' y2='7'/></svg>");
+}
+
+/* Link — share profile URL, copy link, hyperlink */
+.sp-icon-link::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/><path d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/><path d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/></svg>");
+}
+
+/* ── MissionControl ──────────────────────────────────────── */
+
+/* Refresh — reload data, re-run, sync */
+.sp-icon-refresh::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg>");
+}
+
+/* Layers — project views, stacked content, view toggle */
+.sp-icon-layers::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 2 7 12 12 22 7 12 2'/><polyline points='2 17 12 22 22 17'/><polyline points='2 12 12 17 22 12'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 2 7 12 12 22 7 12 2'/><polyline points='2 17 12 22 22 17'/><polyline points='2 12 12 17 22 12'/></svg>");
+}
+
+/* Target — goals, OKRs, objectives */
+.sp-icon-target::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='6'/><circle cx='12' cy='12' r='2'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='6'/><circle cx='12' cy='12' r='2'/></svg>");
+}
+
+/* Flag — milestones, origin log entries, priority markers */
+.sp-icon-flag::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/><line x1='4' y1='22' x2='4' y2='15'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/><line x1='4' y1='22' x2='4' y2='15'/></svg>");
+}
+
+/* Archive — archived candidates, closed missions, past records */
+.sp-icon-archive::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='21 8 21 21 3 21 3 8'/><rect x='1' y='3' width='22' height='5'/><line x1='10' y1='12' x2='14' y2='12'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='21 8 21 21 3 21 3 8'/><rect x='1' y='3' width='22' height='5'/><line x1='10' y1='12' x2='14' y2='12'/></svg>");
+}
+
+/* ── RedQuery ────────────────────────────────────────────── */
+
+/* Database — data sources, connections, schema */
+.sp-icon-database::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><ellipse cx='12' cy='5' rx='9' ry='3'/><path d='M21 12c0 1.66-4 3-9 3s-9-1.34-9-3'/><path d='M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><ellipse cx='12' cy='5' rx='9' ry='3'/><path d='M21 12c0 1.66-4 3-9 3s-9-1.34-9-3'/><path d='M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5'/></svg>");
+}
+
+/* Code — SQL editor, code blocks, technical fields */
+.sp-icon-code::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='16 18 22 12 16 6'/><polyline points='8 6 2 12 8 18'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='16 18 22 12 16 6'/><polyline points='8 6 2 12 8 18'/></svg>");
+}
+
+/* Play — run query, execute, start process */
+.sp-icon-play::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='5 3 19 12 5 21 5 3'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='5 3 19 12 5 21 5 3'/></svg>");
+}
+
+/* Pause — stop query, halt process */
+.sp-icon-pause::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='6' y='4' width='4' height='16'/><rect x='14' y='4' width='4' height='16'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='6' y='4' width='4' height='16'/><rect x='14' y='4' width='4' height='16'/></svg>");
+}
+
+/* ── RedWire ─────────────────────────────────────────────── */
+
+/* Message Circle — comments, discussion threads, chat */
+.sp-icon-message-circle::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/></svg>");
+}
+
+/* At Sign — mentions, tagging users, email addresses */
+.sp-icon-at-sign::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='4'/><path d='M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='4'/><path d='M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94'/></svg>");
+}
+
+/* Heart — reactions, endorsements, favorites feed */
+.sp-icon-heart::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/></svg>");
+}
+
+/* Share — share post, forward content, export link */
+.sp-icon-share::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='18' cy='5' r='3'/><circle cx='6' cy='12' r='3'/><circle cx='18' cy='19' r='3'/><line x1='8.59' y1='13.51' x2='15.42' y2='17.49'/><line x1='15.41' y1='6.51' x2='8.59' y2='10.49'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='18' cy='5' r='3'/><circle cx='6' cy='12' r='3'/><circle cx='18' cy='19' r='3'/><line x1='8.59' y1='13.51' x2='15.42' y2='17.49'/><line x1='15.41' y1='6.51' x2='8.59' y2='10.49'/></svg>");
+}
+
+/* ============================================================
+   ADDITIONS — v1.3
+   25 new icons. Gap-filled from systematic component + product audit.
+
+   UTILITY:     arrow-left, chevron-up, log-out, help-circle,
+                sun, moon, maximize, minimize, expand, slash,
+                drag-handle
+   VIEWS:       grid, list-view, table-2, terminal, sort-asc, sort-desc
+   PROGRESS:    percent, check-square, award
+   CAREERTRACKER: paper-clip, send
+   REDWIRE:     image, rss
+   ORIGIN LOG:  file-text
+   ============================================================ */
+
+/* ── Utility Navigation ──────────────────────────────────── */
+
+.sp-icon-arrow-left::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='19' y1='12' x2='5' y2='12'/><polyline points='12 19 5 12 12 5'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='19' y1='12' x2='5' y2='12'/><polyline points='12 19 5 12 12 5'/></svg>");
+}
+
+.sp-icon-chevron-up::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='18 15 12 9 6 15'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='18 15 12 9 6 15'/></svg>");
+}
+
+/* Log Out — auth, session end */
+.sp-icon-log-out::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/><polyline points='16 17 21 12 16 7'/><line x1='21' y1='12' x2='9' y2='12'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/><polyline points='16 17 21 12 16 7'/><line x1='21' y1='12' x2='9' y2='12'/></svg>");
+}
+
+/* Help Circle — help, support, FAQ popovers */
+.sp-icon-help-circle::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3'/><line x1='12' y1='17' x2='12.01' y2='17'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3'/><line x1='12' y1='17' x2='12.01' y2='17'/></svg>");
+}
+
+/* Sun — light mode, brightness */
+.sp-icon-sun::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='5'/><line x1='12' y1='1' x2='12' y2='3'/><line x1='12' y1='21' x2='12' y2='23'/><line x1='4.22' y1='4.22' x2='5.64' y2='5.64'/><line x1='18.36' y1='18.36' x2='19.78' y2='19.78'/><line x1='1' y1='12' x2='3' y2='12'/><line x1='21' y1='12' x2='23' y2='12'/><line x1='4.22' y1='19.78' x2='5.64' y2='18.36'/><line x1='18.36' y1='5.64' x2='19.78' y2='4.22'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='5'/><line x1='12' y1='1' x2='12' y2='3'/><line x1='12' y1='21' x2='12' y2='23'/><line x1='4.22' y1='4.22' x2='5.64' y2='5.64'/><line x1='18.36' y1='18.36' x2='19.78' y2='19.78'/><line x1='1' y1='12' x2='3' y2='12'/><line x1='21' y1='12' x2='23' y2='12'/><line x1='4.22' y1='19.78' x2='5.64' y2='18.36'/><line x1='18.36' y1='5.64' x2='19.78' y2='4.22'/></svg>");
+}
+
+/* Moon — dark mode */
+.sp-icon-moon::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/></svg>");
+}
+
+/* Maximize — expand panel, full-screen */
+.sp-icon-maximize::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3'/></svg>");
+}
+
+/* Minimize — collapse panel */
+.sp-icon-minimize::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3'/></svg>");
+}
+
+/* Expand — open detail view, slide-out drawer trigger */
+.sp-icon-expand::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 3 21 3 21 9'/><polyline points='9 21 3 21 3 15'/><line x1='21' y1='3' x2='14' y2='10'/><line x1='3' y1='21' x2='10' y2='14'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 3 21 3 21 9'/><polyline points='9 21 3 21 3 15'/><line x1='21' y1='3' x2='14' y2='10'/><line x1='3' y1='21' x2='10' y2='14'/></svg>");
+}
+
+/* Slash — disabled, forbidden, not-applicable state */
+.sp-icon-slash::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='4.93' y1='4.93' x2='19.07' y2='19.07'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='4.93' y1='4.93' x2='19.07' y2='19.07'/></svg>");
+}
+
+/* Drag Handle — drag-to-reorder rows, cards */
+.sp-icon-drag-handle::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='9' cy='5' r='1'/><circle cx='9' cy='12' r='1'/><circle cx='9' cy='19' r='1'/><circle cx='15' cy='5' r='1'/><circle cx='15' cy='12' r='1'/><circle cx='15' cy='19' r='1'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='9' cy='5' r='1'/><circle cx='9' cy='12' r='1'/><circle cx='9' cy='19' r='1'/><circle cx='15' cy='5' r='1'/><circle cx='15' cy='12' r='1'/><circle cx='15' cy='19' r='1'/></svg>");
+}
+
+/* ── View Toggles ────────────────────────────────────────── */
+
+/* Grid — kanban/card grid layout view */
+.sp-icon-grid::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='7' height='7'/><rect x='14' y='3' width='7' height='7'/><rect x='14' y='14' width='7' height='7'/><rect x='3' y='14' width='7' height='7'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='7' height='7'/><rect x='14' y='3' width='7' height='7'/><rect x='14' y='14' width='7' height='7'/><rect x='3' y='14' width='7' height='7'/></svg>");
+}
+
+/* List View — list layout toggle (pairs with grid) */
+.sp-icon-list-view::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='8' y1='6' x2='21' y2='6'/><line x1='8' y1='12' x2='21' y2='12'/><line x1='8' y1='18' x2='21' y2='18'/><line x1='3' y1='6' x2='3.01' y2='6'/><line x1='3' y1='12' x2='3.01' y2='12'/><line x1='3' y1='18' x2='3.01' y2='18'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='8' y1='6' x2='21' y2='6'/><line x1='8' y1='12' x2='21' y2='12'/><line x1='8' y1='18' x2='21' y2='18'/><line x1='3' y1='6' x2='3.01' y2='6'/><line x1='3' y1='12' x2='3.01' y2='12'/><line x1='3' y1='18' x2='3.01' y2='18'/></svg>");
+}
+
+/* Table 2 — tabular results view (RedQuery) */
+.sp-icon-table-2::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18'/></svg>");
+}
+
+/* Terminal — raw output, console view (RedQuery) */
+.sp-icon-terminal::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 17 10 11 4 5'/><line x1='12' y1='19' x2='20' y2='19'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 17 10 11 4 5'/><line x1='12' y1='19' x2='20' y2='19'/></svg>");
+}
+
+/* Sort Asc — ascending sort (RedQuery, tables) */
+/* Sourced from --sp-icon-mask-sort-asc (spartacss.css tokens
+   layer) — also consumed directly by .sp-table th.sp-sort-asc::after. */
+.sp-icon-sort-asc::before {
+  mask-image: var(--sp-icon-mask-sort-asc);
+  -webkit-mask-image: var(--sp-icon-mask-sort-asc);
+}
+
+/* Sort Desc — descending sort */
+/* Sourced from --sp-icon-mask-sort-desc (spartacss.css tokens
+   layer) — also consumed directly by .sp-table th.sp-sort-desc::after. */
+.sp-icon-sort-desc::before {
+  mask-image: var(--sp-icon-mask-sort-desc);
+  -webkit-mask-image: var(--sp-icon-mask-sort-desc);
+}
+
+/* ── Progress & Status ───────────────────────────────────── */
+
+/* Percent — OKR completion, progress values */
+.sp-icon-percent::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='19' y1='5' x2='5' y2='19'/><circle cx='6.5' cy='6.5' r='2.5'/><circle cx='17.5' cy='17.5' r='2.5'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='19' y1='5' x2='5' y2='19'/><circle cx='6.5' cy='6.5' r='2.5'/><circle cx='17.5' cy='17.5' r='2.5'/></svg>");
+}
+
+/* Check Square — completed task, checkbox done state */
+.sp-icon-check-square::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 11 12 14 22 4'/><path d='M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 11 12 14 22 4'/><path d='M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11'/></svg>");
+}
+
+/* Award — achievements, milestones, origin log entries */
+.sp-icon-award::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='7'/><polyline points='8.21 13.89 7 23 12 20 17 23 15.79 13.88'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='7'/><polyline points='8.21 13.89 7 23 12 20 17 23 15.79 13.88'/></svg>");
+}
+
+/* ── CareerTracker ───────────────────────────────────────── */
+
+/* Paper Clip — attach resume, documents */
+.sp-icon-paper-clip::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48'/></svg>");
+}
+
+/* Send — send email, submit message */
+.sp-icon-send::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='22' y1='2' x2='11' y2='13'/><polygon points='22 2 15 22 11 13 2 9 22 2'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='22' y1='2' x2='11' y2='13'/><polygon points='22 2 15 22 11 13 2 9 22 2'/></svg>");
+}
+
+/* ── RedWire ─────────────────────────────────────────────── */
+
+/* Image — image posts, media attachments */
+.sp-icon-image::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><polyline points='21 15 16 10 5 21'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><polyline points='21 15 16 10 5 21'/></svg>");
+}
+
+/* RSS — feed subscriptions, RedWire feed */
+.sp-icon-rss::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 11a9 9 0 0 1 9 9'/><path d='M4 4a16 16 0 0 1 16 16'/><circle cx='5' cy='19' r='1'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 11a9 9 0 0 1 9 9'/><path d='M4 4a16 16 0 0 1 16 16'/><circle cx='5' cy='19' r='1'/></svg>");
+}
+
+/* ── Origin Log ──────────────────────────────────────────── */
+
+/* File Text — log entries, documents, notes */
+.sp-icon-file-text::before {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/><line x1='16' y1='13' x2='8' y2='13'/><line x1='16' y1='17' x2='8' y2='17'/><polyline points='10 9 9 9 8 9'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/><line x1='16' y1='13' x2='8' y2='13'/><line x1='16' y1='17' x2='8' y2='17'/><polyline points='10 9 9 9 8 9'/></svg>");
+}

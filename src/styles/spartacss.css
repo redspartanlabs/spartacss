@@ -4186,50 +4186,6 @@
   background: transparent;
 }
 
-/* ============================================================
-   ICON SLOTS
-   ============================================================ */
-
-.sp-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.25rem;
-  height: 1.25rem;
-  flex-shrink: 0;
-  vertical-align: middle;
-}
-
-.sp-icon--xs {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-
-.sp-icon--sm {
-  width: 1rem;
-  height: 1rem;
-}
-
-.sp-icon--md {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.sp-icon--lg {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.sp-icon--xl {
-  width: 2rem;
-  height: 2rem;
-}
-
-.sp-icon--2xl {
-  width: 2.5rem;
-  height: 2.5rem;
-}
-
 .sp-select-wrapper .sp-select-icon {
   color: var(--sp-text-muted);
 }
