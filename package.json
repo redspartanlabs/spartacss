@@ -1,0 +1,26 @@
+{
+  "name": "@redspartanlabs/spartacss",
+  "version": "0.0.0",
+  "private": true,
+  "description": "SpartaCSS — RedSpartan Labs design system",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/redspartanlabs/spartacss.git"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build:copy": "mkdir -p dist && cp src/styles/spartacss.css dist/spartacss.css && cp src/styles/sparta-icons.css dist/sparta-icons.css && cp src/styles/sparta-notifications.css dist/sparta-notifications.css",
+    "build:minify": "lightningcss --minify src/styles/spartacss.css -o dist/spartacss.min.css && lightningcss --minify src/styles/sparta-icons.css -o dist/sparta-icons.min.css && lightningcss --minify src/styles/sparta-notifications.css -o dist/sparta-notifications.min.css",
+    "build": "npm run build:copy && npm run build:minify",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "lightningcss-cli": "^1.33.0"
+  }
+}
