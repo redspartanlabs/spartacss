@@ -2,7 +2,7 @@
  * SpartaCSS — Icon System
  * Part of @redspartanlabs/spartacss (pre-release).
  * Pure CSS icon system for SpartaCSS
- * Framework-agnostic · No dependencies
+ * Framework-agnostic
  *
  * Icons render via a ::before pseudo-element on an explicit, enumerated
  * list of .sp-icon-* classes (see MASK ICON ENGINE below) — not a
@@ -471,9 +471,8 @@
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='5' cy='12' r='1'/><circle cx='12' cy='12' r='1'/><circle cx='19' cy='12' r='1'/></svg>");
 }
 
-/* More Vertical — kebab menu, compact-tier overflow triggers (e.g.
-   DocumentationShell's TOC drawer trigger). Same three-dot shape as
-   more-horizontal, rotated to a vertical axis. */
+/* More Vertical — kebab menu, compact-tier overflow triggers. Same
+   three-dot shape as more-horizontal, rotated to a vertical axis. */
 .sp-icon-more-vertical::before {
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='5' r='1'/><circle cx='12' cy='12' r='1'/><circle cx='12' cy='19' r='1'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='5' r='1'/><circle cx='12' cy='12' r='1'/><circle cx='12' cy='19' r='1'/></svg>");
@@ -504,8 +503,7 @@
 }
 
 /* ============================================================
-   ADDITIONS — v1.1
-   [ADD-1] 5 new icons for common RedSpartan UI patterns
+   ADDITIONAL ICONS
    ============================================================ */
 
 /* Bell — notifications, alerts, reminders */
@@ -532,7 +530,7 @@
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='20' x2='18' y2='10'/><line x1='12' y1='20' x2='12' y2='4'/><line x1='6' y1='20' x2='6' y2='14'/><line x1='2' y1='20' x2='22' y2='20'/></svg>");
 }
 
-/* Bookmark — save items, origin log entries, pinned content */
+/* Bookmark — save items, pinned content */
 .sp-icon-bookmark::before {
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z'/></svg>");
@@ -608,16 +606,11 @@
 }
 
 /* ============================================================
-   ADDITIONS — v1.2
-   22 new icons. Every one justified by a real product screen.
+   ADDITIONAL ICONS
 
-   FORMS:       eye, eye-off
-   AVATAR:      camera
-   STAT:        trending-up, trending-down
-   CAREERTRACKER: mail, phone, briefcase, clock, users, tag, link
-   MISSIONCONTROL: refresh, layers, target, flag, archive
-   REDQUERY:    database, code, play, pause
-   REDWIRE:     message-circle, at-sign, heart, share
+   FORMS:      eye, eye-off
+   AVATAR:     camera
+   STAT:       trending-up, trending-down
    ============================================================ */
 
 /* ── Forms ──────────────────────────────────────────────── */
@@ -659,8 +652,6 @@
   mask-image: var(--sp-icon-mask-trending-down);
   -webkit-mask-image: var(--sp-icon-mask-trending-down);
 }
-
-/* ── CareerTracker ───────────────────────────────────────── */
 
 /* Mail — email candidate, contact actions */
 .sp-icon-mail::before {
@@ -704,8 +695,6 @@
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'/><path d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'/></svg>");
 }
 
-/* ── MissionControl ──────────────────────────────────────── */
-
 /* Refresh — reload data, re-run, sync */
 .sp-icon-refresh::before {
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg>");
@@ -724,7 +713,7 @@
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='6'/><circle cx='12' cy='12' r='2'/></svg>");
 }
 
-/* Flag — milestones, origin log entries, priority markers */
+/* Flag — milestones, priority markers */
 .sp-icon-flag::before {
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/><line x1='4' y1='22' x2='4' y2='15'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/><line x1='4' y1='22' x2='4' y2='15'/></svg>");
@@ -735,8 +724,6 @@
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='21 8 21 21 3 21 3 8'/><rect x='1' y='3' width='22' height='5'/><line x1='10' y1='12' x2='14' y2='12'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='21 8 21 21 3 21 3 8'/><rect x='1' y='3' width='22' height='5'/><line x1='10' y1='12' x2='14' y2='12'/></svg>");
 }
-
-/* ── RedQuery ────────────────────────────────────────────── */
 
 /* Database — data sources, connections, schema */
 .sp-icon-database::before {
@@ -761,8 +748,6 @@
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='6' y='4' width='4' height='16'/><rect x='14' y='4' width='4' height='16'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='6' y='4' width='4' height='16'/><rect x='14' y='4' width='4' height='16'/></svg>");
 }
-
-/* ── RedWire ─────────────────────────────────────────────── */
 
 /* Message Circle — comments, discussion threads, chat */
 .sp-icon-message-circle::before {
@@ -789,17 +774,13 @@
 }
 
 /* ============================================================
-   ADDITIONS — v1.3
-   25 new icons. Gap-filled from systematic component + product audit.
+   ADDITIONAL ICONS
 
-   UTILITY:     arrow-left, chevron-up, log-out, help-circle,
-                sun, moon, maximize, minimize, expand, slash,
-                drag-handle
-   VIEWS:       grid, list-view, table-2, terminal, sort-asc, sort-desc
-   PROGRESS:    percent, check-square, award
-   CAREERTRACKER: paper-clip, send
-   REDWIRE:     image, rss
-   ORIGIN LOG:  file-text
+   UTILITY:    arrow-left, chevron-up, log-out, help-circle,
+               sun, moon, maximize, minimize, expand, slash,
+               drag-handle
+   VIEWS:      grid, list-view, table-2, terminal, sort-asc, sort-desc
+   PROGRESS:   percent, check-square, award
    ============================================================ */
 
 /* ── Utility Navigation ──────────────────────────────────── */
@@ -882,19 +863,19 @@
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='8' y1='6' x2='21' y2='6'/><line x1='8' y1='12' x2='21' y2='12'/><line x1='8' y1='18' x2='21' y2='18'/><line x1='3' y1='6' x2='3.01' y2='6'/><line x1='3' y1='12' x2='3.01' y2='12'/><line x1='3' y1='18' x2='3.01' y2='18'/></svg>");
 }
 
-/* Table 2 — tabular results view (RedQuery) */
+/* Table 2 — tabular results view */
 .sp-icon-table-2::before {
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18'/></svg>");
 }
 
-/* Terminal — raw output, console view (RedQuery) */
+/* Terminal — raw output, console view */
 .sp-icon-terminal::before {
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 17 10 11 4 5'/><line x1='12' y1='19' x2='20' y2='19'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='4 17 10 11 4 5'/><line x1='12' y1='19' x2='20' y2='19'/></svg>");
 }
 
-/* Sort Asc — ascending sort (RedQuery, tables) */
+/* Sort Asc — ascending sort (tables) */
 /* Sourced from --sp-icon-mask-sort-asc (spartacss.css tokens
    layer) — also consumed directly by .sp-table th.sp-sort-asc::after. */
 .sp-icon-sort-asc::before {
@@ -924,13 +905,11 @@
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 11 12 14 22 4'/><path d='M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11'/></svg>");
 }
 
-/* Award — achievements, milestones, origin log entries */
+/* Award — achievements, milestones */
 .sp-icon-award::before {
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='7'/><polyline points='8.21 13.89 7 23 12 20 17 23 15.79 13.88'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='7'/><polyline points='8.21 13.89 7 23 12 20 17 23 15.79 13.88'/></svg>");
 }
-
-/* ── CareerTracker ───────────────────────────────────────── */
 
 /* Paper Clip — attach resume, documents */
 .sp-icon-paper-clip::before {
@@ -944,21 +923,17 @@
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='22' y1='2' x2='11' y2='13'/><polygon points='22 2 15 22 11 13 2 9 22 2'/></svg>");
 }
 
-/* ── RedWire ─────────────────────────────────────────────── */
-
 /* Image — image posts, media attachments */
 .sp-icon-image::before {
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><polyline points='21 15 16 10 5 21'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='2' ry='2'/><circle cx='8.5' cy='8.5' r='1.5'/><polyline points='21 15 16 10 5 21'/></svg>");
 }
 
-/* RSS — feed subscriptions, RedWire feed */
+/* RSS — feed subscriptions */
 .sp-icon-rss::before {
   mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 11a9 9 0 0 1 9 9'/><path d='M4 4a16 16 0 0 1 16 16'/><circle cx='5' cy='19' r='1'/></svg>");
   -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 11a9 9 0 0 1 9 9'/><path d='M4 4a16 16 0 0 1 16 16'/><circle cx='5' cy='19' r='1'/></svg>");
 }
-
-/* ── Origin Log ──────────────────────────────────────────── */
 
 /* File Text — log entries, documents, notes */
 .sp-icon-file-text::before {

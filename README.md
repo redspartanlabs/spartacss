@@ -1,15 +1,82 @@
 # SpartaCSS
 
-SpartaCSS is RedSpartan Systems' independent, reusable design system — design
+SpartaCSS is RedSpartan Labs' independent, reusable design system — design
 tokens, a base reset/layout layer, a core set of UI components, an icon
-system, and a notifications feature module.
+system, and a notifications feature module. It's pure CSS: no JavaScript,
+no framework bindings, usable from any site or app regardless of stack.
 
-**Status:** core, icon system, and notifications module all extracted, with
-`package.json` and a build pipeline in place. The package is still
-unversioned/unpublished (`0.0.0`, private) — a real release is a separate,
-later milestone. See `docs/adr/0001-package-architecture.md` for the
-architecture this repository is being built against, and
-`docs/extraction-plan.md` for extraction status and inventory detail.
+**Status:** core, icon system, and notifications module are all extracted
+and buildable, but the package is still pre-release (`0.0.0`, private) — not
+yet published to any registry or tagged for release. See
+`docs/adr/0001-package-architecture.md` for the architecture this repository
+is being built against, and `docs/extraction-plan.md` for extraction status
+and inventory detail.
+
+## Installation
+
+Not yet published to a registry. Per the phased distribution plan in
+ADR-0001, once a version is tagged, install via a tag-pinned git dependency:
+
+```
+npm install github:redspartanlabs/spartacss#<tag>
+```
+
+A registry-published `npm install @redspartanlabs/spartacss` will follow in
+a later phase, once a registry target is chosen. No tag exists yet — this
+section will be updated with a real tag once one is cut.
+
+## Usage
+
+Each module is a plain CSS file under `dist/`; include whichever ones you
+need. (Exact import paths — e.g. whether a shorter subpath alias is
+available via `package.json` `exports` — are still being finalized; the
+literal paths below always work regardless of that decision.)
+
+### Core stylesheet
+
+Required foundation — tokens, reset, layout utilities, and all core
+components. Everything else in this package builds on it.
+
+```css
+@import "@redspartanlabs/spartacss/dist/spartacss.css";
+/* or the minified variant: */
+@import "@redspartanlabs/spartacss/dist/spartacss.min.css";
+```
+
+### Icon module
+
+Optional. Adds the `.sp-icon` system (86 icons via a mask-based `::before`
+engine).
+
+```css
+@import "@redspartanlabs/spartacss/dist/sparta-icons.css";
+```
+
+**Dependency note:** most icons are fully self-contained, but 8 of the 86
+(`x`, `chevron-down`, `check`, `trending-up`/`down`, `arrow-right`,
+`external-link`, `sort-asc`/`desc`) source their shape from custom
+properties defined in the core stylesheet's tokens layer. Those 8 will not
+render if the icon module is loaded without core.
+
+### Notifications module
+
+Optional. Adds Toast, Alert Banner, and Confirm/Dialog components.
+
+```css
+@import "@redspartanlabs/spartacss/dist/sparta-notifications.css";
+```
+
+**Dependency note:** this module has no tokens of its own — every visual
+property resolves through the core stylesheet's tokens layer. Core must be
+loaded for this module to render correctly at all.
+
+### Module dependency relationships
+
+```
+spartacss.css (core)          — no dependencies, always required
+  ├── sparta-icons.css         — optional; 8/86 icons need core's tokens
+  └── sparta-notifications.css — optional; fully requires core's tokens
+```
 
 ## Build
 

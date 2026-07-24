@@ -13,6 +13,15 @@
     "LICENSE",
     "README.md"
   ],
+  "exports": {
+    ".": "./dist/spartacss.css",
+    "./spartacss.css": "./dist/spartacss.css",
+    "./spartacss.min.css": "./dist/spartacss.min.css",
+    "./sparta-icons.css": "./dist/sparta-icons.css",
+    "./sparta-icons.min.css": "./dist/sparta-icons.min.css",
+    "./sparta-notifications.css": "./dist/sparta-notifications.css",
+    "./sparta-notifications.min.css": "./dist/sparta-notifications.min.css"
+  },
   "scripts": {
     "clean": "rm -rf dist",
     "build:copy": "mkdir -p dist && cp src/styles/spartacss.css dist/spartacss.css && cp src/styles/sparta-icons.css dist/sparta-icons.css && cp src/styles/sparta-notifications.css dist/sparta-notifications.css",
