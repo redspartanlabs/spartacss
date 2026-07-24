@@ -12,6 +12,8 @@ After this cleanup, core contains zero `.sp-toast*` class selectors — only the
 
 **Toast cleanup, as actually applied:** removed the self-contained legacy component block (`.sp-toast-stack`, `.sp-toast`, and their modifiers/parts) and the two duplicate keyframes (`sp-toast-in`, `sp-toast-out`). Also removed one dangling reference to `.sp-toast-stack` inside a `@media print` selector list (a direct consequence of removing that class — left in place it would have been a reference to a deleted selector). Left untouched: the `--sp-z-toast` token and a `.sp-toast__close { color: ... }` rule, both of which are still used by the canonical Toast in `sparta-notifications.css` via the shared class name/token.
 
+**Post-release documentation cleanup:** `v0.1.0` was tagged at commit `2927384`, before this document's local file-tree reference (Section 1 below) was genericized. Commit `72320b8`, which landed after that tag, replaced the original machine-specific path with a generic placeholder. This was a documentation-only change to this file — it does not modify, reissue, or otherwise affect the `v0.1.0` release itself; the tagged commit's contents remain exactly as released.
+
 This document inventories the existing SpartaCSS v1 implementation and defines what belongs in this repository. It is not an ADR; ADR-0001 (`docs/adr/0001-package-architecture.md`) records the accepted architecture this plan implements.
 
 ---
