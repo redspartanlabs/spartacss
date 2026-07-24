@@ -21,7 +21,7 @@ This document inventories the existing SpartaCSS v1 implementation and defines w
 **Correction to initial framing:** the v1 source does not live inside the RedSpartan HQ repository — that repository contains only `LICENSE`, `README.md`, and `CLAUDE.md`. The actual v1 source lives outside any git repository, at:
 
 ```
-/Users/tylerjohnson/Projects/sparta-samples/
+local development workspace/
 ├── index.html                       (demo/preview — not part of the package)
 └── styles/
     ├── spartacss.css                (core: tokens, reset, layout, components — v1.2 banner)
