@@ -31,6 +31,7 @@
     "build:bundle": "mkdir -p dist && lightningcss --bundle src/sparta.css -o dist/sparta.css && lightningcss --bundle src/spartacss.css -o dist/spartacss.css && lightningcss --bundle src/sparta-all.css -o dist/sparta-all.css && cp src/modules/icons/sparta-icons.css dist/sparta-icons.css && cp src/modules/feedback/sparta-notifications.css dist/sparta-notifications.css",
     "build:minify": "lightningcss --bundle --minify src/sparta.css -o dist/sparta.min.css && lightningcss --bundle --minify src/spartacss.css -o dist/spartacss.min.css && lightningcss --bundle --minify src/sparta-all.css -o dist/sparta-all.min.css && lightningcss --minify src/modules/icons/sparta-icons.css -o dist/sparta-icons.min.css && lightningcss --minify src/modules/feedback/sparta-notifications.css -o dist/sparta-notifications.min.css",
     "build": "npm run build:bundle && npm run build:minify",
+    "verify": "bash scripts/verify-legacy-bundle.sh",
     "prepare": "npm run build"
   },
   "devDependencies": {
