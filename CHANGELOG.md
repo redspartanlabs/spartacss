@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
-## [Unreleased]
+## [0.2.0] - 2026-07-28
 
 ### Added
 
@@ -22,9 +22,19 @@ per ADR-0001.
   available as separate imports.
 - Corresponding new `package.json` exports: `./sparta.css`,
   `./sparta.min.css`, `./sparta-all.css`, `./sparta-all.min.css`.
-- `.github/workflows/ci.yml` — GitHub Actions workflow that runs
-  `npm run build` on every push and pull request.
+- `.github/workflows/ci.yml` — GitHub Actions workflow that runs on pushes
+  and pull requests targeting `main`, installing dependencies and running
+  `npm run build`. Node version is loaded from `.nvmrc` (via
+  `node-version-file`) rather than hardcoded, so CI and local development
+  can't drift apart.
 - `.nvmrc` pinning local/CI Node version to 22.
+- Legacy bundle regression verification: `npm run verify`
+  (`scripts/verify-legacy-bundle.sh`) diffs the freshly built
+  `dist/spartacss.css` against a committed baseline snapshot
+  (`test/baseline/spartacss.css`) and fails the build if the legacy default
+  bundle's output has drifted. Wired into CI as a step that runs after
+  `npm run build`, so any unintentional change to the legacy bundle's
+  contents fails CI rather than shipping silently.
 
 ### Changed
 
@@ -71,5 +81,6 @@ per ADR-0001.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/redspartanlabs/spartacss/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/redspartanlabs/spartacss/releases/tag/v0.1.0
