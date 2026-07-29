@@ -1,5 +1,11 @@
 # SpartaCSS v1 Source Extraction Plan
 
+> **Historical document.** This plan predates `package.json`, the build
+> pipeline, and the modular `src/` architecture (core/components/modules/
+> patterns) introduced afterward — all referenced here as not yet existing.
+> It is kept as-is for the extraction history and reasoning it records; see
+> `CHANGELOG.md` and `docs/adr/` for current architecture and status.
+
 **Status:** `spartacss.css` (core), `sparta-icons.css` (icon system), and `sparta-notifications.css` (notifications module) are all extracted to `src/styles/`. Extraction is complete; no `package.json` or build tooling exists yet.
 
 **Notifications extraction — remaining core cleanup:** two toast-related items were still present in core after the initial Toast cleanup (commit 85d8c2d): the `--sp-z-toast` token, and a `.sp-toast__close { color: var(--sp-text-muted); }` rule in core's per-component icon-color section.
