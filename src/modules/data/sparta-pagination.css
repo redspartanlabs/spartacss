@@ -1,0 +1,83 @@
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     PAGINATION
+     ---------------------------------------------------------- */
+
+  .sp-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-space-1);
+    padding: var(--sp-space-6) 0;
+  }
+
+  .sp-pagination__list {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-space-1);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sp-pagination__list li,
+  .sp-pagination li {
+    list-style: none;
+  }
+
+  .sp-pagination__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: var(--sp-space-1) var(--sp-space-3);
+    font-size: var(--sp-text-sm);
+    font-weight: var(--sp-font-medium);
+    color: var(--sp-text-secondary);
+    background: var(--sp-bg-surface);
+    border: 1px solid var(--sp-border);
+    border-radius: var(--sp-radius-md);
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background var(--sp-duration-fast) var(--sp-ease),
+      color var(--sp-duration-fast) var(--sp-ease),
+      border-color var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-pagination__link:hover:not(.sp-pagination__link--active):not(.sp-pagination__link--disabled) {
+    background: var(--sp-bg-elevated);
+    color: var(--sp-text-primary);
+    border-color: var(--sp-color-primary);
+  }
+
+  .sp-pagination__link:focus-visible {
+    outline: none;
+    box-shadow: var(--sp-shadow-focus);
+  }
+
+  .sp-pagination__link--active {
+    background: var(--sp-color-primary);
+    color: var(--sp-text-on-color);
+    border-color: var(--sp-color-primary);
+    cursor: default;
+  }
+
+  .sp-pagination__link--disabled {
+    color: var(--sp-text-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .sp-pagination--simple .sp-pagination__link {
+    border-radius: var(--sp-radius-full);
+  }
+
+
+}

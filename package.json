@@ -20,13 +20,17 @@
     "./sparta-icons.css": "./dist/sparta-icons.css",
     "./sparta-icons.min.css": "./dist/sparta-icons.min.css",
     "./sparta-notifications.css": "./dist/sparta-notifications.css",
-    "./sparta-notifications.min.css": "./dist/sparta-notifications.min.css"
+    "./sparta-notifications.min.css": "./dist/sparta-notifications.min.css",
+    "./sparta.css": "./dist/sparta.css",
+    "./sparta.min.css": "./dist/sparta.min.css",
+    "./sparta-all.css": "./dist/sparta-all.css",
+    "./sparta-all.min.css": "./dist/sparta-all.min.css"
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "build:copy": "mkdir -p dist && cp src/styles/spartacss.css dist/spartacss.css && cp src/styles/sparta-icons.css dist/sparta-icons.css && cp src/styles/sparta-notifications.css dist/sparta-notifications.css",
-    "build:minify": "lightningcss --minify src/styles/spartacss.css -o dist/spartacss.min.css && lightningcss --minify src/styles/sparta-icons.css -o dist/sparta-icons.min.css && lightningcss --minify src/styles/sparta-notifications.css -o dist/sparta-notifications.min.css",
-    "build": "npm run build:copy && npm run build:minify",
+    "build:bundle": "mkdir -p dist && lightningcss --bundle src/sparta.css -o dist/sparta.css && lightningcss --bundle src/spartacss.css -o dist/spartacss.css && lightningcss --bundle src/sparta-all.css -o dist/sparta-all.css && cp src/modules/icons/sparta-icons.css dist/sparta-icons.css && cp src/modules/feedback/sparta-notifications.css dist/sparta-notifications.css",
+    "build:minify": "lightningcss --bundle --minify src/sparta.css -o dist/sparta.min.css && lightningcss --bundle --minify src/spartacss.css -o dist/spartacss.min.css && lightningcss --bundle --minify src/sparta-all.css -o dist/sparta-all.min.css && lightningcss --minify src/modules/icons/sparta-icons.css -o dist/sparta-icons.min.css && lightningcss --minify src/modules/feedback/sparta-notifications.css -o dist/sparta-notifications.min.css",
+    "build": "npm run build:bundle && npm run build:minify",
     "prepare": "npm run build"
   },
   "devDependencies": {

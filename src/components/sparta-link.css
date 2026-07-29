@@ -1,0 +1,154 @@
+/* ============================================================
+   LINK
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     LINK
+     ---------------------------------------------------------- */
+
+  .sp-link {
+    color: var(--sp-color-primary);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition:
+      color var(--sp-duration-fast) var(--sp-ease),
+      text-decoration-color var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-link:hover {
+    color: var(--sp-color-primary-hover);
+    text-decoration-color: var(--sp-color-primary-hover);
+  }
+
+  .sp-link:active {
+    color: var(--sp-color-primary-active);
+  }
+
+  .sp-link:focus-visible {
+    outline: none;
+    border-radius: var(--sp-radius-sm);
+    box-shadow: var(--sp-shadow-focus);
+  }
+
+  .sp-link--muted {
+    color: var(--sp-text-muted);
+    text-decoration-color: transparent;
+  }
+
+  .sp-link--muted:hover {
+    color: var(--sp-text-primary);
+    text-decoration-color: var(--sp-text-primary);
+  }
+
+  .sp-link--subtle {
+    color: var(--sp-text-secondary);
+    text-decoration-color: var(--sp-border-light);
+  }
+
+  .sp-link--subtle:hover {
+    color: var(--sp-color-primary);
+    text-decoration-color: var(--sp-color-primary);
+  }
+
+  .sp-link--danger {
+    color: var(--sp-color-error);
+    text-decoration-color: transparent;
+  }
+
+  .sp-link--danger:hover {
+    color: var(--sp-color-error-hover);
+    text-decoration-color: var(--sp-color-error-hover);
+  }
+
+  .sp-link--plain {
+    text-decoration: none;
+  }
+
+  .sp-link--plain:hover {
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+  }
+
+  /* Sources from --sp-icon-mask-external-link (tokens layer).
+     Unlike the two migrations above, .sp-link--external::after is
+     NOT a flex item — it's inline content appended after running
+     text, and the old rule (vertical-align: super + line-height: 0
+     + font-size: 0.8em) was a hack tuned to the "↗" character's own
+     metrics. That hack doesn't carry over to a masked box, so
+     alignment is rebuilt here rather than reused: display:
+     inline-block with explicit width/height replaces font-size as
+     the sizing mechanism, margin-left replaces the leading space
+     that used to provide the gap, and vertical-align is a small
+     negative offset (nudging the box down from the text baseline)
+     rather than "super" (which pushed a character up to
+     superscript position — not the right instinct for a box).
+     -0.1em is a starting value, not a measured one — check it
+     against real inline usage (running paragraph text, nav links,
+     card links) since box-in-text alignment is a visual judgment
+     call, not something that follows mechanically from the token
+     swap. */
+  .sp-link--external::after {
+    content: "";
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    margin-left: 0.25em;
+    background-color: currentColor;
+    opacity: 0.7;
+    vertical-align: -0.1em;
+    mask-image: var(--sp-icon-mask-external-link);
+    -webkit-mask-image: var(--sp-icon-mask-external-link);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+  }
+
+  .sp-link--standalone {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-space-1);
+    font-weight: var(--sp-font-medium);
+    text-decoration: none;
+  }
+
+  /* Sources from --sp-icon-mask-arrow-right (tokens layer).
+     .sp-link--standalone is already inline-flex with a gap, so
+     the hover translateX still applies cleanly to the masked box —
+     no different than it applied to the character before. */
+  .sp-link--standalone::after {
+    content: "";
+    display: block;
+    width: 0.85em;
+    height: 0.85em;
+    background-color: currentColor;
+    mask-image: var(--sp-icon-mask-arrow-right);
+    -webkit-mask-image: var(--sp-icon-mask-arrow-right);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    transition: transform var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-link--standalone:hover::after {
+    transform: translateX(3px);
+  }
+
+  .sp-link--sm {
+    font-size: var(--sp-text-sm);
+  }
+
+  .sp-link--lg {
+    font-size: var(--sp-text-lg);
+  }
+
+
+}

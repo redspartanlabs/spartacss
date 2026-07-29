@@ -1,0 +1,113 @@
+/* ============================================================
+   PAGE HEADER
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     PAGE HEADER
+     ---------------------------------------------------------- */
+
+  .sp-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--sp-space-4);
+    padding-bottom: var(--sp-space-6);
+    border-bottom: 1px solid var(--sp-border);
+    flex-wrap: wrap;
+  }
+
+  .sp-page-header__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-space-2);
+    min-width: 0;
+    flex: 1;
+  }
+
+  .sp-page-header__eyebrow {
+    font-size: var(--sp-text-xs);
+    font-weight: var(--sp-font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sp-color-primary);
+  }
+
+  .sp-page-header__title {
+    font-size: var(--sp-text-3xl);
+    font-weight: var(--sp-font-bold);
+    color: var(--sp-text-primary);
+    line-height: var(--sp-leading-tight);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sp-page-header__title--wrap {
+    white-space: normal;
+  }
+
+  .sp-page-header__subtitle {
+    font-size: var(--sp-text-base);
+    color: var(--sp-text-muted);
+    line-height: var(--sp-leading-normal);
+    margin: 0;
+    max-width: 65ch;
+  }
+
+  .sp-page-header__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-space-3);
+    flex-wrap: wrap;
+    font-size: var(--sp-text-sm);
+    color: var(--sp-text-muted);
+  }
+
+  .sp-page-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-space-3);
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  .sp-page-header--sm .sp-page-header__title {
+    font-size: var(--sp-text-2xl);
+  }
+
+  .sp-page-header--sm {
+    padding-bottom: var(--sp-space-4);
+  }
+
+  .sp-page-header--lg .sp-page-header__title {
+    font-size: calc(var(--sp-text-3xl) * 1.2);
+  }
+
+  .sp-page-header--lg {
+    padding-bottom: var(--sp-space-8);
+  }
+
+  .sp-page-header--borderless {
+    border-bottom: none;
+    padding-bottom: var(--sp-space-4);
+  }
+
+  @media (max-width: 640px) {
+    .sp-page-header {
+      flex-direction: column;
+    }
+
+    .sp-page-header__actions {
+      width: 100%;
+    }
+
+    .sp-page-header__title {
+      font-size: var(--sp-text-2xl);
+      white-space: normal;
+    }
+  }
+
+
+}

@@ -1,0 +1,290 @@
+/* ============================================================
+   MODAL
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     MODAL
+     ---------------------------------------------------------- */
+
+  .sp-modal {
+    position: fixed;
+    inset: 0;
+    z-index: var(--sp-z-modal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sp-space-4);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity var(--sp-duration-base) var(--sp-ease-out),
+      visibility var(--sp-duration-base) var(--sp-ease-out);
+  }
+
+  .sp-modal--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .sp-modal__overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--sp-bg-overlay);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: -1;
+  }
+
+  .sp-modal__content {
+    position: relative;
+    background: var(--sp-bg-surface);
+    border: 1px solid var(--sp-border);
+    border-radius: var(--sp-radius-xl);
+    box-shadow: var(--sp-shadow-lg);
+    width: 100%;
+    max-width: 560px;
+    max-height: calc(100vh - var(--sp-space-8));
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.97) translateY(8px);
+    transition:
+      opacity var(--sp-duration-base) var(--sp-ease-out),
+      transform var(--sp-duration-base) var(--sp-ease-out);
+  }
+
+  .sp-modal--open .sp-modal__content {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sp-modal {
+      transition: none;
+    }
+
+    .sp-modal__content {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .sp-modal__content--sm {
+    max-width: 400px;
+  }
+
+  .sp-modal__content--md {
+    max-width: 560px;
+  }
+
+  .sp-modal__content--lg {
+    max-width: 800px;
+  }
+
+  .sp-modal__content--xl {
+    max-width: 1100px;
+  }
+
+  .sp-modal__content--full {
+    max-width: none;
+    width: calc(100vw - var(--sp-space-8));
+    height: calc(100vh - var(--sp-space-8));
+  }
+
+  .sp-modal__header {
+    padding: var(--sp-space-4) var(--sp-space-5);
+    border-bottom: 1px solid var(--sp-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-space-3);
+    flex-shrink: 0;
+  }
+
+  .sp-modal__title {
+    font-size: var(--sp-text-xl);
+    font-weight: var(--sp-font-semibold);
+    color: var(--sp-text-primary);
+    margin: 0;
+  }
+
+  .sp-modal__close {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--sp-radius-md);
+    border: 1px solid var(--sp-border);
+    background-color: transparent;
+    color: var(--sp-text-muted);
+    cursor: pointer;
+    transition:
+      border-color var(--sp-duration-fast) var(--sp-ease),
+      background var(--sp-duration-fast) var(--sp-ease),
+      color var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  /* Sources from --sp-icon-mask-x (tokens layer) — same shape as
+     sparta-icons.css's .sp-icon-x. This component always renders
+     its own close icon, so no .sp-icon child is ever expected
+     here — same pattern as .sp-drawer__close below. */
+  .sp-modal__close::before {
+    content: "";
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    background-color: currentColor;
+    mask-image: var(--sp-icon-mask-x);
+    -webkit-mask-image: var(--sp-icon-mask-x);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+  }
+
+  .sp-modal__close:hover {
+    border-color: var(--sp-color-primary);
+    background-color: var(--sp-bg-elevated);
+    color: var(--sp-color-primary);
+  }
+
+  .sp-modal__body {
+    padding: var(--sp-space-5);
+    overflow-y: auto;
+    flex: 1;
+    color: var(--sp-text-secondary);
+    line-height: var(--sp-leading-relaxed);
+  }
+
+  .sp-modal__footer {
+    padding: var(--sp-space-4) var(--sp-space-5);
+    border-top: 1px solid var(--sp-border);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--sp-space-3);
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    background: var(--sp-bg-elevated);
+  }
+
+
+}
+
+/* Legacy structural-extension rules (previously in the monolith's
+   STRUCTURAL EXTENSIONS section) — kept unlayered exactly as before,
+   not yet consolidated with the block above. */
+
+.sp-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--sp-bg-overlay);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: var(--sp-z-backdrop);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--sp-duration-slow) var(--sp-ease-out);
+}
+
+.sp-modal-backdrop--active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sp-modal__dialog {
+  position: relative;
+  background: var(--sp-bg-surface);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius-xl);
+  box-shadow: var(--sp-shadow-lg);
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100dvh - var(--sp-space-8));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.97) translateY(8px);
+  transition:
+    opacity var(--sp-duration-base) var(--sp-ease-out),
+    transform var(--sp-duration-base) var(--sp-ease-out);
+}
+
+.sp-modal__dialog--sm {
+  max-width: 400px;
+}
+
+.sp-modal__dialog--md {
+  max-width: 560px;
+}
+
+.sp-modal__dialog--lg {
+  max-width: 800px;
+}
+
+.sp-modal__dialog--xl {
+  max-width: 1100px;
+}
+
+.sp-modal__dialog--full {
+  max-width: none;
+  width: calc(100vw - var(--sp-space-8));
+  max-height: calc(100dvh - var(--sp-space-8));
+}
+
+.sp-modal--open .sp-modal__dialog {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.sp-modal--closing .sp-modal__dialog {
+  opacity: 0;
+  transform: scale(0.97) translateY(8px);
+}
+
+.sp-modal--closing .sp-modal-backdrop {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-modal__dialog {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .sp-modal-backdrop {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+
+  .sp-modal__dialog,
+  .sp-modal__dialog--sm,
+  .sp-modal__dialog--md,
+  .sp-modal__dialog--lg,
+  .sp-modal__dialog--xl {
+    max-width: 100%;
+    max-height: 90dvh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-top: auto;
+    margin-bottom: 0;
+    transform: scale(1) translateY(24px);
+  }
+
+  .sp-modal--open .sp-modal__dialog {
+    transform: scale(1) translateY(0);
+  }
+}

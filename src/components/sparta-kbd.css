@@ -1,0 +1,54 @@
+/* ============================================================
+   KBD
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     KBD
+     ---------------------------------------------------------- */
+
+  .sp-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.15em 0.5em;
+    font-family: var(--sp-font-mono);
+    font-size: 0.8em;
+    font-weight: var(--sp-font-medium);
+    line-height: 1.6;
+    color: var(--sp-text-secondary);
+    background: var(--sp-bg-elevated);
+    border: 1px solid var(--sp-border-strong);
+    border-bottom-width: 2px;
+    border-radius: var(--sp-radius-md);
+    white-space: nowrap;
+    vertical-align: baseline;
+    box-shadow: inset 0 -1px 0 var(--sp-border-strong);
+    user-select: none;
+  }
+
+  .sp-kbd-combo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-space-1);
+  }
+
+  .sp-kbd-combo .sp-kbd-sep {
+    font-size: var(--sp-text-xs);
+    color: var(--sp-text-muted);
+    font-family: var(--sp-font-family);
+    user-select: none;
+  }
+
+  .sp-kbd--sm {
+    font-size: 0.7em;
+    padding: 0.1em 0.4em;
+  }
+
+  .sp-kbd--lg {
+    font-size: 0.9em;
+    padding: 0.2em 0.65em;
+  }
+
+
+}

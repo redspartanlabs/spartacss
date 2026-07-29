@@ -1,0 +1,11 @@
+/* ============================================================
+   SpartaCSS — Full Framework
+   Part of @redspartanlabs/spartacss (pre-release).
+   Everything: the legacy default bundle (core + components +
+   modules + patterns) plus the icon and notifications modules.
+   ============================================================ */
+
+@import "./spartacss.css";
+
+@import "./modules/feedback/sparta-notifications.css";
+@import "./modules/icons/sparta-icons.css";

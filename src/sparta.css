@@ -1,0 +1,18 @@
+/* ============================================================
+   SpartaCSS — Core Foundation
+   Part of @redspartanlabs/spartacss (pre-release).
+   Tokens, reset, base, layout, and utilities only.
+   Disciplined. Modular. Core is stable — component, module, and
+   pattern styles live in sparta-all.css; do not add feature
+   components to this file.
+   ============================================================ */
+
+@layer tokens, reset, layout, components, accessibility;
+
+@import "./core/sparta-tokens.css";
+@import "./core/sparta-reset.css";
+@import "./core/sparta-base.css";
+@import "./core/sparta-layout.css";
+@import "./core/sparta-utilities.css";
+@import "./core/sparta-animations.css";
+@import "./core/sparta-accessibility.css";

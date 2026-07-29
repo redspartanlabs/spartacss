@@ -1,0 +1,210 @@
+/* ============================================================
+   DRAWER
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     DRAWER
+     ---------------------------------------------------------- */
+
+  .sp-drawer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 480px;
+    height: 100dvh;
+    background: var(--sp-bg-surface);
+    border: 1px solid var(--sp-border);
+    box-shadow: var(--sp-shadow-lg);
+    z-index: var(--sp-z-drawer);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      transform var(--sp-duration-slow) var(--sp-ease-out),
+      opacity var(--sp-duration-slow) var(--sp-ease-out),
+      visibility var(--sp-duration-slow) var(--sp-ease-out);
+  }
+
+  .sp-drawer--sm {
+    max-width: 320px;
+  }
+
+  .sp-drawer--md {
+    max-width: 480px;
+  }
+
+  .sp-drawer--lg {
+    max-width: 640px;
+  }
+
+  .sp-drawer--xl {
+    max-width: 800px;
+  }
+
+  .sp-drawer--full {
+    max-width: 100vw;
+  }
+
+  .sp-drawer--right {
+    right: 0;
+    border-right: none;
+    transform: translateX(100%);
+  }
+
+  .sp-drawer--right.sp-drawer--open {
+    transform: translateX(0);
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sp-drawer--left {
+    left: 0;
+    border-left: none;
+    transform: translateX(-100%);
+  }
+
+  .sp-drawer--left.sp-drawer--open {
+    transform: translateX(0);
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .sp-drawer--fast {
+    transition: transform 150ms var(--sp-ease-out), opacity 150ms var(--sp-ease-out), visibility 150ms var(--sp-ease-out);
+  }
+
+  .sp-drawer--slow {
+    transition: transform 420ms var(--sp-ease-out), opacity 420ms var(--sp-ease-out), visibility 420ms var(--sp-ease-out);
+  }
+
+  .sp-drawer--no-transition {
+    transition: none;
+  }
+
+  .sp-drawer__header {
+    padding: var(--sp-space-4) var(--sp-space-5);
+    border-bottom: 1px solid var(--sp-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-space-3);
+    flex-shrink: 0;
+    background: var(--sp-bg-surface);
+    position: sticky;
+    top: 0;
+    z-index: var(--sp-z-raised);
+  }
+
+  .sp-drawer__title {
+    font-size: var(--sp-text-lg);
+    font-weight: var(--sp-font-semibold);
+    color: var(--sp-text-primary);
+    margin: 0;
+  }
+
+  .sp-drawer__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--sp-space-5);
+    background: var(--sp-bg-base);
+  }
+
+  .sp-drawer__body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sp-drawer__body::-webkit-scrollbar-track {
+    background: var(--sp-bg-elevated);
+  }
+
+  .sp-drawer__body::-webkit-scrollbar-thumb {
+    background: var(--sp-border-strong);
+    border-radius: var(--sp-radius-full);
+  }
+
+  .sp-drawer__body::-webkit-scrollbar-thumb:hover {
+    background: var(--sp-border-light);
+  }
+
+  .sp-drawer__footer {
+    padding: var(--sp-space-4) var(--sp-space-5);
+    border-top: 1px solid var(--sp-border);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--sp-space-3);
+    flex-shrink: 0;
+    background: var(--sp-bg-surface);
+  }
+
+  .sp-drawer__close {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--sp-radius-md);
+    border: 1px solid var(--sp-border);
+    background-color: transparent;
+    color: var(--sp-text-muted);
+    cursor: pointer;
+    transition:
+      border-color var(--sp-duration-fast) var(--sp-ease),
+      background var(--sp-duration-fast) var(--sp-ease),
+      color var(--sp-duration-fast) var(--sp-ease),
+      transform var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  /* Sources from --sp-icon-mask-x (tokens layer) — same shape as
+     sparta-icons.css's .sp-icon-x. This component always renders
+     its own close icon; the sparta-icons.css override that once
+     tried to suppress a second icon here has been removed as
+     dead code (see sparta-icons.css changelog) rather than kept
+     in sync with this rule. */
+  .sp-drawer__close::before {
+    content: "";
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    background-color: currentColor;
+    mask-image: var(--sp-icon-mask-x);
+    -webkit-mask-image: var(--sp-icon-mask-x);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+  }
+
+  .sp-drawer__close:hover {
+    border-color: var(--sp-color-primary);
+    background-color: var(--sp-bg-elevated);
+    color: var(--sp-color-primary);
+    transform: rotate(90deg);
+  }
+
+  .sp-backdrop {
+    position: fixed;
+    inset: 0;
+    background: var(--sp-bg-overlay);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: var(--sp-z-backdrop);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--sp-duration-slow) var(--sp-ease);
+  }
+
+  .sp-backdrop--visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+
+}

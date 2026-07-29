@@ -1,0 +1,121 @@
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@layer accessibility {
+  :focus-visible:not(.sp-input):not(.sp-select):not(.sp-textarea):not(.sp-button):not(.sp-toggle__input) {
+    outline: 2px solid var(--sp-color-primary);
+    outline-offset: 2px;
+  }
+
+  .sp-input:focus-visible,
+  .sp-select:focus-visible,
+  .sp-textarea:focus-visible,
+  .sp-button:focus-visible,
+  .sp-checkbox input:focus-visible,
+  .sp-radio input:focus-visible,
+  .sp-toggle__input:focus-visible {
+    outline: none !important;
+  }
+
+  .sp-skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    z-index: 9999;
+    padding: var(--sp-space-3) var(--sp-space-5);
+    background: var(--sp-color-primary);
+    color: var(--sp-text-on-color);
+    font-weight: var(--sp-font-semibold);
+    font-size: var(--sp-text-sm);
+    text-decoration: none;
+    border-radius: 0 0 var(--sp-radius-lg) 0;
+    transition: top var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-skip-link:focus {
+    top: 0;
+  }
+
+  .sp-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .sp-not-sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  @media (forced-colors: active) {
+
+    .sp-button,
+    .sp-input,
+    .sp-select,
+    .sp-textarea {
+      border: 2px solid ButtonText;
+    }
+
+    .sp-badge,
+    .sp-chip {
+      border: 1px solid ButtonText;
+    }
+
+    .sp-alert,
+    .sp-modal__content,
+    .sp-drawer {
+      border: 2px solid ButtonText;
+    }
+
+    .sp-card {
+      border: 1px solid ButtonText;
+    }
+  }
+
+  @media print {
+
+    .sp-navbar,
+    .sp-sidebar,
+    .sp-drawer,
+    .sp-modal,
+    .sp-backdrop,
+    .sp-dropdown {
+      display: none !important;
+    }
+
+    .sp-card {
+      break-inside: avoid;
+      box-shadow: none;
+      border: 1px solid #ccc;
+    }
+
+    .sp-pre {
+      white-space: pre-wrap;
+    }
+  }
+}

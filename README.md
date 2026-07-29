@@ -43,6 +43,27 @@ components. Everything else in this package builds on it.
 @import "@redspartanlabs/spartacss/dist/spartacss.min.css";
 ```
 
+### Core-only and full-framework entry points
+
+As of the Phase 1 architecture split, two additional bundles are available
+alongside `spartacss.css` (which is unchanged and remains the recommended
+default for existing consumers):
+
+```css
+/* Tokens, reset, base, layout, and utilities only — no components */
+@import "@redspartanlabs/spartacss/dist/sparta.css";
+
+/* Everything: core + components + modules (overlay, data, docs, feedback,
+   icons) + patterns, in one file */
+@import "@redspartanlabs/spartacss/dist/sparta-all.css";
+```
+
+`spartacss.css` continues to ship exactly what it always has (core +
+components; not icons or notifications) so existing imports keep working
+unchanged. `sparta-all.css` is new and additive — it's the superset bundle,
+including the icon and notifications modules that were previously only
+available as separate imports.
+
 ### Icon module
 
 Optional. Adds the `.sp-icon` system (86 icons via a mask-based `::before`
@@ -80,31 +101,64 @@ spartacss.css (core)          — no dependencies, always required
 
 ## Build
 
-Source lives in `src/styles/` (`spartacss.css`, `sparta-icons.css`,
-`sparta-notifications.css`). Building produces `dist/`: an unminified copy of
-each source file plus a `.min.css` variant.
+Source lives in `src/`, organized as a modular design-system tree rather
+than a single file:
+
+```
+src/
+  sparta.css               — core-only entry point (@imports src/core/*)
+  spartacss.css            — legacy default-bundle entry point: imports
+                              sparta.css, then components/modules(excluding
+                              icons/notifications)/patterns
+  sparta-all.css           — full-framework entry point: imports
+                              spartacss.css, then the icons and
+                              notifications modules
+  core/                    — tokens, reset, base, layout, utilities,
+                              animations, accessibility
+  components/              — individual reusable UI elements (button,
+                              card, form, badge, alert, avatar, progress,
+                              link, kbd, divider, list, empty-state)
+  modules/
+    overlay/                — modal, drawer, dropdown, tooltip, accordion
+    data/                   — table, tabs, breadcrumbs, pagination, stat
+    docs/                   — code block
+    feedback/               — sparta-notifications.css
+    icons/                  — sparta-icons.css
+  patterns/                — page-level compositions (page header)
+```
+
+Each of the three top-level entry points (`sparta.css`, `spartacss.css`,
+`sparta-all.css`) is bundled independently via Lightning CSS's `--bundle`
+mode, which resolves its own `@import` graph into a single self-contained
+`dist/*.css` file plus a `.min.css` variant. `spartacss.css` is its own
+explicit source file — not derived from `sparta-all.css` by excluding
+anything at build time — so the legacy default bundle's scope (core +
+components + modules excluding icons/notifications + patterns, exactly what
+the original single-file `spartacss.css` always shipped) is declared
+directly in `src/spartacss.css`'s import list and can't drift silently if
+`sparta-all.css` changes. `dist/sparta-icons.css` and
+`dist/sparta-notifications.css` remain plain copies, unchanged.
 
 ```
 npm install   # also runs the build automatically (via "prepare")
-npm run build # unminified copy + minified variant of each file
+npm run build # bundle + minified variant of each entry point
 npm run clean # remove dist/
 ```
 
 Minification uses [Lightning CSS](https://lightningcss.dev/) exclusively —
-no PostCSS, no Sass, no additional build abstraction. The unminified `dist/*.css`
-files are plain copies of `src/styles/*.css`, not reprocessed, so they're
-guaranteed byte-identical to source. Only the `.min.css` variants pass
-through Lightning CSS. No browser-compatibility target list (`--targets`) is
-set — verified to preserve the source's existing hand-written vendor
-prefixes (`-webkit-`/`-moz-`) without adding or removing any.
+no PostCSS, no Sass, no additional build abstraction. No browser-compatibility
+target list (`--targets`) is set — preserves the source's existing
+hand-written vendor prefixes (`-webkit-`/`-moz-`) without adding or removing
+any.
 
-One known, verified difference in the minified output: Lightning CSS drops
-the redundant bare `@layer tokens, reset, layout, components, accessibility;`
-pre-declaration in `spartacss.css`, since it re-derives the identical order
-from the populated `@layer` blocks that follow. This is a no-op within this
-package's own files; it would only matter if a consumer ever wanted to
-interleave its own cascade layers with SpartaCSS's before this stylesheet
-loads.
+Cascade-layer order (`tokens, reset, layout, components, accessibility`) is
+declared once, at the top of `sparta.css`, and every per-component/module
+file re-opens the same named layer (`@layer components { ... }`) rather than
+introducing new layer names — so splitting the file tree does not change
+which rule wins when two selectors of equal specificity collide. A few
+legacy dual implementations (e.g. two tooltip APIs, two accordion trigger
+APIs) were preserved side-by-side exactly as they existed in the monolith;
+consolidating them is deliberately out of scope for this phase.
 
 **Note on `lightningcss --version` output:** running the installed CLI
 directly (e.g. `./node_modules/.bin/lightningcss --version`) prints something

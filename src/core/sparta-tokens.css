@@ -1,0 +1,268 @@
+/* ============================================================
+   TOKENS
+   ============================================================ */
+
+@layer tokens {
+  :root {
+    /* Brand */
+    --sp-color-primary: #b71c46;
+    --sp-color-primary-hover: #d3274f;
+    --sp-color-primary-active: #9b1639;
+    --sp-color-primary-subtle: rgba(183, 28, 70, 0.12);
+
+    --sp-color-secondary: #d4af37;
+    --sp-color-secondary-hover: #e5c158;
+    --sp-color-secondary-active: #b8941f;
+    --sp-color-secondary-subtle: rgba(212, 175, 55, 0.12);
+
+    /* Semantic */
+    --sp-color-success: #2e7d32;
+    --sp-color-success-hover: #388e3c;
+    --sp-color-success-active: #1b5e20;
+    --sp-color-success-subtle: rgba(46, 125, 50, 0.12);
+
+    --sp-color-warning: #e65100;
+    --sp-color-warning-hover: #f57c00;
+    --sp-color-warning-active: #bf360c;
+    --sp-color-warning-subtle: rgba(230, 81, 0, 0.12);
+
+    --sp-color-error: #c62828;
+    --sp-color-error-hover: #d32f2f;
+    --sp-color-error-active: #b71c1c;
+    --sp-color-error-subtle: rgba(198, 40, 40, 0.12);
+
+    --sp-color-info: #1565c0;
+    --sp-color-info-hover: #1976d2;
+    --sp-color-info-active: #0d47a1;
+    --sp-color-info-subtle: rgba(21, 101, 192, 0.12);
+
+    /* Surface */
+    --sp-bg-base: #1d1e22;
+    --sp-bg-surface: #252629;
+    --sp-bg-elevated: #2f3033;
+    --sp-bg-overlay: rgba(0, 0, 0, 0.72);
+
+    /* Text */
+    --sp-text-primary: #ececec;
+    --sp-text-secondary: #b8b8b8;
+    --sp-text-muted: #8a8a8a;
+    --sp-text-disabled: #5a5a5a;
+    --sp-text-inverse: #ffffff;
+    --sp-text-on-color: #ffffff;
+
+    /* Border */
+    --sp-border: #3e3e3e;
+    --sp-border-light: #4e4e4e;
+    --sp-border-strong: #5e5e5e;
+    --sp-border-focus: #b71c46;
+
+    /* Typography */
+    --sp-font-family:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+      Arial, sans-serif;
+    --sp-font-mono:
+      "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+    --sp-text-xs: 0.75rem;
+    --sp-text-sm: 0.875rem;
+    --sp-text-base: 1rem;
+    --sp-text-lg: 1.125rem;
+    --sp-text-xl: 1.25rem;
+    --sp-text-2xl: 1.5rem;
+    --sp-text-3xl: 1.875rem;
+
+    --sp-font-normal: 400;
+    --sp-font-medium: 500;
+    --sp-font-semibold: 600;
+    --sp-font-bold: 700;
+
+    --sp-leading-tight: 1.25;
+    --sp-leading-snug: 1.375;
+    --sp-leading-normal: 1.5;
+    --sp-leading-relaxed: 1.625;
+
+    /* Spacing — 0–8 */
+    --sp-space-0: 0;
+    --sp-space-1: 0.25rem;
+    --sp-space-2: 0.5rem;
+    --sp-space-3: 0.75rem;
+    --sp-space-4: 1rem;
+    --sp-space-5: 1.25rem;
+    --sp-space-6: 1.5rem;
+    --sp-space-7: 1.75rem;
+    --sp-space-8: 2rem;
+
+    /* Radius */
+    --sp-radius-sm: 0.125rem;
+    --sp-radius-md: 0.25rem;
+    --sp-radius-lg: 0.5rem;
+    --sp-radius-xl: 0.75rem;
+    --sp-radius-full: 9999px;
+
+    /* Shadow */
+    --sp-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.4);
+    --sp-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.4);
+    --sp-shadow-lg:
+      0 10px 20px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.45);
+    --sp-shadow-focus: 0 0 0 3px rgba(183, 28, 70, 0.35);
+
+    /* Transitions */
+    --sp-duration-fast: 100ms;
+    --sp-duration-base: 160ms;
+    --sp-duration-slow: 260ms;
+    --sp-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --sp-ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+    /* Z-index */
+    --sp-z-base: 0;
+    --sp-z-raised: 10;
+    --sp-z-dropdown: 100;
+    --sp-z-sticky: 200;
+    --sp-z-fixed: 300;
+    --sp-z-backdrop: 900;
+    --sp-z-modal: 1000;
+    --sp-z-drawer: 1100;
+    --sp-z-toast: 1300;
+    --sp-z-tooltip: 1400;
+
+    /* Icon masks — canonical shapes shared between this file's
+       component-level pseudo-element icons (Modal/Drawer close,
+       Accordion chevron) and sparta-icons.css's .sp-icon-x /
+       .sp-icon-chevron-down / .sp-icon-check. Consumed only by
+       mask-image / -webkit-mask-image — never background-image,
+       content, or clip-path. Add a new entry here only when a
+       shape is duplicated in more than one place; icons used in
+       exactly one place stay local to that rule. */
+    --sp-icon-mask-x:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='6' x2='6' y2='18'/><line x1='6' y1='6' x2='18' y2='18'/></svg>");
+    --sp-icon-mask-chevron-down:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    /* ============================================================
+       ICON TOKEN FAMILIES
+       ============================================================
+       SpartaCSS has two families of shared icon-shape tokens.
+       They are not interchangeable — which one applies is decided
+       by the CSS property that will consume the value, not by
+       preference or convenience.
+
+       --sp-icon-mask-*
+         Consumed ONLY by mask-image / -webkit-mask-image.
+         The SVG's own stroke/fill color is irrelevant under a mask
+         — mask-image only reads the shape's alpha channel. Actual
+         color comes from a separate background-color: currentColor
+         declaration on the masked element, which is why these
+         icons repaint correctly with theme/state changes: the
+         color was never baked into the token to begin with.
+         Use this family when a shape is masked onto a plain
+         currentColor fill and EITHER (a) it is genuinely reused by
+         2+ consumers (a component rule and/or an .sp-icon-* class
+         in sparta-icons.css), OR (b) it is one of SpartaCSS's
+         foundational icon primitives — x, chevron-down, and check
+         — expected to be reused throughout the framework as new
+         components are built, regardless of how many consumers
+         reference it today. This is a deliberate, named exception
+         to the multi-consumer rule below, not an oversight: these
+         three are the icons a design system reaches for constantly
+         (close, expand/collapse, confirm), so their cost of being
+         "wrong" if left un-tokenized (a future component hand-
+         rolling a fourth copy of an X) outweighs the cost of one
+         token currently having a single consumer. This exception
+         does NOT extend to any other shape — a new icon does not
+         get to claim "foundational" status to justify a token with
+         one consumer; only x, chevron-down, and check carry it,
+         by explicit decision, not by pattern-matching against them.
+         Everything else follows the plain rule: a shape used in
+         exactly one place stays a local literal in that one rule —
+         a token with a single consumer isn't shared, it's just
+         indirection.
+
+       --sp-icon-bg-*
+         Consumed ONLY by background-image, for the rare case where
+         mask-image can't produce the needed result — typically a
+         two-layer composite (a colored fill plus a fixed-color
+         icon on top, e.g. a white checkmark over a solid-color
+         checkbox/badge) that mask's single-alpha-channel model
+         can't represent. Unlike the mask family, the color here
+         IS baked into the SVG string itself (var() cannot resolve
+         inside a serialized data-URI), so these tokens do NOT
+         repaint automatically if a related color token changes —
+         they are a static snapshot, not a live reference. Use this
+         family ONLY when a shape is both background-image-only AND
+         genuinely duplicated across 2+ consumers. A background-
+         image shape with a single consumer stays a local literal —
+         tokenizing it would create the appearance of a shared
+         source of truth without the substance of one, since nothing
+         else would actually reference it. (--sp-select's chevron is
+         exactly this case: single consumer, background-image only,
+         deliberately left un-tokenized — see the rule itself for
+         the full reasoning.)
+       ============================================================ */
+    --sp-icon-mask-check:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+    --sp-icon-mask-trending-up:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 6 13.5 15.5 8.5 10.5 1 18'/><polyline points='17 6 23 6 23 12'/></svg>");
+    --sp-icon-mask-trending-down:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 18 13.5 8.5 8.5 13.5 1 6'/><polyline points='17 18 23 18 23 12'/></svg>");
+    --sp-icon-mask-arrow-right:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='5' y1='12' x2='19' y2='12'/><polyline points='12 5 19 12 12 19'/></svg>");
+    --sp-icon-mask-external-link:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/><polyline points='15 3 21 3 21 9'/><line x1='10' y1='14' x2='21' y2='3'/></svg>");
+    --sp-icon-mask-sort-asc:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='3' y1='6' x2='21' y2='6'/><line x1='3' y1='12' x2='15' y2='12'/><line x1='3' y1='18' x2='9' y2='18'/><polyline points='19 14 22 11 19 8'/></svg>");
+    --sp-icon-mask-sort-desc:
+      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='3' y1='6' x2='21' y2='6'/><line x1='3' y1='12' x2='15' y2='12'/><line x1='3' y1='18' x2='9' y2='18'/><polyline points='19 10 22 13 19 16'/></svg>");
+
+    /* --sp-icon-bg-* family — see ICON TOKEN FAMILIES note above.
+       Consumed by background-image only; color is baked in and
+       does not track theme changes. --sp-icon-bg-check-white is
+       shared by .sp-checkbox input:checked and
+       .sp-list--checked .sp-list__item::before — the two places in
+       this file that render a fixed-white checkmark over a solid
+       color fill, previously two independent copies of the same
+       literal SVG. */
+
+    /* ACCEPTED TRADEOFF — mask-sizing boilerplate:
+       Every component rule that consumes an --sp-icon-mask-* token
+       (Modal close, Drawer close, Accordion chevron, Stat delta,
+       Standalone link, External link, Table sort) repeats the same
+       six declarations: mask-size/repeat/position and their
+       -webkit- equivalents. sparta-icons.css's own .sp-icon-*
+       classes already share this boilerplate once, through the
+       single wildcard mask-engine selector — but these seven
+       component rules are independent pseudo-elements, not .sp-icon
+       spans, so they can't hook into that shared selector. Plain
+       CSS has no mechanism to factor out a reusable block of
+       declarations (that's what a Sass mixin or PostCSS plugin is
+       for). This repetition is intentionally accepted rather than
+       solved: introducing a build-time abstraction to remove six
+       repeated lines across seven rules is a worse tradeoff than
+       the repetition itself. Not technical debt — a deliberate
+       decision to keep SpartaCSS dependency-free. */
+    --sp-icon-bg-check-white:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C%2Fsvg%3E");
+  }
+
+  [data-theme="light"],
+  .sp-light {
+    --sp-bg-base: #f0f0f0;
+    --sp-bg-surface: #ffffff;
+    --sp-bg-elevated: #fafafa;
+    --sp-bg-overlay: rgba(0, 0, 0, 0.42);
+
+    --sp-text-primary: #111111;
+    --sp-text-secondary: #3e3e3e;
+    --sp-text-muted: #757575;
+    --sp-text-disabled: #aaaaaa;
+
+    --sp-border: #d1d1d1;
+    --sp-border-light: #e0e0e0;
+    --sp-border-strong: #aaaaaa;
+
+    --sp-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.08);
+    --sp-shadow-md:
+      0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+    --sp-shadow-lg:
+      0 10px 20px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+

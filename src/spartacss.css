@@ -1,0 +1,42 @@
+/* ============================================================
+   SpartaCSS — Legacy Default Bundle
+   Part of @redspartanlabs/spartacss (pre-release).
+   Core + Components + Modules (excluding icons and notifications)
+   + Patterns. This is the historical default export's exact scope
+   — preserved as its own explicit entry point rather than derived
+   from sparta-all.css, so the legacy contract can't drift silently
+   if sparta-all.css's import list ever changes. Consumers of the
+   icon or notifications modules import those separately (see
+   sparta-all.css for the full-framework bundle that includes them).
+   ============================================================ */
+
+@import "./sparta.css";
+
+@import "./components/sparta-button.css";
+@import "./components/sparta-card.css";
+@import "./components/sparta-form.css";
+@import "./components/sparta-badge.css";
+@import "./components/sparta-alert.css";
+@import "./components/sparta-avatar.css";
+@import "./components/sparta-progress.css";
+@import "./components/sparta-link.css";
+@import "./components/sparta-kbd.css";
+@import "./components/sparta-divider.css";
+@import "./components/sparta-list.css";
+@import "./components/sparta-empty-state.css";
+
+@import "./modules/overlay/sparta-modal.css";
+@import "./modules/overlay/sparta-drawer.css";
+@import "./modules/overlay/sparta-dropdown.css";
+@import "./modules/overlay/sparta-tooltip.css";
+@import "./modules/overlay/sparta-accordion.css";
+
+@import "./modules/data/sparta-table.css";
+@import "./modules/data/sparta-tabs.css";
+@import "./modules/data/sparta-breadcrumbs.css";
+@import "./modules/data/sparta-pagination.css";
+@import "./modules/data/sparta-stat.css";
+
+@import "./modules/docs/sparta-code.css";
+
+@import "./patterns/sparta-page-header.css";

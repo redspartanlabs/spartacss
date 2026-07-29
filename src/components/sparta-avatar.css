@@ -1,0 +1,134 @@
+/* ============================================================
+   AVATAR
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     AVATAR
+     ---------------------------------------------------------- */
+
+  .sp-avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--sp-radius-full);
+    background: var(--sp-bg-elevated);
+    border: 2px solid var(--sp-border);
+    flex-shrink: 0;
+    font-size: var(--sp-text-sm);
+    font-weight: var(--sp-font-semibold);
+    color: var(--sp-text-primary);
+    user-select: none;
+  }
+
+  .sp-avatar--xs {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: var(--sp-text-xs);
+  }
+
+  .sp-avatar--sm {
+    width: 2rem;
+    height: 2rem;
+    font-size: var(--sp-text-xs);
+  }
+
+  .sp-avatar--md {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: var(--sp-text-sm);
+  }
+
+  .sp-avatar--lg {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: var(--sp-text-base);
+  }
+
+  .sp-avatar--xl {
+    width: 5rem;
+    height: 5rem;
+    font-size: var(--sp-text-xl);
+  }
+
+  .sp-avatar--primary {
+    background: var(--sp-color-primary-subtle);
+    color: var(--sp-color-primary);
+    border-color: var(--sp-color-primary);
+  }
+
+  .sp-avatar--secondary {
+    background: var(--sp-color-secondary-subtle);
+    color: var(--sp-color-secondary);
+    border-color: var(--sp-color-secondary);
+  }
+
+  .sp-avatar--success {
+    background: var(--sp-color-success-subtle);
+    color: var(--sp-color-success);
+    border-color: var(--sp-color-success);
+  }
+
+  .sp-avatar--square {
+    border-radius: var(--sp-radius-lg);
+  }
+
+  .sp-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--sp-radius-full);
+  }
+
+  .sp-avatar__status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: var(--sp-radius-full);
+    border: 2px solid var(--sp-bg-surface);
+  }
+
+  .sp-avatar__status--online {
+    background: var(--sp-color-success);
+  }
+
+  .sp-avatar__status--away {
+    background: var(--sp-color-warning);
+  }
+
+  .sp-avatar__status--busy {
+    background: var(--sp-color-error);
+  }
+
+  .sp-avatar__status--offline {
+    background: var(--sp-text-muted);
+  }
+
+  .sp-avatar-group {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .sp-avatar-group .sp-avatar {
+    margin-left: -0.5rem;
+    box-shadow: 0 0 0 2px var(--sp-bg-surface);
+    transition: transform var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-avatar-group .sp-avatar:hover {
+    transform: translateY(-2px);
+    z-index: var(--sp-z-raised);
+  }
+
+  .sp-avatar-group .sp-avatar:last-child {
+    margin-left: 0;
+  }
+
+
+}

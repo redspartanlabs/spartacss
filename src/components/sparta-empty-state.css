@@ -1,0 +1,60 @@
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     EMPTY STATE
+     ---------------------------------------------------------- */
+
+  .sp-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--sp-space-8) var(--sp-space-6);
+    gap: var(--sp-space-4);
+    color: var(--sp-text-muted);
+  }
+
+  .sp-empty--sm {
+    padding: var(--sp-space-5) var(--sp-space-4);
+  }
+
+  .sp-empty--lg {
+    padding: calc(var(--sp-space-8) * 1.5) var(--sp-space-8);
+  }
+
+  .sp-empty__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    opacity: 0.4;
+  }
+
+  .sp-empty__title {
+    font-size: var(--sp-text-lg);
+    font-weight: var(--sp-font-semibold);
+    color: var(--sp-text-secondary);
+    margin: 0;
+  }
+
+  .sp-empty__body {
+    font-size: var(--sp-text-sm);
+    color: var(--sp-text-muted);
+    line-height: var(--sp-leading-relaxed);
+    max-width: 36ch;
+    margin: 0;
+  }
+
+  .sp-empty__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-space-3);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--sp-space-2);
+  }
+
+
+}

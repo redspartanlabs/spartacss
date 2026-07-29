@@ -1,0 +1,68 @@
+/* ============================================================
+   DIVIDER
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     DIVIDER
+     ---------------------------------------------------------- */
+
+  .sp-divider {
+    border: none;
+    border-top: 1px solid var(--sp-border-strong);
+    margin: var(--sp-space-4) 0;
+  }
+
+  .sp-divider--sm {
+    margin: var(--sp-space-2) 0;
+  }
+
+  .sp-divider--lg {
+    margin: var(--sp-space-8) 0;
+  }
+
+  .sp-divider--strong {
+    border-top-color: var(--sp-text-muted);
+    border-top-width: 2px;
+  }
+
+  .sp-divider--dashed {
+    border-top-style: dashed;
+    border-top-color: var(--sp-border-strong);
+  }
+
+  .sp-divider--vertical {
+    border-top: none;
+    border-left: 1px solid var(--sp-border-strong);
+    height: auto;
+    align-self: stretch;
+    margin: 0 var(--sp-space-4);
+    display: inline-block;
+  }
+
+  .sp-divider--labeled {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-space-3);
+    border: none;
+    margin: var(--sp-space-5) 0;
+  }
+
+  .sp-divider--labeled::before,
+  .sp-divider--labeled::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid var(--sp-border-strong);
+  }
+
+  .sp-divider__label {
+    font-size: var(--sp-text-xs);
+    font-weight: var(--sp-font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--sp-text-muted);
+    white-space: nowrap;
+  }
+
+
+}

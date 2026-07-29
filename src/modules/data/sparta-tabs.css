@@ -1,0 +1,116 @@
+/* ============================================================
+   TABS
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     TABS
+     ---------------------------------------------------------- */
+
+  .sp-tabs {
+    display: flex;
+    gap: 0;
+    background-image: linear-gradient(var(--sp-border), var(--sp-border));
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    background-position: bottom left;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .sp-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sp-tabs__tab {
+    flex-shrink: 0;
+    padding: var(--sp-space-3) var(--sp-space-5);
+    color: var(--sp-text-muted);
+    background: transparent;
+    border: none;
+    font-size: var(--sp-text-sm);
+    font-weight: var(--sp-font-medium);
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: none;
+    transition:
+      color var(--sp-duration-fast) var(--sp-ease),
+      background var(--sp-duration-fast) var(--sp-ease),
+      box-shadow var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-tabs__tab:hover:not(.sp-tabs__tab--active) {
+    color: var(--sp-text-primary);
+    background: var(--sp-bg-elevated);
+  }
+
+  .sp-tabs__tab:focus-visible {
+    outline: none;
+    box-shadow: inset var(--sp-shadow-focus);
+    border-radius: var(--sp-radius-sm) var(--sp-radius-sm) 0 0;
+  }
+
+  .sp-tabs__tab--active {
+    color: var(--sp-text-primary);
+    box-shadow: inset 0 -2px 0 0 var(--sp-color-primary);
+  }
+
+  .sp-tabs__tab--disabled {
+    color: var(--sp-text-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .sp-tabs__panel {
+    padding: var(--sp-space-6) 0;
+  }
+
+  .sp-tabs__panel--hidden {
+    display: none;
+  }
+
+  .sp-tabs--pills {
+    border-bottom: none;
+    background-image: none;
+    gap: var(--sp-space-2);
+    padding: var(--sp-space-2);
+    background-color: var(--sp-bg-elevated);
+    border-radius: var(--sp-radius-lg);
+    width: fit-content;
+  }
+
+  .sp-tabs--pills .sp-tabs__tab {
+    border-radius: var(--sp-radius-md);
+    box-shadow: none;
+    padding: var(--sp-space-2) var(--sp-space-4);
+  }
+
+  .sp-tabs--pills .sp-tabs__tab--active {
+    background: var(--sp-bg-surface);
+    color: var(--sp-text-primary);
+    box-shadow: var(--sp-shadow-sm);
+  }
+
+  .sp-tabs--vertical {
+    flex-direction: column;
+    background-image: linear-gradient(var(--sp-border), var(--sp-border));
+    background-size: 2px 100%;
+    background-position: right top;
+    overflow-x: visible;
+  }
+
+  .sp-tabs--vertical .sp-tabs__tab {
+    text-align: left;
+    box-shadow: none;
+    padding: var(--sp-space-3) var(--sp-space-5) var(--sp-space-3) var(--sp-space-4);
+  }
+
+  .sp-tabs--vertical .sp-tabs__tab--active {
+    background: var(--sp-bg-elevated);
+    box-shadow: inset -2px 0 0 0 var(--sp-color-primary);
+  }
+
+
+}

@@ -1,0 +1,217 @@
+/* ============================================================
+   ACCORDION
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     ACCORDION
+     ---------------------------------------------------------- */
+
+  .sp-accordion {
+    border: 1px solid var(--sp-border);
+    border-radius: var(--sp-radius-lg);
+    overflow: hidden;
+  }
+
+  .sp-accordion__item {
+    border-bottom: 1px solid var(--sp-border);
+  }
+
+  .sp-accordion__item:last-child {
+    border-bottom: none;
+  }
+
+  .sp-accordion__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--sp-space-4) var(--sp-space-5);
+    font-size: var(--sp-text-base);
+    font-weight: var(--sp-font-medium);
+    color: var(--sp-text-primary);
+    background: var(--sp-bg-surface);
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: var(--sp-space-3);
+    transition:
+      background var(--sp-duration-fast) var(--sp-ease),
+      color var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-accordion__header:hover {
+    background: var(--sp-bg-elevated);
+  }
+
+  .sp-accordion__header:focus-visible {
+    outline: none;
+    box-shadow: inset var(--sp-shadow-focus);
+  }
+
+  .sp-accordion__icon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sp-text-muted);
+    transition: transform var(--sp-duration-base) var(--sp-ease);
+  }
+
+  .sp-accordion__item--open .sp-accordion__icon {
+    transform: rotate(180deg);
+    color: var(--sp-color-primary);
+  }
+
+  .sp-accordion__item--open .sp-accordion__header {
+    background: var(--sp-bg-elevated);
+    color: var(--sp-color-primary);
+  }
+
+  .sp-accordion__content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition:
+      grid-template-rows var(--sp-duration-base) var(--sp-ease-out),
+      opacity var(--sp-duration-base) var(--sp-ease-out);
+    opacity: 0;
+    border-top: 1px solid var(--sp-border);
+    background: var(--sp-bg-base);
+  }
+
+  .sp-accordion__content>* {
+    overflow: hidden;
+    padding: 0 var(--sp-space-5);
+    color: var(--sp-text-secondary);
+    line-height: var(--sp-leading-relaxed);
+  }
+
+  .sp-accordion__item--open .sp-accordion__content {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .sp-accordion__item--open .sp-accordion__content>* {
+    padding: var(--sp-space-4) var(--sp-space-5);
+  }
+
+
+}
+
+/* Legacy structural-extension rules (previously in the monolith's
+   STRUCTURAL EXTENSIONS section) — kept unlayered exactly as before,
+   not yet consolidated with the block above. */
+
+.sp-accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--sp-space-4) var(--sp-space-5);
+  font-size: var(--sp-text-base);
+  font-weight: var(--sp-font-medium);
+  font-family: inherit;
+  color: var(--sp-text-primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  gap: var(--sp-space-3);
+  line-height: var(--sp-leading-snug);
+  transition:
+    background var(--sp-duration-fast) var(--sp-ease),
+    color var(--sp-duration-fast) var(--sp-ease);
+}
+
+.sp-accordion__trigger:hover {
+  background: var(--sp-bg-elevated);
+}
+
+.sp-accordion__trigger:focus-visible {
+  outline: none;
+  box-shadow: inset var(--sp-shadow-focus);
+}
+
+.sp-accordion__item--open .sp-accordion__trigger {
+  background: var(--sp-bg-elevated);
+  color: var(--sp-color-primary);
+}
+
+/* Sources from --sp-icon-mask-chevron-down (tokens layer) — same
+   shape as sparta-icons.css's .sp-icon-chevron-down. This rule
+   previously had sizing, color, and a rotate transition but no
+   mask-image, so it rendered as an empty box; the open/closed
+   rotation below now has an actual shape to rotate. */
+.sp-accordion__trigger::after {
+  content: "";
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: currentColor;
+  mask-image: var(--sp-icon-mask-chevron-down);
+  -webkit-mask-image: var(--sp-icon-mask-chevron-down);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  color: var(--sp-text-muted);
+  transition:
+    transform var(--sp-duration-base) var(--sp-ease),
+    color var(--sp-duration-base) var(--sp-ease);
+}
+
+.sp-accordion__item--open .sp-accordion__trigger::after {
+  transform: rotate(180deg);
+  color: var(--sp-color-primary);
+}
+
+.sp-accordion__header:has(.sp-accordion__trigger) {
+  padding: 0;
+  cursor: default;
+  background: transparent;
+}
+
+.sp-accordion__header:has(.sp-accordion__trigger):hover {
+  background: transparent;
+}
+
+.sp-accordion__content--animated {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition:
+    grid-template-rows var(--sp-duration-slow) var(--sp-ease-out),
+    opacity var(--sp-duration-slow) var(--sp-ease-out);
+  opacity: 0;
+  border-top: 1px solid var(--sp-border);
+  background: var(--sp-bg-base);
+}
+
+.sp-accordion__content--animated>* {
+  overflow: hidden;
+  padding: 0 var(--sp-space-5);
+}
+
+.sp-accordion__item--open .sp-accordion__content--animated {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.sp-accordion__item--open .sp-accordion__content--animated>* {
+  padding: var(--sp-space-4) var(--sp-space-5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-accordion__content--animated {
+    transition: none;
+  }
+
+  .sp-accordion__trigger::after {
+    transition: none;
+  }

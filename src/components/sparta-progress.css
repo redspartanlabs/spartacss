@@ -1,0 +1,197 @@
+/* ============================================================
+   PROGRESS
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     SPINNER
+     ---------------------------------------------------------- */
+
+  .sp-spinner {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid var(--sp-border-light);
+    border-top-color: var(--sp-color-primary);
+    border-radius: var(--sp-radius-full);
+    animation: sp-spin 0.65s linear infinite;
+    flex-shrink: 0;
+  }
+
+  .sp-spinner--xs {
+    width: 0.875rem;
+    height: 0.875rem;
+    border-width: 2px;
+  }
+
+  .sp-spinner--sm {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-width: 2px;
+  }
+
+  .sp-spinner--md {
+    width: 2rem;
+    height: 2rem;
+    border-width: 3px;
+  }
+
+  .sp-spinner--lg {
+    width: 3rem;
+    height: 3rem;
+    border-width: 4px;
+  }
+
+  .sp-spinner--xl {
+    width: 4rem;
+    height: 4rem;
+    border-width: 4px;
+  }
+
+  .sp-spinner--secondary {
+    border-top-color: var(--sp-color-secondary);
+  }
+
+  .sp-spinner--success {
+    border-top-color: var(--sp-color-success);
+  }
+
+  .sp-spinner--warning {
+    border-top-color: var(--sp-color-warning);
+  }
+
+  .sp-spinner--error {
+    border-top-color: var(--sp-color-error);
+  }
+
+  .sp-spinner--muted {
+    border-top-color: var(--sp-text-muted);
+  }
+
+
+  /* ----------------------------------------------------------
+     PROGRESS BAR
+     ---------------------------------------------------------- */
+
+  .sp-progress {
+    width: 100%;
+    height: 0.5rem;
+    background: var(--sp-bg-elevated);
+    border-radius: var(--sp-radius-full);
+    overflow: hidden;
+    border: 1px solid var(--sp-border);
+  }
+
+  .sp-progress--sm {
+    height: 0.25rem;
+  }
+
+  .sp-progress--md {
+    height: 0.5rem;
+  }
+
+  .sp-progress--lg {
+    height: 0.75rem;
+  }
+
+  .sp-progress--xl {
+    height: 1rem;
+  }
+
+  .sp-progress__bar {
+    height: 100%;
+    background: var(--sp-color-primary);
+    border-radius: var(--sp-radius-full);
+    transition: width var(--sp-duration-slow) var(--sp-ease-out);
+    min-width: 0;
+  }
+
+  .sp-progress__bar--secondary {
+    background: var(--sp-color-secondary);
+  }
+
+  .sp-progress__bar--success {
+    background: var(--sp-color-success);
+  }
+
+  .sp-progress__bar--warning {
+    background: var(--sp-color-warning);
+  }
+
+  .sp-progress__bar--error {
+    background: var(--sp-color-error);
+  }
+
+  .sp-progress__bar--info {
+    background: var(--sp-color-info);
+  }
+
+  .sp-progress--striped .sp-progress__bar {
+    background-image: linear-gradient(45deg,
+        rgba(255, 255, 255, 0.1) 25%, transparent 25%,
+        transparent 50%, rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.1) 75%, transparent 75%);
+    background-size: 1rem 1rem;
+  }
+
+
+  /* ----------------------------------------------------------
+     SKELETON
+     ---------------------------------------------------------- */
+
+  .sp-skeleton {
+    background: linear-gradient(90deg,
+        var(--sp-bg-surface) 25%, var(--sp-bg-elevated) 50%, var(--sp-bg-surface) 75%);
+    background-size: 400% 100%;
+    animation: sp-shimmer 1.6s ease-in-out infinite;
+    border-radius: var(--sp-radius-md);
+  }
+
+  .sp-skeleton--text {
+    height: 1rem;
+    margin-bottom: var(--sp-space-2);
+  }
+
+  .sp-skeleton--heading {
+    height: 1.75rem;
+    width: 55%;
+    margin-bottom: var(--sp-space-3);
+  }
+
+  .sp-skeleton--avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--sp-radius-full);
+    flex-shrink: 0;
+  }
+
+  .sp-skeleton--button {
+    height: 2.25rem;
+    width: 7rem;
+  }
+
+  .sp-skeleton--card {
+    height: 10rem;
+  }
+
+  .sp-skeleton--table-row {
+    height: 3rem;
+    margin-bottom: var(--sp-space-1);
+  }
+
+  .sp-skeleton--sm {
+    border-radius: var(--sp-radius-sm);
+  }
+
+  .sp-skeleton--lg {
+    border-radius: var(--sp-radius-lg);
+  }
+
+  .sp-skeleton-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-space-2);
+  }
+
+
+}

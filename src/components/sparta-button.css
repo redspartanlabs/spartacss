@@ -1,0 +1,309 @@
+/* ============================================================
+   BUTTON
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     BUTTON
+     ---------------------------------------------------------- */
+
+  .sp-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-space-2);
+    padding: var(--sp-space-2) var(--sp-space-5);
+    font-size: var(--sp-text-base);
+    font-weight: var(--sp-font-semibold);
+    line-height: 1;
+    border: 2px solid transparent;
+    border-radius: var(--sp-radius-md);
+    text-decoration: none;
+    user-select: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color var(--sp-duration-base) var(--sp-ease),
+      border-color var(--sp-duration-base) var(--sp-ease),
+      color var(--sp-duration-base) var(--sp-ease),
+      box-shadow var(--sp-duration-base) var(--sp-ease),
+      transform var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-button:focus-visible {
+    outline: none;
+    box-shadow: var(--sp-shadow-focus);
+  }
+
+  .sp-button:disabled,
+  .sp-button[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .sp-button--sm {
+    padding: var(--sp-space-1) var(--sp-space-3);
+    font-size: var(--sp-text-sm);
+  }
+
+  .sp-button--md {
+    padding: var(--sp-space-2) var(--sp-space-5);
+    font-size: var(--sp-text-base);
+  }
+
+  .sp-button--lg {
+    padding: var(--sp-space-3) var(--sp-space-7);
+    font-size: var(--sp-text-lg);
+  }
+
+  .sp-button--full {
+    width: 100%;
+  }
+
+  .sp-button--primary {
+    background: var(--sp-color-primary);
+    color: var(--sp-text-on-color);
+    box-shadow: var(--sp-shadow-sm);
+  }
+
+  .sp-button--primary:hover:not(:disabled) {
+    background: var(--sp-color-primary-hover);
+    box-shadow: var(--sp-shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .sp-button--primary:active:not(:disabled) {
+    background: var(--sp-color-primary-active);
+    box-shadow: none;
+    transform: translateY(0);
+  }
+
+  .sp-button--secondary {
+    background: var(--sp-color-secondary);
+    color: #111111;
+    box-shadow: var(--sp-shadow-sm);
+  }
+
+  .sp-button--secondary:hover:not(:disabled) {
+    background: var(--sp-color-secondary-hover);
+    box-shadow: var(--sp-shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .sp-button--secondary:active:not(:disabled) {
+    background: var(--sp-color-secondary-active);
+    transform: translateY(0);
+  }
+
+  .sp-button--success {
+    background: var(--sp-color-success);
+    color: var(--sp-text-on-color);
+    box-shadow: var(--sp-shadow-sm);
+  }
+
+  .sp-button--success:hover:not(:disabled) {
+    background: var(--sp-color-success-hover);
+    box-shadow: var(--sp-shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .sp-button--success:active:not(:disabled) {
+    background: var(--sp-color-success-active);
+    transform: translateY(0);
+  }
+
+  .sp-button--warning {
+    background: var(--sp-color-warning);
+    color: var(--sp-text-on-color);
+    box-shadow: var(--sp-shadow-sm);
+  }
+
+  .sp-button--warning:hover:not(:disabled) {
+    background: var(--sp-color-warning-hover);
+    box-shadow: var(--sp-shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .sp-button--warning:active:not(:disabled) {
+    background: var(--sp-color-warning-active);
+    transform: translateY(0);
+  }
+
+  .sp-button--error {
+    background: var(--sp-color-error);
+    color: var(--sp-text-on-color);
+    box-shadow: var(--sp-shadow-sm);
+  }
+
+  .sp-button--error:hover:not(:disabled) {
+    background: var(--sp-color-error-hover);
+    box-shadow: var(--sp-shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .sp-button--error:active:not(:disabled) {
+    background: var(--sp-color-error-active);
+    transform: translateY(0);
+  }
+
+  .sp-button--info {
+    background: var(--sp-color-info);
+    color: var(--sp-text-on-color);
+    box-shadow: var(--sp-shadow-sm);
+  }
+
+  .sp-button--info:hover:not(:disabled) {
+    background: var(--sp-color-info-hover);
+    box-shadow: var(--sp-shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .sp-button--info:active:not(:disabled) {
+    background: var(--sp-color-info-active);
+    transform: translateY(0);
+  }
+
+  .sp-button--ghost {
+    background: transparent;
+    color: var(--sp-text-secondary);
+    border-color: transparent;
+  }
+
+  .sp-button--ghost:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--sp-text-primary);
+    border-color: transparent;
+  }
+
+  .sp-button--ghost:active:not(:disabled) {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: transparent;
+  }
+
+  .sp-button--outline {
+    background: transparent;
+    color: var(--sp-color-primary);
+    border-color: var(--sp-color-primary);
+  }
+
+  .sp-button--outline:hover:not(:disabled) {
+    background: var(--sp-color-primary);
+    color: var(--sp-text-on-color);
+    box-shadow: var(--sp-shadow-sm);
+    transform: translateY(-1px);
+  }
+
+  .sp-button--outline:active:not(:disabled) {
+    background: var(--sp-color-primary-active);
+    color: var(--sp-text-on-color);
+    transform: translateY(0);
+  }
+
+  /* Outline semantic variants */
+  .sp-button--outline-secondary {
+    background: transparent;
+    color: var(--sp-color-secondary);
+    border-color: var(--sp-color-secondary);
+  }
+  .sp-button--outline-secondary:hover:not(:disabled) {
+    background: var(--sp-color-secondary);
+    color: #111111;
+    box-shadow: var(--sp-shadow-sm);
+    transform: translateY(-1px);
+  }
+  .sp-button--outline-secondary:active:not(:disabled) {
+    background: var(--sp-color-secondary-active);
+    color: #111111;
+    transform: translateY(0);
+  }
+
+  .sp-button--outline-success {
+    background: transparent;
+    color: var(--sp-color-success);
+    border-color: var(--sp-color-success);
+  }
+  .sp-button--outline-success:hover:not(:disabled) {
+    background: var(--sp-color-success);
+    color: var(--sp-text-on-color);
+    box-shadow: var(--sp-shadow-sm);
+    transform: translateY(-1px);
+  }
+  .sp-button--outline-success:active:not(:disabled) {
+    background: var(--sp-color-success-active);
+    color: var(--sp-text-on-color);
+    transform: translateY(0);
+  }
+
+  .sp-button--outline-warning {
+    background: transparent;
+    color: var(--sp-color-warning);
+    border-color: var(--sp-color-warning);
+  }
+  .sp-button--outline-warning:hover:not(:disabled) {
+    background: var(--sp-color-warning);
+    color: var(--sp-text-on-color);
+    box-shadow: var(--sp-shadow-sm);
+    transform: translateY(-1px);
+  }
+  .sp-button--outline-warning:active:not(:disabled) {
+    background: var(--sp-color-warning-active);
+    color: var(--sp-text-on-color);
+    transform: translateY(0);
+  }
+
+  .sp-button--outline-error {
+    background: transparent;
+    color: var(--sp-color-error);
+    border-color: var(--sp-color-error);
+  }
+  .sp-button--outline-error:hover:not(:disabled) {
+    background: var(--sp-color-error);
+    color: var(--sp-text-on-color);
+    box-shadow: var(--sp-shadow-sm);
+    transform: translateY(-1px);
+  }
+  .sp-button--outline-error:active:not(:disabled) {
+    background: var(--sp-color-error-active);
+    color: var(--sp-text-on-color);
+    transform: translateY(0);
+  }
+
+  .sp-button--outline-info {
+    background: transparent;
+    color: var(--sp-color-info);
+    border-color: var(--sp-color-info);
+  }
+  .sp-button--outline-info:hover:not(:disabled) {
+    background: var(--sp-color-info);
+    color: var(--sp-text-on-color);
+    box-shadow: var(--sp-shadow-sm);
+    transform: translateY(-1px);
+  }
+  .sp-button--outline-info:active:not(:disabled) {
+    background: var(--sp-color-info-active);
+    color: var(--sp-text-on-color);
+    transform: translateY(0);
+  }
+
+  .sp-button--loading {
+    pointer-events: none;
+    color: transparent !important;
+  }
+
+  .sp-button--loading::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 1.1em;
+    height: 1.1em;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: var(--sp-radius-full);
+    animation: sp-spin 0.6s linear infinite;
+  }
+
+
+}

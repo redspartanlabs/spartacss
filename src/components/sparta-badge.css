@@ -1,0 +1,190 @@
+/* ============================================================
+   BADGE
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     BADGE
+     ---------------------------------------------------------- */
+
+  .sp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-space-1);
+    padding: 0.2em 0.6em;
+    font-size: var(--sp-text-xs);
+    font-weight: var(--sp-font-semibold);
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    border-radius: var(--sp-radius-full);
+    border: 1px solid transparent;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .sp-badge--primary {
+    background: var(--sp-color-primary-subtle);
+    color: var(--sp-color-primary);
+    border-color: var(--sp-color-primary);
+  }
+
+  .sp-badge--secondary {
+    background: var(--sp-color-secondary-subtle);
+    color: var(--sp-color-secondary);
+    border-color: var(--sp-color-secondary);
+  }
+
+  .sp-badge--success {
+    background: var(--sp-color-success-subtle);
+    color: var(--sp-color-success);
+    border-color: var(--sp-color-success);
+  }
+
+  .sp-badge--warning {
+    background: var(--sp-color-warning-subtle);
+    color: var(--sp-color-warning);
+    border-color: var(--sp-color-warning);
+  }
+
+  .sp-badge--error {
+    background: var(--sp-color-error-subtle);
+    color: var(--sp-color-error);
+    border-color: var(--sp-color-error);
+  }
+
+  .sp-badge--info {
+    background: var(--sp-color-info-subtle);
+    color: var(--sp-color-info);
+    border-color: var(--sp-color-info);
+  }
+
+  .sp-badge--neutral {
+    background: var(--sp-bg-elevated);
+    color: var(--sp-text-secondary);
+    border-color: var(--sp-border);
+  }
+
+  .sp-badge--dot::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: var(--sp-radius-full);
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .sp-badge--sm {
+    font-size: 0.65rem;
+    padding: 0.15em 0.45em;
+  }
+
+  .sp-badge--lg {
+    font-size: var(--sp-text-sm);
+    padding: 0.3em 0.8em;
+  }
+
+
+  /* ----------------------------------------------------------
+     CHIP / TAG
+     ---------------------------------------------------------- */
+
+  .sp-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-space-2);
+    padding: var(--sp-space-1) var(--sp-space-3);
+    font-size: var(--sp-text-sm);
+    font-weight: var(--sp-font-medium);
+    line-height: 1.4;
+    color: var(--sp-text-secondary);
+    background: var(--sp-bg-elevated);
+    border: 1px solid var(--sp-border);
+    border-radius: var(--sp-radius-full);
+    white-space: nowrap;
+    cursor: default;
+    transition:
+      background var(--sp-duration-fast) var(--sp-ease),
+      border-color var(--sp-duration-fast) var(--sp-ease),
+      color var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-chip--interactive {
+    cursor: pointer;
+  }
+
+  .sp-chip--interactive:hover {
+    background: var(--sp-bg-surface);
+    border-color: var(--sp-border-light);
+    color: var(--sp-text-primary);
+  }
+
+  .sp-chip--selected,
+  .sp-chip--active {
+    background: var(--sp-color-primary-subtle);
+    border-color: var(--sp-color-primary);
+    color: var(--sp-color-primary);
+  }
+
+  .sp-chip--primary {
+    background: var(--sp-color-primary-subtle);
+    border-color: var(--sp-color-primary);
+    color: var(--sp-color-primary);
+  }
+
+  .sp-chip--success {
+    background: var(--sp-color-success-subtle);
+    border-color: var(--sp-color-success);
+    color: var(--sp-color-success);
+  }
+
+  .sp-chip--warning {
+    background: var(--sp-color-warning-subtle);
+    border-color: var(--sp-color-warning);
+    color: var(--sp-color-warning);
+  }
+
+  .sp-chip--error {
+    background: var(--sp-color-error-subtle);
+    border-color: var(--sp-color-error);
+    color: var(--sp-color-error);
+  }
+
+  .sp-chip--secondary {
+    background: var(--sp-color-secondary-subtle);
+    border-color: var(--sp-color-secondary);
+    color: var(--sp-color-secondary);
+  }
+
+  .sp-chip__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    border-radius: var(--sp-radius-full);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.6;
+    padding: 0;
+    flex-shrink: 0;
+    transition: opacity var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-chip__remove:hover {
+    opacity: 1;
+  }
+
+  .sp-chip--sm {
+    padding: 0.15em var(--sp-space-2);
+    font-size: var(--sp-text-xs);
+  }
+
+  .sp-chip--lg {
+    padding: var(--sp-space-2) var(--sp-space-4);
+    font-size: var(--sp-text-base);
+  }
+
+
+}

@@ -1,0 +1,135 @@
+/* ============================================================
+   TOOLTIP
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     TOOLTIP (Pure CSS)
+     ---------------------------------------------------------- */
+
+  .sp-tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .sp-tooltip__text {
+    position: absolute;
+    z-index: var(--sp-z-tooltip);
+    padding: var(--sp-space-1) var(--sp-space-3);
+    font-size: var(--sp-text-xs);
+    font-weight: var(--sp-font-medium);
+    line-height: var(--sp-leading-snug);
+    white-space: nowrap;
+    color: var(--sp-text-inverse);
+    background: #111111;
+    border-radius: var(--sp-radius-md);
+    box-shadow: var(--sp-shadow-md);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-tooltip:hover .sp-tooltip__text,
+  .sp-tooltip:focus-within .sp-tooltip__text {
+    opacity: 1;
+  }
+
+  .sp-tooltip .sp-tooltip__text,
+  .sp-tooltip--top .sp-tooltip__text {
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .sp-tooltip--bottom .sp-tooltip__text {
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: auto;
+  }
+
+  .sp-tooltip--left .sp-tooltip__text {
+    right: calc(100% + 10px);
+    top: 50%;
+    left: auto;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+
+  .sp-tooltip--right .sp-tooltip__text {
+    left: calc(100% + 10px);
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+
+
+}
+
+/* Legacy structural-extension rules (previously in the monolith's
+   STRUCTURAL EXTENSIONS section) — kept unlayered exactly as before,
+   not yet consolidated with the block above. */
+
+.sp-tooltip--visible .sp-tooltip__text {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: none;
+}
+
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--sp-z-tooltip);
+  padding: var(--sp-space-1) var(--sp-space-3);
+  font-size: var(--sp-text-xs);
+  font-weight: var(--sp-font-medium);
+  line-height: var(--sp-leading-snug);
+  white-space: nowrap;
+  color: var(--sp-text-inverse);
+  background: var(--sp-bg-base);
+  border: 1px solid var(--sp-border-strong);
+  border-radius: var(--sp-radius-md);
+  box-shadow: var(--sp-shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--sp-duration-fast) var(--sp-ease);
+}
+
+[data-tooltip]:hover::before,
+[data-tooltip]:focus-visible::before {
+  opacity: 1;
+}
+
+[data-tooltip][data-tooltip-pos="bottom"]::before {
+  bottom: auto;
+  top: calc(100% + 10px);
+}
+
+[data-tooltip][data-tooltip-pos="left"]::before {
+  bottom: auto;
+  top: 50%;
+  left: auto;
+  right: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+
+[data-tooltip][data-tooltip-pos="right"]::before {
+  bottom: auto;
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-tooltip]::before {
+    transition: none;
+  }
+}

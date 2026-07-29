@@ -1,0 +1,99 @@
+/* ============================================================
+   CARD
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     CARD
+     ---------------------------------------------------------- */
+
+  .sp-card {
+    background: var(--sp-bg-surface);
+    border: 1px solid var(--sp-border);
+    border-radius: var(--sp-radius-lg);
+    box-shadow: var(--sp-shadow-sm);
+    overflow: hidden;
+    transition:
+      box-shadow var(--sp-duration-base) var(--sp-ease),
+      border-color var(--sp-duration-base) var(--sp-ease),
+      transform var(--sp-duration-base) var(--sp-ease);
+  }
+
+  .sp-card:hover {
+    box-shadow: var(--sp-shadow-md);
+    border-color: var(--sp-border-light);
+  }
+
+  .sp-card--interactive {
+    cursor: pointer;
+  }
+
+  .sp-card--interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sp-shadow-lg);
+  }
+
+  .sp-card--primary {
+    border-left: 3px solid var(--sp-color-primary);
+  }
+
+  .sp-card--success {
+    border-left: 3px solid var(--sp-color-success);
+  }
+
+  .sp-card--warning {
+    border-left: 3px solid var(--sp-color-warning);
+  }
+
+  .sp-card--error {
+    border-left: 3px solid var(--sp-color-error);
+  }
+
+  .sp-card--info {
+    border-left: 3px solid var(--sp-color-info);
+  }
+
+  .sp-card--secondary {
+    border-left: 3px solid var(--sp-color-secondary);
+  }
+
+  .sp-card__header {
+    padding: var(--sp-space-4) var(--sp-space-5);
+    border-bottom: 1px solid var(--sp-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-space-3);
+  }
+
+  .sp-card__title {
+    font-size: var(--sp-text-lg);
+    font-weight: var(--sp-font-semibold);
+    color: var(--sp-text-primary);
+    margin: 0;
+  }
+
+  .sp-card__subtitle {
+    font-size: var(--sp-text-sm);
+    color: var(--sp-text-muted);
+    margin-top: var(--sp-space-1);
+  }
+
+  .sp-card__body {
+    padding: var(--sp-space-5);
+    line-height: var(--sp-leading-relaxed);
+    color: var(--sp-text-secondary);
+  }
+
+  .sp-card__footer {
+    padding: var(--sp-space-4) var(--sp-space-5);
+    border-top: 1px solid var(--sp-border);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-space-3);
+    flex-wrap: wrap;
+    background: var(--sp-bg-elevated);
+  }
+
+
+}

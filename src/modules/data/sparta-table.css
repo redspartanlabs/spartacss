@@ -1,0 +1,130 @@
+/* ============================================================
+   TABLE
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     TABLE
+     ---------------------------------------------------------- */
+
+  .sp-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--sp-border);
+    border-radius: var(--sp-radius-lg);
+  }
+
+  .sp-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--sp-bg-surface);
+    font-size: var(--sp-text-sm);
+  }
+
+  .sp-table thead {
+    background: var(--sp-bg-elevated);
+  }
+
+  .sp-table th {
+    padding: var(--sp-space-3) var(--sp-space-4);
+    text-align: left;
+    font-size: var(--sp-text-xs);
+    font-weight: var(--sp-font-semibold);
+    color: var(--sp-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 2px solid var(--sp-border-strong);
+    white-space: nowrap;
+  }
+
+  .sp-table td {
+    padding: var(--sp-space-3) var(--sp-space-4);
+    color: var(--sp-text-primary);
+    border-bottom: 1px solid var(--sp-border);
+    vertical-align: middle;
+    transition: background var(--sp-duration-fast) var(--sp-ease);
+  }
+
+  .sp-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .sp-table--hover tbody tr:hover td {
+    background: var(--sp-bg-elevated);
+    cursor: pointer;
+  }
+
+  .sp-table--striped tbody tr:nth-child(even) td {
+    background: var(--sp-bg-elevated);
+  }
+
+  .sp-table--striped.sp-table--hover tbody tr:hover td {
+    background: var(--sp-bg-base);
+  }
+
+  .sp-table--compact th,
+  .sp-table--compact td {
+    padding: var(--sp-space-2) var(--sp-space-3);
+  }
+
+  .sp-table th.sp-sortable {
+    cursor: pointer;
+  }
+
+  .sp-table th.sp-sortable:hover {
+    color: var(--sp-text-primary);
+  }
+
+  /* Sources from --sp-icon-mask-sort-asc / -sort-desc (tokens
+     layer). Same alignment situation as .sp-link--external::after:
+     this is inline content after th text, not a flex item, so the
+     old font-size/leading-space approach is rebuilt rather than
+     reused. Note the actual glyph changes here, not just the
+     technique — sp-icon-sort-asc/desc are "list rows + arrow"
+     icons (already in sparta-icons.css, previously unused
+     anywhere in this file), visually distinct from a plain ↑/↓
+     character. Confirm that reads correctly at table-header size
+     before treating this as done. */
+  .sp-table th.sp-sort-asc::after,
+  .sp-table th.sp-sort-desc::after {
+    content: "";
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    margin-left: 0.3em;
+    background-color: currentColor;
+    vertical-align: -0.1em;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+  }
+
+  .sp-table th.sp-sort-asc::after {
+    color: var(--sp-color-primary);
+    mask-image: var(--sp-icon-mask-sort-asc);
+    -webkit-mask-image: var(--sp-icon-mask-sort-asc);
+  }
+
+  .sp-table th.sp-sort-desc::after {
+    color: var(--sp-color-primary);
+    mask-image: var(--sp-icon-mask-sort-desc);
+    -webkit-mask-image: var(--sp-icon-mask-sort-desc);
+  }
+
+  .sp-col-right {
+    text-align: right;
+  }
+
+  .sp-col-center {
+    text-align: center;
+  }
+
+  .sp-col-nowrap {
+    white-space: nowrap;
+  }
+
+
+}
