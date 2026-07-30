@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [0.3.0] - 2026-07-29
+
+### Added
+
+- `data-theme="dark"` / `.sp-dark` — explicit dark-mode override in
+  `sparta-tokens.css`, for consumers who want to state their theme choice
+  explicitly rather than relying on the implicit default. Functionally
+  equivalent to the default; added purely for API symmetry with the existing
+  `data-theme="light"` / `.sp-light` opt-in.
+- `.sp-field--warning` (and `.sp-field__warning`) in `sparta-form.css` — a
+  third field-validation state alongside the existing `--error`/`--success`
+  modifiers, giving forms a complete error/warning/success trio. Modeled
+  structurally on `.sp-field--error`.
+- `docs/theming.md` — documents the theming precedence contract (default,
+  explicit dark, explicit light) and which tokens are theme-dependent.
+
+### Unchanged (verified)
+
+- Dark remains the unconditional default theme when no explicit override is
+  set. SpartaCSS does not read `prefers-color-scheme` and will not switch
+  themes based on OS/browser preference — this was evaluated during
+  development and deliberately rejected to preserve SpartaCSS's dark-first
+  product direction. Existing consumers see no behavior change.
+
 ## [0.2.0] - 2026-07-28
 
 ### Added
