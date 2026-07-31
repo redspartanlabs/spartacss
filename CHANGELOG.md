@@ -6,6 +6,42 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [0.4.0] - 2026-07-29
+
+### Added
+
+- `.sp-cluster` in `sparta-layout.css` — a wrapping horizontal composition
+  primitive (`--center`, `--sm`/`--lg`/`--xl` gap, `--justify-between`/
+  `--justify-end`). No default cross-axis alignment: centering is opt-in via
+  `--center` rather than assumed.
+- `.sp-grid--auto` — an intrinsically responsive grid mode
+  (`repeat(auto-fit, minmax(15rem, 1fr))`) requiring no breakpoint, alongside
+  the existing explicit `--cols-N` variants.
+- `--sp-container-base`/`--sp-container-sm`/`--sp-container-md`/
+  `--sp-container-lg` tokens in `sparta-tokens.css`, plus a comment
+  documenting the two canonical breakpoints (`640px`, `768px`) already in
+  use across `sparta-layout.css`'s media queries.
+- `docs/layout.md` — documents the four supported layout primitives
+  (`.sp-container`, `.sp-stack`, `.sp-cluster`, `.sp-grid`), the breakpoint
+  scale, and the legacy status of `.sp-flex`/atomic utilities.
+
+### Changed
+
+- `.sp-container` and its `--sm`/`--md`/`--lg` modifiers now source their
+  max-width from the new container tokens instead of inline pixel literals.
+  Value-for-value substitution only — no visual change.
+- `.sp-flex` and the atomic spacing/sizing/display utility classes
+  (`.sp-p-*`, `.sp-m-*`, `.sp-w-*`, `.sp-h-*`, display helpers, etc.) are now
+  explicitly documented as frozen/legacy in both `sparta-layout.css` and
+  `docs/layout.md`. Not removed, not modified — retained for backward
+  compatibility, but will not receive new variants going forward.
+
+### Unchanged (verified)
+
+- `.sp-container`, `.sp-stack`, `.sp-flex`, and every atomic utility class
+  render identically to `0.3.0`. This release is additive curation, not a
+  rewrite — no existing selector was renamed or removed.
+
 ## [0.3.0] - 2026-07-29
 
 ### Added

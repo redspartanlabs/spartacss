@@ -92,6 +92,25 @@
     --sp-space-7: 1.75rem;
     --sp-space-8: 2rem;
 
+    /* Container sizing
+       Consumed by .sp-container and its --sm/--md/--lg modifiers in
+       sparta-layout.css. --sp-container-base is the unmodified default. */
+    --sp-container-base: 1280px;
+    --sp-container-sm: 768px;
+    --sp-container-md: 1024px;
+    --sp-container-lg: 1440px;
+
+    /* Breakpoint scale
+       The two literal viewport widths actually used across this file's
+       @media conditions (sparta-layout.css: .sp-container's padding
+       collapse, .sp-grid--cols-* 's column collapse). Not implemented as
+       custom properties — @media conditions cannot resolve var() — this
+       comment is the single documented source of truth so new responsive
+       rules reuse these values instead of introducing a third, undocumented
+       breakpoint.
+       sm: 640px
+       md: 768px */
+
     /* Radius */
     --sp-radius-sm: 0.125rem;
     --sp-radius-md: 0.25rem;
