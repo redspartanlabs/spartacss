@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [0.5.0] - 2026-07-30
+
+### Added
+
+- `.sp-navbar` component (`src/components/sparta-navbar.css`) —
+  `__brand`/`__links`/`__link`/`__actions`/`__toggle` slots, `--open` state
+  modifier for a mobile-collapsed menu below the existing `768px`
+  breakpoint. Resolves the dangling `.sp-navbar__toggle` icon-color rules
+  (`sparta-utilities.css`, `sparta-icons.css`) and the `.sp-navbar` print
+  rule (`sparta-accessibility.css`) that have existed with no component
+  behind them since before the modular architecture split.
+- `.sp-app-shell` pattern (`src/patterns/sparta-app-shell.css`) — a thin
+  page-level wrapper composing Navbar with the existing `.sp-container`/
+  `.sp-stack` primitives. Two rules only (`.sp-app-shell`,
+  `.sp-app-shell__main`); the composition itself is documented, not
+  reimplemented as new layout CSS.
+- `docs/app-shell.md` — Navbar API reference, the `--open` state contract
+  (no JS shipped, consumer-toggled, same convention as `.sp-modal--open`/
+  `.sp-accordion__item--open`), and the App Shell composition guide with
+  starter markup.
+
+### Unchanged (verified)
+
+- No Sidebar component or sidebar-based shell was added. The `.sp-sidebar`
+  reference in `sparta-accessibility.css`'s print rule remains
+  unimplemented — deferred, not resolved by this release.
+- No new utility classes; `.sp-container`/`.sp-stack`/`.sp-cluster`/
+  `.sp-grid` and the frozen `.sp-flex`/atomic utility layer are unchanged.
+- No JavaScript shipped.
+
 ## [0.4.0] - 2026-07-29
 
 ### Added

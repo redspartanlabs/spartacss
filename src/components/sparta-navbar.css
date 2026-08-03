@@ -1,0 +1,101 @@
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+
+@layer components {
+  /* ----------------------------------------------------------
+     NAVBAR
+     ---------------------------------------------------------- */
+
+  .sp-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-space-4);
+    padding: var(--sp-space-3) var(--sp-space-6);
+    background: var(--sp-bg-surface);
+    border-bottom: 1px solid var(--sp-border);
+  }
+
+  .sp-navbar__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-space-2);
+    font-size: var(--sp-text-lg);
+    font-weight: var(--sp-font-semibold);
+    color: var(--sp-text-primary);
+    flex-shrink: 0;
+  }
+
+  .sp-navbar__links {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-space-5);
+    flex: 1;
+  }
+
+  .sp-navbar__link {
+    font-size: var(--sp-text-sm);
+    font-weight: var(--sp-font-medium);
+    color: var(--sp-text-secondary);
+    text-decoration: none;
+    transition: color var(--sp-duration-base) var(--sp-ease);
+  }
+
+  .sp-navbar__link:hover {
+    color: var(--sp-text-primary);
+  }
+
+  .sp-navbar__link--active {
+    color: var(--sp-color-primary);
+  }
+
+  .sp-navbar__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-space-3);
+    flex-shrink: 0;
+  }
+
+  /* .sp-navbar__toggle's icon color is already defined in
+     sparta-utilities.css and sparta-icons.css — this file adds only the
+     structural/layout rules for the button itself. */
+  .sp-navbar__toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: var(--sp-space-2);
+    cursor: pointer;
+  }
+
+  /* Mobile collapse. Reuses the breakpoint already documented in
+     docs/layout.md — no new breakpoint introduced. .sp-navbar--open is a
+     consumer-toggled state modifier, following the same convention as
+     .sp-modal--open and .sp-accordion__item--open: SpartaCSS ships no JS,
+     the consumer's own script adds/removes the class. */
+  @media (max-width: 768px) {
+    .sp-navbar {
+      flex-wrap: wrap;
+    }
+
+    .sp-navbar__toggle {
+      display: inline-flex;
+    }
+
+    .sp-navbar__links {
+      display: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--sp-space-3);
+      width: 100%;
+      order: 1;
+      padding-top: var(--sp-space-3);
+    }
+
+    .sp-navbar--open .sp-navbar__links {
+      display: flex;
+    }
+  }
+}

@@ -24,6 +24,7 @@
 @import "./components/sparta-divider.css";
 @import "./components/sparta-list.css";
 @import "./components/sparta-empty-state.css";
+@import "./components/sparta-navbar.css";
 
 @import "./modules/overlay/sparta-modal.css";
 @import "./modules/overlay/sparta-drawer.css";
@@ -40,3 +41,4 @@
 @import "./modules/docs/sparta-code.css";
 
 @import "./patterns/sparta-page-header.css";
+@import "./patterns/sparta-app-shell.css";
