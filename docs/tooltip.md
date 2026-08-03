@@ -1,8 +1,8 @@
 # Tooltip
 
-SpartaCSS's tooltip lives in `src/modules/overlay/sparta-tooltip.css`. As of
-`0.6.0`, `.sp-tooltip`/`.sp-tooltip__text` is the supported, documented
-Tooltip API.
+Tooltip shows a short piece of contextual text next to an element when a
+user hovers or focuses it. `.sp-tooltip`/`.sp-tooltip__text` is the
+supported and documented Tooltip API.
 
 ## `.sp-tooltip`
 
@@ -13,11 +13,16 @@ Tooltip API.
 </span>
 ```
 
-- `.sp-tooltip` — the trigger wrapper. `position: relative`, so the tooltip
-  text can position itself against it.
+- `.sp-tooltip` — the trigger wrapper. Wrap it around whatever element
+  should show the tooltip.
 - `.sp-tooltip__text` — the tooltip bubble. Hidden by default; shown on
-  `:hover` or `:focus-within` of the parent `.sp-tooltip`. No JavaScript
+  hover or keyboard focus of the parent `.sp-tooltip`. No JavaScript
   required — this is a pure-CSS component.
+
+The tooltip surface stays legible in both light and dark themes with no
+action required from the consumer.
+
+## Variants
 
 ### Placement
 
@@ -30,19 +35,20 @@ Tooltip API.
 
 Placement modifiers go on `.sp-tooltip`, not on `.sp-tooltip__text`.
 
-### Surface color
+## Accessibility
 
-`.sp-tooltip__text` uses `var(--sp-bg-inverse)` (paired with
-`var(--sp-text-inverse)`) rather than any of the theme-reactive
-`--sp-bg-*` tokens. This is deliberate: a tooltip's surface needs to stay
-dark regardless of the active theme so its white text stays legible — the
-same reason `--sp-text-inverse` itself doesn't flip between themes.
-`prefers-reduced-motion: reduce` disables the show/hide opacity transition.
+- The tooltip shows on `:hover` **and** `:focus-within`, so it's reachable
+  by keyboard, not just mouse.
+- `prefers-reduced-motion: reduce` disables the show/hide transition for
+  users who have that OS preference set; the tooltip still appears and
+  disappears, just without motion.
 
 ## Legacy: `[data-tooltip]`
 
-`[data-tooltip]` / `[data-tooltip-pos]` and `.sp-tooltip--visible` are a
-separate, older tooltip implementation, frozen as of `0.6.0`. They remain
-fully supported for backward compatibility and their behavior is
-unchanged, but they will not receive new variants. Prefer `.sp-tooltip`
-above for new work.
+`[data-tooltip]` (with the optional `[data-tooltip-pos]` attribute) and
+`.sp-tooltip--visible` are a separate, older Tooltip implementation. They
+remain fully supported and their behavior is unchanged, but they will not
+receive new variants. Prefer `.sp-tooltip` above for new work.
+
+---
+Source: `src/modules/overlay/sparta-tooltip.css`
