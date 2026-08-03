@@ -28,6 +28,7 @@
     --sp-bg-surface: #252629;
     --sp-bg-elevated: #2f3033;
     --sp-bg-overlay: #000000b8;
+    --sp-bg-inverse: #111;
     --sp-text-primary: #ececec;
     --sp-text-secondary: #b8b8b8;
     --sp-text-muted: #8a8a8a;
@@ -2933,13 +2934,19 @@
     line-height: var(--sp-leading-snug);
     white-space: nowrap;
     color: var(--sp-text-inverse);
+    background: var(--sp-bg-inverse);
     border-radius: var(--sp-radius-md);
     box-shadow: var(--sp-shadow-md);
     pointer-events: none;
     opacity: 0;
     transition: opacity var(--sp-duration-fast) var(--sp-ease);
-    background: #111;
     position: absolute;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sp-tooltip__text {
+      transition: none;
+    }
   }
 
   .sp-tooltip:hover .sp-tooltip__text, .sp-tooltip:focus-within .sp-tooltip__text {

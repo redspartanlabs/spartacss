@@ -100,9 +100,15 @@
 
 }
 
-/* Legacy structural-extension rules (previously in the monolith's
-   STRUCTURAL EXTENSIONS section) — kept unlayered exactly as before,
-   not yet consolidated with the block above. */
+/* FROZEN — legacy API, frozen for backward compatibility.
+   `.sp-accordion__header`/`.sp-accordion__icon` above (the @layer
+   components block) is the supported and documented Accordion API as
+   of 0.6.0 — see docs/accordion.md. `.sp-accordion__trigger` and
+   `.sp-accordion__content--animated` below are a separate, older
+   implementation of the same concept, kept unlayered exactly as
+   before. Not removed, not modified, will not receive new variants
+   going forward — same convention as the frozen `.sp-flex`/atomic
+   utilities from 0.4.0. */
 
 .sp-accordion__trigger {
   display: flex;

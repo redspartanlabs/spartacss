@@ -41,6 +41,13 @@
     --sp-bg-surface: #252629;
     --sp-bg-elevated: #2f3033;
     --sp-bg-overlay: rgba(0, 0, 0, 0.72);
+    /* Theme-invariant, like --sp-text-inverse below: every --sp-bg-*
+       token above flips per theme, but inverse-context UI (currently:
+       Tooltip's surface, which always pairs with --sp-text-inverse)
+       needs a background that stays dark regardless of the active
+       theme so the inverse text stays legible. Not overridden in the
+       [data-theme] blocks below, by design. */
+    --sp-bg-inverse: #111111;
 
     /* Text */
     --sp-text-primary: #ececec;

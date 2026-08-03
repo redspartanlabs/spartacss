@@ -6,6 +6,60 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [0.6.0] - 2026-08-02
+
+### Added
+
+- `--sp-bg-inverse` in `sparta-tokens.css` — a theme-invariant surface
+  token (`:root` only, not overridden per theme), mirroring the existing
+  theme-invariant `--sp-text-inverse`. Needed because every other
+  `--sp-bg-*` token flips per theme, but inverse-context UI (Tooltip's
+  surface) needs a background that stays dark regardless of the active
+  theme so its `--sp-text-inverse` text stays legible. Verified no
+  existing token already covered this before adding it.
+- `docs/tooltip.md`, `docs/accordion.md`, `docs/modal.md` — the first
+  usage documentation for these three components, each naming the
+  supported and documented selector set and pointing at its frozen
+  legacy counterpart.
+
+### Changed
+
+- `.sp-tooltip__text` (`sparta-tooltip.css`) now sources its background
+  from `--sp-bg-inverse` instead of a hardcoded `#111111` literal.
+  Value-for-value substitution only — no visual change in either theme,
+  since the supported tooltip API never varied by theme to begin with.
+- `.sp-tooltip__text` now respects `prefers-reduced-motion: reduce`,
+  disabling its show/hide transition — ported from the legacy
+  `[data-tooltip]` implementation, which already had this and the
+  supported one didn't.
+- `.sp-tooltip`/`.sp-tooltip__text`, `.sp-accordion__header`/
+  `.sp-accordion__icon`, and `.sp-modal__overlay`/`.sp-modal__content`
+  are now explicitly designated the supported, documented API for
+  Tooltip, Accordion, and Modal respectively. Their legacy counterparts
+  (`[data-tooltip]`/`.sp-tooltip--visible`, `.sp-accordion__trigger`/
+  `.sp-accordion__content--animated`, `.sp-modal-backdrop`/
+  `.sp-modal__dialog`) are now explicitly marked frozen in source
+  comments — same convention as `.sp-flex`/atomic utilities since
+  `0.4.0`. This closes debt named at extraction (see `0.2.0`'s
+  "Unchanged (verified)" section and ADR-0001) but never resolved.
+
+### Unchanged (verified)
+
+- No legacy selector was removed, renamed, or had its computed output
+  changed. `[data-tooltip]`, `.sp-tooltip--visible`,
+  `.sp-accordion__trigger`, `.sp-accordion__content--animated`,
+  `.sp-modal-backdrop`, and `.sp-modal__dialog` render identically to
+  `0.5.0` — confirmed via baseline diff showing zero lines touched in
+  any of their rules.
+- No new components. No `.sp-sidebar` work — still deferred per `0.5.0`.
+- Modal's legacy-only `--closing` exit-transition state was not ported
+  to the supported and documented API — a real feature gap, but out of
+  scope for this consolidation release; tracked as future work.
+- Accordion's legacy `::after`-mask chevron approach was not ported to
+  the supported and documented API — a design choice (DOM child vs.
+  pseudo-element icon), not a bug.
+- No JavaScript shipped.
+
 ## [0.5.0] - 2026-07-30
 
 ### Added
