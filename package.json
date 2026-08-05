@@ -1,13 +1,20 @@
 {
   "name": "@redspartanlabs/spartacss",
-  "version": "0.2.0",
-  "private": true,
-  "description": "SpartaCSS — RedSpartan Labs design system",
+  "version": "0.7.0",
+  "description": "A framework-agnostic CSS design system built for systems that must last.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/redspartanlabs/spartacss.git"
   },
+  "homepage": "https://github.com/redspartanlabs/spartacss#readme",
+  "keywords": [
+    "css",
+    "design-system",
+    "framework-agnostic",
+    "frontend",
+    "web-development"
+  ],
   "files": [
     "dist",
     "LICENSE",

@@ -1,18 +1,20 @@
 # SpartaCSS
 
-SpartaCSS is RedSpartan Labs' independent, reusable design system — design
+A framework-agnostic CSS design system built for systems that must last.
+
+SpartaCSS is RedSpartan Labs' framework-agnostic design system — design
 tokens, a base reset/layout layer, a core set of UI components, an icon
 system, and a notifications feature module. It's pure CSS: no JavaScript,
 no framework bindings, usable from any site or app regardless of stack.
 
 **Status:** core, icon system, and notifications module are all extracted
-and buildable. The package is pre-release (currently `0.1.0`, private) and
-not yet published to any registry — per ADR-0001's phased distribution
-plan, it's currently consumed via a tag-pinned git dependency (see
-Installation below). See `docs/adr/0001-package-architecture.md` for the
-architecture this repository is being built against, `CHANGELOG.md` for
-release history, and `docs/extraction-plan.md` for the original extraction's
-status and inventory detail.
+and buildable. The package is at `0.7.0` and not yet published to any
+registry — per ADR-0001's phased distribution plan, it's currently consumed
+via a tag-pinned git dependency (see Installation below). See
+`docs/adr/0001-package-architecture.md` for the architecture this
+repository is being built against, `CHANGELOG.md` for release history, and
+`docs/extraction-plan.md` for the original extraction's status and
+inventory detail.
 
 ## Installation
 

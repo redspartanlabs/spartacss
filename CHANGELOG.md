@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [0.7.0] - 2026-08-04
+
+### Changed
+
+- Package maturity work: `package.json` `version` bumped `0.2.0` → `0.7.0`.
+- `package.json` `description` replaced with a framework-agnostic tagline:
+  "A framework-agnostic CSS design system built for systems that must
+  last."
+- Removed `"private": true` from `package.json` — SpartaCSS is now intended
+  for public npm distribution rather than being flagged as an internal
+  package.
+
+### Added
+
+- `homepage` field in `package.json`, pointing at the repository's README.
+- `keywords` field in `package.json` (`css`, `design-system`,
+  `framework-agnostic`, `frontend`, `web-development`) for registry
+  discoverability.
+
 ## [0.6.0] - 2026-08-02
 
 ### Added
@@ -225,6 +244,11 @@ per ADR-0001.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/redspartanlabs/spartacss/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/redspartanlabs/spartacss/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/redspartanlabs/spartacss/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/redspartanlabs/spartacss/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/redspartanlabs/spartacss/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/redspartanlabs/spartacss/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/redspartanlabs/spartacss/releases/tag/v0.1.0
