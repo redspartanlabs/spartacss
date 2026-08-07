@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [0.8.0] - 2026-08-06
+
+### Added
+
+- Foundation documentation:
+  - `docs/tokens.md` — token naming conventions, the color system,
+    typography tokens, the spacing scale, and reference-vs-override
+    guidance.
+  - `docs/motion.md` — transition tokens, the animation layer, and the
+    `prefers-reduced-motion` contract.
+  - `docs/accessibility.md` — CSS vs. JavaScript responsibility, keyboard
+    and focus expectations, ARIA responsibility boundaries, and semantic
+    HTML expectations.
+- Component documentation, using the established consumer-facing template
+  (Purpose, Usage, Class API, Variants, State modifiers, Accessibility,
+  Source reference):
+  - `docs/button.md`
+  - `docs/forms.md`
+  - `docs/card.md`
+  - `docs/badge.md`
+  - `docs/alert.md`
+
+### Changed
+
+- Documentation is now organized around a clear separation of concerns:
+  repository Markdown as the source of truth, foundation guidance (tokens,
+  motion, accessibility) separated from component API usage, and
+  accessibility responsibilities documented centrally rather than repeated
+  per component.
+
 ## [0.7.0] - 2026-08-04
 
 ### Changed
@@ -244,7 +274,8 @@ per ADR-0001.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/redspartanlabs/spartacss/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/redspartanlabs/spartacss/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/redspartanlabs/spartacss/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/redspartanlabs/spartacss/compare/v0.4.0...v0.5.0
