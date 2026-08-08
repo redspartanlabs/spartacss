@@ -8,7 +8,7 @@ system, and a notifications feature module. It's pure CSS: no JavaScript,
 no framework bindings, usable from any site or app regardless of stack.
 
 **Status:** core, icon system, and notifications module are all extracted
-and buildable. The package is at `0.7.0` and not yet published to any
+and buildable. The package is at `0.9.2` and not yet published to any
 registry — per ADR-0001's phased distribution plan, it's currently consumed
 via a tag-pinned git dependency (see Installation below). See
 `docs/adr/0001-package-architecture.md` for the architecture this

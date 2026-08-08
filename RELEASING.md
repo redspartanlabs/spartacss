@@ -27,6 +27,19 @@ releases (see `CHANGELOG.md`'s `0.9.1` entry).
    documentation or a small fix — it must not be skipped regardless of
    how small the release is.
 
+   Immediately after updating `package.json`, synchronize
+   `package-lock.json`'s root `"version"` fields (it appears twice — the
+   top-level field and the `""` entry under `"packages"`) to the same
+   release version. `npm install --package-lock-only` (or a normal
+   `npm install`) can be used to synchronize the lockfile; review the
+   resulting diff for any unintended dependency changes before
+   committing it — only the version fields should change.
+
+   Also check for stale prose version references outside
+   `package.json`/`CHANGELOG.md` — `README.md` in particular has drifted
+   before and should always be checked (e.g.
+   `grep -n "is at \`" README.md`).
+
 4. **Update `CHANGELOG.md`.** Add a new `## [x.y.z] - YYYY-MM-DD` section
    describing the actual changes, and update the link-reference footer:
    `[Unreleased]` should point to `vX.Y.Z...HEAD`, and a new `[X.Y.Z]`
@@ -78,8 +91,9 @@ releases (see `CHANGELOG.md`'s `0.9.1` entry).
 
 ## Non-negotiable agreement check
 
-Before publishing (step 14), `package.json`'s `version`, the new
-`CHANGELOG.md` entry's version heading, the git tag name, and the GitHub
-release's tag must all read the **same version number**. If any of the
-four disagree, stop and fix the mismatch before proceeding — do not
-publish a release where these are inconsistent.
+Before publishing (step 14), `package.json`'s `version`,
+`package-lock.json`'s `version`, the new `CHANGELOG.md` entry's version
+heading, the git tag name, and the GitHub release's tag must all read
+the **same version number**. If any of the five disagree, stop and fix
+the mismatch before proceeding — do not publish a release where these
+are inconsistent.
