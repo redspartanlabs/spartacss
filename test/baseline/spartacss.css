@@ -606,6 +606,97 @@
 }
 
 @layer components {
+  :root {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sp-border) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--sp-border);
+    border-radius: var(--sp-radius-full);
+    background-clip: padding-box;
+    border: 2px solid #0000;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--sp-border-light);
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background: var(--sp-border-strong);
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: none;
+  }
+
+  .sp-select-wrapper .sp-select-icon {
+    color: var(--sp-text-muted);
+  }
+
+  .sp-select:focus ~ .sp-select-icon, .sp-select:hover ~ .sp-select-icon {
+    color: var(--sp-text-secondary);
+  }
+
+  .sp-accordion__icon {
+    color: var(--sp-text-muted);
+  }
+
+  .sp-accordion__item--open .sp-accordion__icon {
+    color: var(--sp-color-primary);
+  }
+
+  .sp-accordion__trigger:after {
+    color: var(--sp-text-muted);
+  }
+
+  .sp-accordion__item--open .sp-accordion__trigger:after {
+    color: var(--sp-color-primary);
+  }
+
+  .sp-modal__close {
+    color: var(--sp-text-muted);
+  }
+
+  .sp-modal__close:hover {
+    color: var(--sp-color-primary);
+  }
+
+  .sp-drawer__close {
+    color: var(--sp-text-muted);
+  }
+
+  .sp-drawer__close:hover {
+    color: var(--sp-color-primary);
+  }
+
+  .sp-navbar__toggle {
+    color: var(--sp-text-secondary);
+  }
+
+  .sp-navbar__toggle:hover {
+    color: var(--sp-color-primary);
+  }
+
+  .sp-chip__remove {
+    color: inherit;
+  }
+
+  .sp-alert__icon {
+    color: currentColor;
+  }
+
   .sp-button {
     justify-content: center;
     align-items: center;
@@ -3917,97 +4008,6 @@
       white-space: pre-wrap;
     }
   }
-}
-
-:root {
-  scrollbar-width: thin;
-  scrollbar-color: var(--sp-border) transparent;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: none;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--sp-border);
-  border-radius: var(--sp-radius-full);
-  background-clip: padding-box;
-  border: 2px solid #0000;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--sp-border-light);
-  background-clip: padding-box;
-}
-
-::-webkit-scrollbar-thumb:active {
-  background: var(--sp-border-strong);
-  background-clip: padding-box;
-}
-
-::-webkit-scrollbar-corner {
-  background: none;
-}
-
-.sp-select-wrapper .sp-select-icon {
-  color: var(--sp-text-muted);
-}
-
-.sp-select:focus ~ .sp-select-icon, .sp-select:hover ~ .sp-select-icon {
-  color: var(--sp-text-secondary);
-}
-
-.sp-accordion__icon {
-  color: var(--sp-text-muted);
-}
-
-.sp-accordion__item--open .sp-accordion__icon {
-  color: var(--sp-color-primary);
-}
-
-.sp-accordion__trigger:after {
-  color: var(--sp-text-muted);
-}
-
-.sp-accordion__item--open .sp-accordion__trigger:after {
-  color: var(--sp-color-primary);
-}
-
-.sp-modal__close {
-  color: var(--sp-text-muted);
-}
-
-.sp-modal__close:hover {
-  color: var(--sp-color-primary);
-}
-
-.sp-drawer__close {
-  color: var(--sp-text-muted);
-}
-
-.sp-drawer__close:hover {
-  color: var(--sp-color-primary);
-}
-
-.sp-navbar__toggle {
-  color: var(--sp-text-secondary);
-}
-
-.sp-navbar__toggle:hover {
-  color: var(--sp-color-primary);
-}
-
-.sp-chip__remove {
-  color: inherit;
-}
-
-.sp-alert__icon {
-  color: currentColor;
 }
 
 @keyframes sp-spin {

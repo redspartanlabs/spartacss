@@ -2,6 +2,13 @@
    GLOBAL SCROLLBAR STYLING
    ============================================================ */
 
+/* Restored to the same @layer components membership every other
+   component/module file already uses (see @layer sparta.css) — the
+   same correction applied to sparta-icons.css and
+   sparta-notifications.css in 0.9.1. No selector, declaration,
+   value, or ordering below changed as part of this correction. */
+@layer components {
+
 :root {
   scrollbar-width: thin;
   scrollbar-color: var(--sp-border) transparent;
@@ -92,4 +99,6 @@
 
 .sp-alert__icon {
   color: currentColor;
+}
+
 }

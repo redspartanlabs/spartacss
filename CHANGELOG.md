@@ -6,6 +6,64 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [0.9.2] - 2026-08-07
+
+### Fixed
+
+- Restored `@layer components` placement for `src/core/sparta-utilities.css`,
+  the same correction applied to the icons and notifications modules in
+  `0.9.1`. This file was unlayered with no documented rationale; two of
+  its selectors (`.sp-navbar__toggle`, `.sp-alert__icon`) are the sole
+  source of that property for their component, making this the same
+  category of undocumented cascade-precedence gap ADR-0002 was written
+  to close. No selector, declaration, value, or ordering changed — only
+  cascade-layer membership was corrected.
+- `package.json` `version` corrected to `0.9.2`. The `0.9.1` release was
+  published with `package.json` still reading `"version": "0.9.0"` — a
+  release-process metadata error (see the `0.9.1` entry below). This
+  release restores agreement between the package version, the CHANGELOG,
+  the git tag, and the GitHub release, per `RELEASING.md`.
+
+### Added
+
+- `RELEASING.md` — the operational release checklist, kept separate from
+  `docs/adr/0002-versioning-and-stability-policy.md` (which defines what
+  counts as a breaking change, not how to execute a release).
+
+## [0.9.1] - 2026-08-07
+
+### Fixed
+
+- Restored `@layer components` placement for `sparta-icons.css` and
+  `sparta-notifications.css`. Both modules were unlayered from
+  extraction through `0.9.0` — an undocumented oversight, not a
+  deliberate design choice (the pre-extraction monolith's rules
+  originated inside `@layer components`; see `docs/extraction-plan.md`).
+  No selector, declaration, value, or ordering changed — only
+  cascade-layer membership was corrected.
+- Added the missing `--sp-shadow-xl` design token. It was referenced by
+  the Confirm/Dialog component's `box-shadow` but never defined, which
+  silently dropped the shadow entirely. The token now resolves correctly
+  across the default, light, and dark themes.
+
+### Added
+
+- `Source:` footers to `docs/app-shell.md`, `docs/layout.md`, and
+  `docs/theming.md`, bringing them in line with the documentation
+  convention established in `0.8.0`/`0.9.0`.
+- `docs/adr/0002-versioning-and-stability-policy.md` — defines what
+  constitutes a breaking change for SpartaCSS ahead of `1.0.0`, using
+  the `@layer` correction above as its founding precedent.
+
+### Known issue
+
+- This release was published with `package.json` still reading
+  `"version": "0.9.0"` instead of `0.9.1` — a release-process metadata
+  error, not a CSS API change. The published `v0.9.1` git tag and GitHub
+  release are unaffected and remain the authoritative historical
+  artifacts for this version; they have not been modified. The version
+  field was corrected in `0.9.2`.
+
 ## [0.9.0] - 2026-08-07
 
 ### Added
@@ -320,7 +378,9 @@ per ADR-0001.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.9.2...HEAD
+[0.9.2]: https://github.com/redspartanlabs/spartacss/compare/v0.9.1...v0.9.2
+[0.9.1]: https://github.com/redspartanlabs/spartacss/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/redspartanlabs/spartacss/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/redspartanlabs/spartacss/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/redspartanlabs/spartacss/compare/v0.6.0...v0.7.0
