@@ -78,6 +78,7 @@
     --sp-shadow-sm: 0 1px 3px #00000080, 0 1px 2px #0006;
     --sp-shadow-md: 0 4px 8px #0000008c, 0 2px 4px #0006;
     --sp-shadow-lg: 0 10px 20px #0009, 0 4px 8px #00000073;
+    --sp-shadow-xl: 0 20px 40px #000000a6, 0 8px 16px #00000080;
     --sp-shadow-focus: 0 0 0 3px #b71c4659;
     --sp-duration-fast: .1s;
     --sp-duration-base: .16s;
@@ -123,6 +124,7 @@
     --sp-shadow-sm: 0 1px 3px #0000001a, 0 1px 2px #00000014;
     --sp-shadow-md: 0 4px 8px #0000001f, 0 2px 4px #00000014;
     --sp-shadow-lg: 0 10px 20px #00000026, 0 4px 8px #0000001a;
+    --sp-shadow-xl: 0 20px 40px #0000002e, 0 8px 16px #0000001f;
   }
 
   [data-theme="dark"], .sp-dark {
@@ -140,6 +142,7 @@
     --sp-shadow-sm: 0 1px 3px #00000080, 0 1px 2px #0006;
     --sp-shadow-md: 0 4px 8px #0000008c, 0 2px 4px #0006;
     --sp-shadow-lg: 0 10px 20px #0009, 0 4px 8px #00000073;
+    --sp-shadow-xl: 0 20px 40px #000000a6, 0 8px 16px #00000080;
   }
 }
 

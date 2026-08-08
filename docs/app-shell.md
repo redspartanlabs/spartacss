@@ -91,3 +91,6 @@ shell and a sidebar shell are different layout problems; building both in
 one release would have coupled them unnecessarily. The `.sp-sidebar`
 reference in `sparta-accessibility.css`'s print rule remains unimplemented
 and is tracked as known, deferred debt — not resolved by this release.
+
+---
+Source: `src/components/sparta-navbar.css`, `src/patterns/sparta-app-shell.css`

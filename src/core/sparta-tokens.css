@@ -130,6 +130,8 @@
     --sp-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.4);
     --sp-shadow-lg:
       0 10px 20px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.45);
+    --sp-shadow-xl:
+      0 20px 40px rgba(0, 0, 0, 0.65), 0 8px 16px rgba(0, 0, 0, 0.5);
     --sp-shadow-focus: 0 0 0 3px rgba(183, 28, 70, 0.35);
 
     /* Transitions */
@@ -291,6 +293,8 @@
       0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
     --sp-shadow-lg:
       0 10px 20px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+    --sp-shadow-xl:
+      0 20px 40px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.12);
   }
 
   [data-theme="dark"],
@@ -314,6 +318,8 @@
       0 4px 8px rgba(0, 0, 0, 0.55), 0 2px 4px rgba(0, 0, 0, 0.4);
     --sp-shadow-lg:
       0 10px 20px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.45);
+    --sp-shadow-xl:
+      0 20px 40px rgba(0, 0, 0, 0.65), 0 8px 16px rgba(0, 0, 0, 0.5);
   }
 }
 

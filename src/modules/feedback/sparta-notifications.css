@@ -7,6 +7,15 @@
    Requires: spartacss.css (core tokens)
    ============================================================ */
 
+/* Restored to the same @layer components membership every other
+   component/module file already uses (see @layer sparta.css). This
+   module's rules were unlayered from extraction through 0.9.0 —
+   an oversight, not a deliberate design choice (the pre-extraction
+   monolith's Toast rules originated inside @layer components; see
+   docs/extraction-plan.md). No selector, declaration, value, or
+   ordering below changed as part of this correction. */
+@layer components {
+
 /* ----------------------------------------------------------
    TOAST — transient, auto-dismissing notifications
    ---------------------------------------------------------- */
@@ -593,4 +602,6 @@
     animation: none;
     width: 0%;
   }
+}
+
 }

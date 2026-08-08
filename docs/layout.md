@@ -89,3 +89,6 @@ don't resolve `var()`; this document is the single source of truth for them.
 as of `0.4.0`. They remain fully supported for backward compatibility and
 their behavior is unchanged, but they will not receive new variants. Prefer
 the four primitives above for new layout work.
+
+---
+Source: `src/core/sparta-layout.css`

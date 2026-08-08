@@ -44,6 +44,9 @@ clarity/symmetry with the light-mode opt-in.
 
 Only surface, text, border, and shadow tokens change between themes
 (`--sp-bg-*`, `--sp-text-*`, `--sp-border`/`--sp-border-light`/`--sp-border-strong`,
-`--sp-shadow-sm`/`--sp-shadow-md`/`--sp-shadow-lg`). Brand and semantic colors
+`--sp-shadow-sm`/`--sp-shadow-md`/`--sp-shadow-lg`/`--sp-shadow-xl`). Brand and semantic colors
 (`--sp-color-primary`, `--sp-color-error`, etc.), `--sp-border-focus`, and
 `--sp-shadow-focus` are constant across both themes by design.
+
+---
+Source: `src/core/sparta-tokens.css`
