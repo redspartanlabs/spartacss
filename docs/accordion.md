@@ -60,7 +60,11 @@ shipped. The consumer is responsible for:
   expanded/collapsed state to assistive technology.
 
 `.sp-accordion__header` is a real `<button>`, so it's keyboard-focusable
-and activatable by default without any extra markup.
+and activatable by default without any extra markup. The open/close
+transition respects the shared reduced-motion contract documented
+canonically in [`motion.md`](./motion.md); see
+[`accessibility.md`](./accessibility.md) for the full CSS vs. JavaScript
+responsibility contract this state-modifier pattern follows.
 
 ## Legacy: `.sp-accordion__trigger`
 

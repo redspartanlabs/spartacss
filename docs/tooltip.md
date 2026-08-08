@@ -41,7 +41,11 @@ Placement modifiers go on `.sp-tooltip`, not on `.sp-tooltip__text`.
   by keyboard, not just mouse.
 - `prefers-reduced-motion: reduce` disables the show/hide transition for
   users who have that OS preference set; the tooltip still appears and
-  disappears, just without motion.
+  disappears, just without motion. This follows SpartaCSS's global
+  reduced-motion contract — see [`motion.md`](./motion.md) for the
+  canonical explanation, and
+  [`accessibility.md`](./accessibility.md) for the full CSS vs.
+  JavaScript responsibility contract.
 
 ## Legacy: `[data-tooltip]`
 

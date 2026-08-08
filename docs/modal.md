@@ -51,9 +51,18 @@ SpartaCSS ships no JavaScript. `.sp-modal--open` is a plain state
 modifier that your own script adds to `.sp-modal` — the same convention
 used by `.sp-accordion__item--open` and `.sp-navbar--open`.
 
+`.sp-modal--closing` (added to `.sp-modal` alongside `--open`) plays an
+exit transition on `.sp-modal__overlay`/`.sp-modal__content` — fading the
+overlay and reversing `__content`'s entrance transform/opacity. Use it
+when you want the exit animation to finish playing before your script
+removes `--open` (and, typically, the modal from the DOM) — add
+`--closing`, wait for the transition to complete, then remove both
+`--open` and `--closing`.
+
 `prefers-reduced-motion: reduce` disables the open/close opacity and
 transform transitions; the modal still appears/disappears, just without
-motion.
+motion. This follows SpartaCSS's global reduced-motion contract — see
+[`motion.md`](./motion.md) for the canonical explanation.
 
 ## Accessibility
 
@@ -68,16 +77,17 @@ The consumer's own script is responsible for managing focus (moving it
 into the dialog on open and restoring it on close), wiring up `Escape`
 and backdrop-click handling if desired, and setting the appropriate
 `aria-*` attributes (e.g. `role="dialog"`, `aria-modal="true"`,
-`aria-labelledby` pointing at `.sp-modal__title`).
+`aria-labelledby` pointing at `.sp-modal__title`). See
+[`accessibility.md`](./accessibility.md) for the full CSS vs. JavaScript
+responsibility contract this follows.
 
 ## Legacy: `.sp-modal-backdrop` / `.sp-modal__dialog`
 
 `.sp-modal-backdrop` and `.sp-modal__dialog` are a separate, older Modal
-implementation. Notably, this legacy API has a `.sp-modal--closing`
-exit-transition state that the supported and documented API above does
-not — useful to know if you're deciding whether to migrate. The legacy
-selectors remain fully supported and their behavior is unchanged, but
-they will not receive new variants. Prefer
+implementation. Both APIs now support a `.sp-modal--closing` exit
+transition (the supported API gained this in `0.9.0`, closing a previous
+parity gap). The legacy selectors remain fully supported and their
+behavior is unchanged, but they will not receive new variants. Prefer
 `.sp-modal__overlay`/`.sp-modal__content` above for new work.
 
 ---

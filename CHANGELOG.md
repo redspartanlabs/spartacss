@@ -6,6 +6,52 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [0.9.0] - 2026-08-07
+
+### Added
+
+- Component and module documentation completing the coverage started in
+  `0.8.0`, using the established consumer-facing template and the
+  combine-when-shared-source-file convention:
+  - `docs/drawer.md` — including the `.sp-backdrop` relationship and the
+    consumer responsibility around toggling it alongside `--open`.
+  - `docs/dropdown.md`
+  - `docs/table.md`
+  - `docs/tabs.md`
+  - `docs/pagination.md`
+  - `docs/breadcrumbs.md`
+  - `docs/stat.md`
+  - `docs/avatar.md` (`.sp-avatar` + `.sp-avatar-group`)
+  - `docs/progress.md` (Spinner, Progress Bar, and Skeleton)
+  - `docs/list.md`
+  - `docs/link.md`
+  - `docs/divider.md`
+  - `docs/kbd.md`
+  - `docs/empty-state.md`
+  - `docs/code.md` (inline code, code blocks, and syntax tokens)
+  - `docs/page-header.md`
+  - `docs/icons.md`
+  - `docs/notifications.md` (Toast, Alert Banner, and Confirm/Dialog)
+- `--sp-ease-in` and `--sp-ease-back` in `sparta-tokens.css` — previously
+  referenced by the notifications module's Toast exit, Dialog overlay
+  exit, and Dialog entrance animations but never defined, which silently
+  dropped all three animations. Purely additive; no existing token
+  changed.
+- `.sp-modal--closing` support for the supported Modal API
+  (`.sp-modal__overlay` / `.sp-modal__content`), mirroring the exit
+  transition the frozen legacy API (`.sp-modal-backdrop` /
+  `.sp-modal__dialog`) already had — closing a parity gap named at
+  `0.6.0`. Legacy behavior is unchanged.
+
+### Changed
+
+- `docs/tooltip.md`, `docs/accordion.md`, `docs/modal.md` now link to
+  `docs/motion.md` and `docs/accessibility.md` for reduced-motion and
+  CSS-vs-JavaScript responsibility guidance instead of only stating it
+  inline.
+- `docs/modal.md` updated to reflect that `.sp-modal--closing` is now
+  supported by both the current and legacy Modal APIs.
+
 ## [0.8.0] - 2026-08-06
 
 ### Added
@@ -274,7 +320,8 @@ per ADR-0001.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/redspartanlabs/spartacss/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/redspartanlabs/spartacss/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/redspartanlabs/spartacss/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/redspartanlabs/spartacss/compare/v0.5.0...v0.6.0

@@ -1,6 +1,6 @@
 {
   "name": "@redspartanlabs/spartacss",
-  "version": "0.7.0",
+  "version": "0.9.0",
   "description": "A framework-agnostic CSS design system built for systems that must last.",
   "license": "Apache-2.0",
   "repository": {
