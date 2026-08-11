@@ -1,0 +1,123 @@
+SpartaCSS — Third-Party Icon Attribution (Transitional)
+========================================================
+
+Status: Temporary compliance measure. Not a permanent statement about
+SpartaCSS's iconography.
+
+Purpose
+-------
+
+This NOTICE exists solely to satisfy the attribution conditions of the
+MIT and ISC licenses for icon shapes currently shipping in
+`src/modules/icons/sparta-icons.css` and `src/core/sparta-tokens.css`
+that were found, on direct geometric comparison, to be derived from
+Feather Icons or Lucide.
+
+This document does NOT make that geometry permanently acceptable under
+RedSpartan's independent-iconography policy. Per
+[ADR-0003](docs/adr/0003-independent-iconography-system.md), RedSpartan
+maintains an independent, original iconography system; the icons listed
+below are third-party-derived shapes awaiting replacement, not an
+endorsed part of that system. Each entry below is removed from this file
+in the same change that integrates that icon's independently constructed
+replacement into production. This file is expected to shrink to nothing
+and then be deleted.
+
+If a later provenance investigation confirms additional third-party
+origin among the icons currently classified "unverified/presumed" in
+[`docs/design/icon-provenance-inventory.md`](docs/design/icon-provenance-inventory.md),
+those icons must be added here until they too are replaced.
+
+See also: [`docs/design/icon-provenance-inventory.md`](docs/design/icon-provenance-inventory.md)
+for the full classification and evidence behind every entry below.
+
+--------------------------------------------------------------------------
+
+Icons derived from Feather Icons (MIT License)
+-----------------------------------------------
+
+The following SpartaCSS icon names currently ship geometry confirmed, by
+direct path-data comparison, to be derived from Feather Icons
+(https://github.com/feathericons/feather):
+
+  external-link, trending-up, trending-down, award, paper-clip, send,
+  image, rss, file-text, list-view, chart-bar, table-2
+
+(`table-2` is sourced from the Lucide repository but is itself classified
+by Lucide's own LICENSE file as derived from Feather; it is MIT-licensed
+under Feather's terms, not Lucide's ISC terms — see the `shield-check`
+note below for the one icon that mixes both.)
+
+The MIT License (MIT)
+
+Copyright (c) 2013-2023 Cole Bemis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------
+
+Icons derived from Lucide (ISC License)
+-----------------------------------------
+
+The following SpartaCSS icon name currently ships geometry confirmed, by
+direct path-data comparison, to be derived from Lucide
+(https://github.com/lucide-icons/lucide), and is a Lucide-original icon
+(not one of Lucide's own Feather-derived icons):
+
+  drag-handle (sourced from Lucide's "grip-vertical")
+
+ISC License
+
+Copyright (c) 2026 Lucide Icons and Contributors
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+--------------------------------------------------------------------------
+
+Dual-source icon: shield-check
+--------------------------------
+
+SpartaCSS's `shield-check` icon is a composite: its outer shield body is
+confirmed derived from Feather's own `shield` icon (MIT, Cole Bemis —
+license text above); its inner checkmark is confirmed derived from
+Lucide's current `shield-check` icon, which is a Lucide-original glyph,
+not one of Lucide's Feather-derived icons (ISC, Lucide Icons and
+Contributors — license text above). Both license blocks above apply to
+this single icon, covering its two components separately.
+
+--------------------------------------------------------------------------
+
+Removal condition
+------------------
+
+Each entry in this file is to be deleted at the time its named icon's
+independently constructed RedSpartan replacement (per
+[`docs/design/icon-standard.md`](docs/design/icon-standard.md)) is
+integrated into `src/`. When every entry has been removed, this file is
+to be deleted entirely rather than kept as an empty placeholder.
