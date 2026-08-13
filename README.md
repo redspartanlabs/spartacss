@@ -8,7 +8,7 @@ system, and a notifications feature module. It's pure CSS: no JavaScript,
 no framework bindings, usable from any site or app regardless of stack.
 
 **Status:** core, icon system, and notifications module are all extracted
-and buildable. The package is at `0.9.2` and not yet published to any
+and buildable. The package is at `1.0.0` and not yet published to any
 registry — per ADR-0001's phased distribution plan, it's currently consumed
 via a tag-pinned git dependency (see Installation below). See
 `docs/adr/0001-package-architecture.md` for the architecture this
@@ -77,10 +77,10 @@ engine).
 @import "@redspartanlabs/spartacss/dist/sparta-icons.css";
 ```
 
-**Dependency note:** most icons are fully self-contained, but 8 of the 86
+**Dependency note:** most icons are fully self-contained, but 9 of the 86
 (`x`, `chevron-down`, `check`, `trending-up`/`down`, `arrow-right`,
 `external-link`, `sort-asc`/`desc`) source their shape from custom
-properties defined in the core stylesheet's tokens layer. Those 8 will not
+properties defined in the core stylesheet's tokens layer. Those 9 will not
 render if the icon module is loaded without core.
 
 ### Notifications module
@@ -99,7 +99,7 @@ loaded for this module to render correctly at all.
 
 ```
 spartacss.css (core)          — no dependencies, always required
-  ├── sparta-icons.css         — optional; 8/86 icons need core's tokens
+  ├── sparta-icons.css         — optional; 9/86 icons need core's tokens
   └── sparta-notifications.css — optional; fully requires core's tokens
 ```
 

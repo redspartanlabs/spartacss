@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [1.0.0] - 2026-08-12
+
+### Changed
+
+- Replaced inherited Feather/Lucide geometry with original RedSpartan
+  construction, per [ADR-0003](docs/adr/0003-independent-iconography-system.md)
+  and [`docs/design/icon-standard.md`](docs/design/icon-standard.md), for
+  the 11 frozen foundational icons: `check`, `chevron-down`, `arrow-right`,
+  `sort-asc`, `sort-desc`, `x`, `plus`, `minus`, `search`, `settings`,
+  `user`. This includes the two consumers that source shared foundational
+  geometry outside the `.sp-icon-*` class system —
+  `--sp-icon-bg-check-white` (checkbox/list checkmark) and the local
+  `.sp-select` chevron in `sparta-form.css` — both now match their
+  respective frozen constructions.
+- **Visible identity change:** `settings` changed from a gear glyph to a
+  sliders glyph (three horizontal tracks with filled thumbs) as part of
+  the frozen-geometry replacement above. Consumers styling or measuring
+  the `.sp-icon-settings` shape specifically, rather than treating it as
+  an opaque icon, should verify their usage against the new construction.
+
 ## [0.9.2] - 2026-08-07
 
 ### Fixed
@@ -378,7 +398,8 @@ per ADR-0001.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v0.9.2...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/redspartanlabs/spartacss/compare/v0.9.2...v1.0.0
 [0.9.2]: https://github.com/redspartanlabs/spartacss/compare/v0.9.1...v0.9.2
 [0.9.1]: https://github.com/redspartanlabs/spartacss/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/redspartanlabs/spartacss/compare/v0.8.0...v0.9.0
