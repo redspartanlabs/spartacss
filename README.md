@@ -19,15 +19,20 @@ inventory detail.
 ## Installation
 
 Not yet published to a registry. Per the phased distribution plan in
-ADR-0001, once a version is tagged, install via a tag-pinned git dependency:
+ADR-0001, install via a tag-pinned git dependency:
 
 ```
-npm install github:redspartanlabs/spartacss#<tag>
+npm install github:redspartanlabs/spartacss#v1.0.0
 ```
 
 A registry-published `npm install @redspartanlabs/spartacss` will follow in
-a later phase, once a registry target is chosen. No tag exists yet — this
-section will be updated with a real tag once one is cut.
+a later phase, once a registry target is chosen.
+
+Git-tag installation delivers the prebuilt `dist/*.css` artifacts directly
+from the tagged release tree — installing does not run SpartaCSS's build,
+does not require Lightning CSS, and does not require SpartaCSS's build
+toolchain to be installed on the consumer's machine (see
+[ADR-0004](docs/adr/0004-git-tag-artifact-distribution.md)).
 
 ## Usage
 
@@ -144,10 +149,19 @@ directly in `src/spartacss.css`'s import list and can't drift silently if
 `dist/sparta-notifications.css` remain plain copies, unchanged.
 
 ```
-npm install   # also runs the build automatically (via "prepare")
-npm run build # bundle + minified variant of each entry point
-npm run clean # remove dist/
+npm install          # installs dependencies only — does not build dist/
+npm run build        # explicit maintainer/contributor step: bundle + minified variant of each entry point
+npm run clean        # remove dist/
+npm run verify       # check dist/spartacss.css against the committed baseline
+npm run verify:artifact # check every package.json "exports" entry resolves to a built dist/ file
 ```
+
+**Note on `lightningcss-cli`'s install script:** npm 12 blocks dependency
+install scripts by default. `lightningcss-cli`'s postinstall script (which
+stages its platform-specific binary) is explicitly approved via
+`package.json`'s version-pinned `allowScripts` entry; bumping the
+`lightningcss-cli` version requires re-approving it with
+`npm install-scripts approve lightningcss-cli`.
 
 Minification uses [Lightning CSS](https://lightningcss.dev/) exclusively —
 no PostCSS, no Sass, no additional build abstraction. No browser-compatibility

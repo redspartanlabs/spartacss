@@ -21,6 +21,7 @@ Ownership separation matters because shared infrastructure that lives inside a s
 5. **Toast belongs to the notifications module.** It is the canonical Toast API; a duplicate Toast implementation found in the core layer is legacy duplication, removed as cleanup during initial packaging, with no public class renamed and no behavior changed.
 6. **Versioning follows semver.** The initial release represents the existing source, extracted with only the Toast cleanup (Decision 5) as a content change; breaking changes require a major version bump.
 7. **Distribution is phased.** Initially, consumers depend on a fixed, tag-pinned reference to the package; a registry-published release follows once a distribution target is chosen.
+   See [ADR-0004](0004-git-tag-artifact-distribution.md) for what the tag-pinned reference concretely contains.
 
 **Licensing:** SpartaCSS is licensed under the Apache License 2.0. RedSpartan Labs retains ownership of branding, trademarks, and project identity separately from the license grant.
 

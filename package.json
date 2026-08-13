@@ -35,14 +35,17 @@
     "./sparta-all.min.css": "./dist/sparta-all.min.css"
   },
   "scripts": {
-    "clean": "rm -rf dist",
-    "build:bundle": "mkdir -p dist && lightningcss --bundle src/sparta.css -o dist/sparta.css && lightningcss --bundle src/spartacss.css -o dist/spartacss.css && lightningcss --bundle src/sparta-all.css -o dist/sparta-all.css && cp src/modules/icons/sparta-icons.css dist/sparta-icons.css && cp src/modules/feedback/sparta-notifications.css dist/sparta-notifications.css",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build:bundle": "node -e \"require('fs').mkdirSync('dist',{recursive:true})\" && lightningcss --bundle src/sparta.css -o dist/sparta.css && lightningcss --bundle src/spartacss.css -o dist/spartacss.css && lightningcss --bundle src/sparta-all.css -o dist/sparta-all.css && node -e \"require('fs').copyFileSync('src/modules/icons/sparta-icons.css','dist/sparta-icons.css')\" && node -e \"require('fs').copyFileSync('src/modules/feedback/sparta-notifications.css','dist/sparta-notifications.css')\"",
     "build:minify": "lightningcss --bundle --minify src/sparta.css -o dist/sparta.min.css && lightningcss --bundle --minify src/spartacss.css -o dist/spartacss.min.css && lightningcss --bundle --minify src/sparta-all.css -o dist/sparta-all.min.css && lightningcss --minify src/modules/icons/sparta-icons.css -o dist/sparta-icons.min.css && lightningcss --minify src/modules/feedback/sparta-notifications.css -o dist/sparta-notifications.min.css",
     "build": "npm run build:bundle && npm run build:minify",
-    "verify": "bash scripts/verify-legacy-bundle.sh",
-    "prepare": "npm run build"
+    "verify": "node scripts/verify-legacy-bundle.mjs",
+    "verify:artifact": "node scripts/verify-release-artifact.mjs"
   },
   "devDependencies": {
     "lightningcss-cli": "^1.33.0"
+  },
+  "allowScripts": {
+    "lightningcss-cli@1.33.0": true
   }
 }
