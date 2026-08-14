@@ -8,7 +8,7 @@ system, and a notifications feature module. It's pure CSS: no JavaScript,
 no framework bindings, usable from any site or app regardless of stack.
 
 **Status:** core, icon system, and notifications module are all extracted
-and buildable. The package is at `1.0.0` and not yet published to any
+and buildable. The package is at `1.0.1` and not yet published to any
 registry — per ADR-0001's phased distribution plan, it's currently consumed
 via a tag-pinned git dependency (see Installation below). See
 `docs/adr/0001-package-architecture.md` for the architecture this
@@ -22,7 +22,7 @@ Not yet published to a registry. Per the phased distribution plan in
 ADR-0001, install via a tag-pinned git dependency:
 
 ```
-npm install github:redspartanlabs/spartacss#v1.0.0
+npm install github:redspartanlabs/spartacss#v1.0.1
 ```
 
 A registry-published `npm install @redspartanlabs/spartacss` will follow in

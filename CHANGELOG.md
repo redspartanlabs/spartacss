@@ -6,6 +6,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [1.0.1] - 2026-08-13
+
+### Fixed
+
+- Corrected the Git-tag distribution architecture: removed the `prepare`
+  lifecycle script so `npm install github:redspartanlabs/spartacss#<tag>`
+  no longer executes SpartaCSS's build on the consumer's machine. Release
+  tags now carry the prebuilt `dist/` artifacts directly (see
+  [ADR-0004](docs/adr/0004-git-tag-artifact-distribution.md)).
+- Replaced POSIX-only build/clean scripts (`rm -rf`, `mkdir -p`, `cp`) with
+  cross-platform Node equivalents, and replaced the Bash-only
+  `verify-legacy-bundle.sh` with `scripts/verify-legacy-bundle.mjs`, so the
+  maintainer build works under Windows `cmd.exe`, not only POSIX shells.
+- Added `.gitattributes` (`*.css text eol=lf`) so committed CSS artifacts
+  have stable line endings independent of the checkout platform's
+  `core.autocrlf` setting.
+
+### Added
+
+- `npm run verify:artifact` (`scripts/verify-release-artifact.mjs`), which
+  checks that every `package.json` `exports` entry resolves to a built,
+  non-empty `dist/` file — the mechanical release-artifact check
+  referenced by `RELEASING.md` and
+  [ADR-0004](docs/adr/0004-git-tag-artifact-distribution.md).
+- `allowScripts` in `package.json`, explicitly approving
+  `lightningcss-cli@1.33.0`'s install script under npm 12's
+  script-approval policy, so the maintainer build's Lightning CSS binary
+  stages correctly.
+
+This release changes SpartaCSS's build tooling and Git-tag distribution
+mechanism only. No public class selector, modifier, design token,
+markup contract, or `exports` entry point changed, and no shipped CSS
+output changed — a non-breaking, patch-level change per ADR-0002.
+
 ## [1.0.0] - 2026-08-12
 
 ### Changed
@@ -398,7 +432,8 @@ per ADR-0001.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/redspartanlabs/spartacss/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/redspartanlabs/spartacss/compare/v0.9.2...v1.0.0
 [0.9.2]: https://github.com/redspartanlabs/spartacss/compare/v0.9.1...v0.9.2
 [0.9.1]: https://github.com/redspartanlabs/spartacss/compare/v0.9.0...v0.9.1
