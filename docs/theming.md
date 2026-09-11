@@ -17,16 +17,19 @@ opt-in only — SpartaCSS will never silently switch to light mode on its own.
 Three states are possible, resolved in this order (later wins):
 
 1. **Default** — no `data-theme` attribute/class set. Renders **dark**,
-   regardless of OS/browser preference. This has been SpartaCSS's behavior
-   since `0.1.0` and remains unchanged in `0.3.0`.
+   regardless of OS/browser preference.
 2. **Explicit `data-theme="dark"` / `.sp-dark`** — renders dark. Equivalent
    to the default, but lets a consumer state the theme choice explicitly
-   rather than relying on the implicit default. New in `0.3.0`.
-3. **Explicit `data-theme="light"` / `.sp-light`** — renders light. Available
-   since `0.1.0`, unchanged.
+   rather than relying on the implicit default.
+3. **Explicit `data-theme="light"` / `.sp-light`** — renders light.
 
 There is no OS-preference-driven state. `prefers-color-scheme` is not read
 anywhere in SpartaCSS's tokens.
+
+All three states are part of the stable API under
+[ADR-0002](adr/0002-versioning-and-stability-policy.md) and none has changed
+since `1.0.0`. For when each was introduced, see
+[CHANGELOG.md](../CHANGELOG.md).
 
 ## Enabling light mode
 

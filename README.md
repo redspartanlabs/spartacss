@@ -7,14 +7,60 @@ tokens, a base reset/layout layer, a core set of UI components, an icon
 system, and a notifications feature module. It's pure CSS: no JavaScript,
 no framework bindings, usable from any site or app regardless of stack.
 
-**Status:** core, icon system, and notifications module are all extracted
-and buildable. The package is at `1.0.1` and not yet published to any
+**[→ Documentation index](docs/README.md)** — components, tokens, theming,
+layout, motion, accessibility, and the architecture decisions behind them.
+
+**Status:** the package is at `1.0.1` and not yet published to any
 registry — per ADR-0001's phased distribution plan, it's currently consumed
 via a tag-pinned git dependency (see Installation below). See
-`docs/adr/0001-package-architecture.md` for the architecture this
-repository is being built against, `CHANGELOG.md` for release history, and
-`docs/extraction-plan.md` for the original extraction's status and
-inventory detail.
+[ADR-0001](docs/adr/0001-package-architecture.md) for the architecture this
+repository is built against, [ADR-0002](docs/adr/0002-versioning-and-stability-policy.md)
+for what counts as a breaking change, and [CHANGELOG.md](CHANGELOG.md) for
+release history.
+
+## Getting started
+
+Four steps, in order. Each links the document that covers it properly —
+none of that documentation is repeated here.
+
+**1. Install.** A tag-pinned git dependency (see [Installation](#installation)):
+
+```
+npm install github:redspartanlabs/spartacss#v1.0.1
+```
+
+**2. Import a bundle.** One line gets you the default bundle — tokens,
+reset, layout and every core component:
+
+```css
+@import "@redspartanlabs/spartacss";
+```
+
+Pick a different bundle if you need less or more; the
+[Usage](#usage) section below lists all of them with what each contains.
+
+**3. Choose a theme, or don't.** SpartaCSS is dark-first: with no attribute
+set it renders dark, and it never switches on its own. Light mode is opt-in:
+
+```html
+<html data-theme="light">
+```
+
+See [Theming](docs/theming.md) for the full precedence rules and which
+tokens change between themes.
+
+**4. Build with the tokens, then the components.** Reference `--sp-*`
+custom properties from your own CSS rather than hardcoding values, and put
+your overrides in your own stylesheet loaded after SpartaCSS's —
+[Design Tokens](docs/tokens.md) covers both, including what to override and
+what to leave alone. Then reach for a component:
+
+```html
+<button class="sp-button sp-button--primary">Save</button>
+```
+
+[Button](docs/button.md) documents that one; the
+[documentation index](docs/README.md) lists the rest.
 
 ## Installation
 
@@ -36,10 +82,26 @@ toolchain to be installed on the consumer's machine (see
 
 ## Usage
 
-Each module is a plain CSS file under `dist/`; include whichever ones you
-need. (Exact import paths — e.g. whether a shorter subpath alias is
-available via `package.json` `exports` — are still being finalized; the
-literal paths below always work regardless of that decision.)
+Every bundle is a plain CSS file, imported by the package subpath that
+names it. Those subpaths are the package's public API — they are declared
+in `package.json`'s `exports` field, and each has a `.min.css` twin.
+
+The `dist/` directory is where the files happen to sit, not how you address
+them: `exports` does not expose `dist/`, so a deep import like
+`@redspartanlabs/spartacss/dist/spartacss.css` is not a supported path and
+will not resolve under tooling that honors `exports`.
+
+| Import | Contains |
+| --- | --- |
+| `@redspartanlabs/spartacss` | The default bundle — core plus every component, overlay, data-display and pattern. Same as `…/spartacss.css`. |
+| `@redspartanlabs/spartacss/spartacss.css` | The same bundle, named explicitly. |
+| `@redspartanlabs/spartacss/sparta.css` | Core only — tokens, reset, base, layout, utilities, animations, accessibility. No components. |
+| `@redspartanlabs/spartacss/sparta-all.css` | Everything: the default bundle plus the icons and notifications modules. |
+| `@redspartanlabs/spartacss/sparta-icons.css` | The icon module on its own. |
+| `@redspartanlabs/spartacss/sparta-notifications.css` | The notifications module on its own. |
+
+Append `.min` before `.css` for the minified variant of any of them — for
+example `@redspartanlabs/spartacss/sparta-all.min.css`.
 
 ### Core stylesheet
 
@@ -47,31 +109,29 @@ Required foundation — tokens, reset, layout utilities, and all core
 components. Everything else in this package builds on it.
 
 ```css
-@import "@redspartanlabs/spartacss/dist/spartacss.css";
+@import "@redspartanlabs/spartacss";
 /* or the minified variant: */
-@import "@redspartanlabs/spartacss/dist/spartacss.min.css";
+@import "@redspartanlabs/spartacss/spartacss.min.css";
 ```
 
 ### Core-only and full-framework entry points
 
-As of the Phase 1 architecture split, two additional bundles are available
-alongside `spartacss.css` (which is unchanged and remains the recommended
-default for existing consumers):
+Two additional bundles sit either side of `spartacss.css`, which is
+unchanged and remains the recommended default:
 
 ```css
 /* Tokens, reset, base, layout, and utilities only — no components */
-@import "@redspartanlabs/spartacss/dist/sparta.css";
+@import "@redspartanlabs/spartacss/sparta.css";
 
 /* Everything: core + components + modules (overlay, data, docs, feedback,
    icons) + patterns, in one file */
-@import "@redspartanlabs/spartacss/dist/sparta-all.css";
+@import "@redspartanlabs/spartacss/sparta-all.css";
 ```
 
-`spartacss.css` continues to ship exactly what it always has (core +
-components; not icons or notifications) so existing imports keep working
-unchanged. `sparta-all.css` is new and additive — it's the superset bundle,
-including the icon and notifications modules that were previously only
-available as separate imports.
+`spartacss.css` ships exactly what it always has (core + components; not
+icons or notifications), so existing imports keep working unchanged.
+`sparta-all.css` is the superset bundle, including the icon and
+notifications modules that are otherwise separate imports.
 
 ### Icon module
 
@@ -79,8 +139,10 @@ Optional. Adds the `.sp-icon` system (86 icons via a mask-based `::before`
 engine).
 
 ```css
-@import "@redspartanlabs/spartacss/dist/sparta-icons.css";
+@import "@redspartanlabs/spartacss/sparta-icons.css";
 ```
+
+See [Icons](docs/icons.md) for the class API and the full set.
 
 **Dependency note:** most icons are fully self-contained, but 9 of the 86
 (`x`, `chevron-down`, `check`, `trending-up`/`down`, `arrow-right`,
@@ -93,8 +155,10 @@ render if the icon module is loaded without core.
 Optional. Adds Toast, Alert Banner, and Confirm/Dialog components.
 
 ```css
-@import "@redspartanlabs/spartacss/dist/sparta-notifications.css";
+@import "@redspartanlabs/spartacss/sparta-notifications.css";
 ```
+
+See [Notifications](docs/notifications.md) for the class API.
 
 **Dependency note:** this module has no tokens of its own — every visual
 property resolves through the core stylesheet's tokens layer. Core must be
@@ -109,6 +173,12 @@ spartacss.css (core)          — no dependencies, always required
 ```
 
 ## Build
+
+Maintainer and contributor material. Consuming SpartaCSS does not require
+any of it — a tag-pinned install delivers the prebuilt `dist/` artifacts
+and never runs this build ([ADR-0004](docs/adr/0004-git-tag-artifact-distribution.md)).
+If you are using SpartaCSS rather than working on it, the
+[documentation index](docs/README.md) is where to go next.
 
 Source lives in `src/`, organized as a modular design-system tree rather
 than a single file:
