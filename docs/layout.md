@@ -90,10 +90,13 @@ fully supported for backward compatibility and their behavior is
 unchanged, but they will not receive new variants. Prefer the four
 primitives above for new layout work.
 
-This is an ordinary stability commitment, not ADR-0002's formal `FROZEN`
-guarantee — no selector in `sparta-layout.css` is marked `FROZEN` in
-source (unlike, e.g., the legacy Tooltip/Accordion/Modal APIs), so it
-does not carry that guarantee's standing, version-independent promise.
+These utilities have been described as frozen by convention since `0.4.0`.
+Whether they carry ADR-0002's formal `FROZEN` guarantee is unresolved: that
+rule covers selectors explicitly marked `FROZEN` in source, and no selector
+in `sparta-layout.css` carries the marker, while the markers on the legacy
+Tooltip/Accordion/Modal APIs describe themselves as following the same
+convention as these utilities. See
+[ADR-0005](adr/0005-canonical-ui-component-standard.md).
 
 ---
 Source: `src/core/sparta-layout.css`
