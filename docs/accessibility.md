@@ -20,9 +20,9 @@ ship, and will never ship, JavaScript. This means:
   APIs) render both open and closed states in CSS, but the consumer's own
   JavaScript is responsible for adding/removing the state class or
   attribute (e.g. `.sp-modal--open`) in response to user interaction. This
-  is the same convention used consistently since `0.5.0`
-  (`.sp-app-shell`'s Navbar `--open` modifier) through `0.6.0`'s Tooltip/
-  Accordion/Modal consolidation.
+  is the same convention used consistently across every state-toggle
+  component — from `.sp-app-shell`'s Navbar `--open` modifier through the
+  Tooltip/Accordion/Modal consolidation.
 - **Focus trapping, keyboard-driven closing (`Escape`), and return-focus
   behavior** for Modal/Drawer are **not** implemented by SpartaCSS — these
   require JavaScript and are the consumer's responsibility. SpartaCSS

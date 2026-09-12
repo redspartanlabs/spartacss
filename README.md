@@ -166,11 +166,26 @@ loaded for this module to render correctly at all.
 
 ### Module dependency relationships
 
+`sparta.css` is core — tokens, reset, base, layout, utilities, animations,
+accessibility — and is the only piece any other bundle or module actually
+depends on. `spartacss.css` and `sparta-all.css` are not "core"; they are
+core plus more, built for convenience rather than being a dependency of
+anything else:
+
 ```
-spartacss.css (core)          — no dependencies, always required
-  ├── sparta-icons.css         — optional; 9/86 icons need core's tokens
-  └── sparta-notifications.css — optional; fully requires core's tokens
+sparta.css (core)              — the actual dependency every bundle/module needs
+  ├── spartacss.css             — core + components (the default bundle)
+  │     └── sparta-all.css      — spartacss.css + icons + notifications
+  ├── sparta-icons.css          — standalone; 9/86 icons need core's tokens loaded
+  └── sparta-notifications.css  — standalone; fully needs core's tokens loaded
 ```
+
+`sparta-icons.css` and `sparta-notifications.css` are plain CSS files, not
+literal imports of `sparta.css` — the dependency means their rules read
+core's tokens via `var()`, so those tokens must already be loaded (by
+`sparta.css`, `spartacss.css`, or `sparta-all.css`) for them to render
+correctly. `sparta-all.css` already bundles core, so pairing it with
+either module needs no extra import.
 
 ## Build
 

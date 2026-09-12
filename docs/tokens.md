@@ -116,7 +116,7 @@ this scale (`.sp-stack`, `.sp-cluster`, `.sp-grid` gaps).
 ## Other token groups (brief reference)
 
 - **Radius** — `--sp-radius-sm/md/lg/xl/full`.
-- **Shadow** — `--sp-shadow-sm/md/lg` (theme-dependent) and
+- **Shadow** — `--sp-shadow-sm/md/lg/xl` (theme-dependent) and
   `--sp-shadow-focus` (constant).
 - **Z-index** — a full stacking scale, `--sp-z-base` through
   `--sp-z-tooltip`, ordered base → raised → dropdown → sticky → fixed →

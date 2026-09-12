@@ -11,15 +11,17 @@ section, then come back here.
 
 ## Foundations
 
-Read these first if you are adopting SpartaCSS. All four are in every
-bundle, because they are core — nothing below them is optional.
+Read these first if you are adopting SpartaCSS. All five are core —
+included in `sparta.css` and everything built on it (`spartacss.css`,
+`sparta-all.css`). They are not part of the standalone `sparta-icons.css`
+or `sparta-notifications.css` module bundles, which carry no core.
 
 | Document | What it covers |
 | --- | --- |
 | [Design Tokens](tokens.md) | The `--sp-*` custom properties every component resolves through: naming convention, color system, typography, spacing, and the reference-vs-override guidance for extending SpartaCSS from your own stylesheet. |
 | [Theming](theming.md) | The dark and light themes, how the `data-theme` attribute selects one, and which tokens change between them. |
 | [Layout](layout.md) | The four supported layout primitives — container, stack, cluster, and grid. |
-| [Motion](motion.md) | The timing scale, the named keyframes, and the global reduced-motion override. |
+| [Motion](motion.md) | The timing scale, the named keyframes, and the two-layer reduced-motion contract (a global baseline plus the components that go further). |
 | [Accessibility](accessibility.md) | What SpartaCSS guarantees on its own, and what it cannot — the contract that follows from shipping no JavaScript. |
 
 ## Components

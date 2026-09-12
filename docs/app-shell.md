@@ -1,11 +1,12 @@
 # Navbar & App Shell
 
-`0.5.0` adds SpartaCSS's first navigation component (`.sp-navbar`) and its
-first application-shell pattern (`.sp-app-shell`), resolving a long-standing
-gap: `.sp-navbar__toggle` icon-color rules and a `.sp-navbar`/`.sp-sidebar`
-print-hide rule have existed in `sparta-utilities.css`, `sparta-icons.css`,
-and `sparta-accessibility.css` since before the modular architecture split,
-with no actual Navbar component behind them until now.
+`.sp-navbar` is SpartaCSS's navigation component, and `.sp-app-shell` is its
+application-shell pattern for pairing Navbar with a page's content area.
+`.sp-navbar__toggle` icon-color rules and a `.sp-navbar`/`.sp-sidebar`
+print-hide rule predate both — they existed in `sparta-utilities.css`,
+`sparta-icons.css`, and `sparta-accessibility.css` since before the modular
+architecture split, with no actual Navbar component behind them until
+`0.5.0` introduced one.
 
 ## `.sp-navbar`
 
@@ -84,13 +85,13 @@ rediscover.
 - `.sp-app-shell__main` — `flex: 1`. Put your `.sp-container`-wrapped page
   content inside it.
 
-## Not included in `0.5.0`
+## Not included
 
 There is no Sidebar component or sidebar-based shell variant. A top-nav
 shell and a sidebar shell are different layout problems; building both in
 one release would have coupled them unnecessarily. The `.sp-sidebar`
 reference in `sparta-accessibility.css`'s print rule remains unimplemented
-and is tracked as known, deferred debt — not resolved by this release.
+and is tracked as known, deferred debt.
 
 ---
 Source: `src/components/sparta-navbar.css`, `src/patterns/sparta-app-shell.css`

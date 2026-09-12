@@ -1,7 +1,7 @@
 # Layout
 
-SpartaCSS's layout system lives in `src/core/sparta-layout.css`. As of
-`0.4.0`, four primitives are the supported, documented layout API:
+SpartaCSS's layout system lives in `src/core/sparta-layout.css`. Four
+primitives are the supported, documented layout API:
 
 - **`.sp-container`** — centers content and constrains its width.
 - **`.sp-stack`** — a vertical flex column with consistent spacing.
@@ -85,10 +85,15 @@ don't resolve `var()`; this document is the single source of truth for them.
 `--justify-*`/`--gap-*` modifiers, plus `.sp-flex-1`/`.sp-flex-none`/
 `.sp-flex-shrink-0`) and the atomic spacing/sizing/display utility classes
 (`.sp-p-*`, `.sp-px-*`, `.sp-py-*`, `.sp-m-*`, `.sp-mt-*`, `.sp-mb-*`,
-`.sp-w-*`, `.sp-h-*`, `.sp-block`/`.sp-inline`/`.sp-hidden`/etc.) are frozen
-as of `0.4.0`. They remain fully supported for backward compatibility and
-their behavior is unchanged, but they will not receive new variants. Prefer
-the four primitives above for new layout work.
+`.sp-w-*`, `.sp-h-*`, `.sp-block`/`.sp-inline`/`.sp-hidden`/etc.) remain
+fully supported for backward compatibility and their behavior is
+unchanged, but they will not receive new variants. Prefer the four
+primitives above for new layout work.
+
+This is an ordinary stability commitment, not ADR-0002's formal `FROZEN`
+guarantee — no selector in `sparta-layout.css` is marked `FROZEN` in
+source (unlike, e.g., the legacy Tooltip/Accordion/Modal APIs), so it
+does not carry that guarantee's standing, version-independent promise.
 
 ---
 Source: `src/core/sparta-layout.css`
