@@ -28,6 +28,9 @@ sense of RFC 2119 and RFC 8174, and only where capitalized.
   standard.
 - Documentation rules (§15–§16) apply to every component page, existing or
   new.
+- These keywords state this standard's own rules. Component pages do not use
+  them; a page distinguishes its requirements from its guidance as §15.2
+  defines.
 
 ---
 
@@ -36,7 +39,8 @@ sense of RFC 2119 and RFC 8174, and only where capitalized.
 This standard does not amend ADR-0002. ADR-0002 defines what counts as a
 breaking change to the **supported, documented** API surface. This standard
 defines how that surface is drawn for UI components: which selectors a
-component page commits to, and in what status (§16).
+component page commits to, and in what status (§16), and which content on a
+page is contractual and which is advisory usage guidance (§15.2).
 
 Where a rule below cites ADR-0002, it cites what ADR-0002 states. Where this
 standard applies ADR-0002 to a case its text does not address, the rule says
@@ -475,38 +479,140 @@ Cross-cutting concern files **MAY** contribute styles to a component:
 
 ## 15. Documentation contract
 
-Each component or pattern has one page in `docs/`. The structure below
-codifies the one most pages already share.
+Each component or pattern has one page in `docs/`. A page describes both the
+component's technical contract and how to use the component correctly. The
+structure below codifies the one most pages already share.
 
-### 15.1 Required sections
+### 15.1 Scope
+
+- These rules apply to every SpartaCSS component and pattern, including the
+  components a feature module delivers.
+- Layout primitives, utilities and tokens are not component pages; they are
+  documented in the foundation pages ([`tokens.md`](../tokens.md),
+  [`layout.md`](../layout.md), [`motion.md`](../motion.md),
+  [`accessibility.md`](../accessibility.md)).
+- These rules govern SpartaCSS's documentation only.
+
+### 15.2 Contractual and advisory content
+
+Every statement on a component page is one of three kinds:
+
+| Kind | What it states | Force |
+|---|---|---|
+| **Provided behavior** | What SpartaCSS's own CSS does: visual states, CSS-only interaction, focus styling, reduced-motion, forced-colors and responsive behavior, and the behavior of documented selectors | Contractual |
+| **Integration requirement** | What the consumer must do for the component to work correctly or accessibly: the expected element and markup, which state classes to add and remove and where, the ARIA to keep in step with visual state, and focus management, focus trapping, `Escape` handling and return focus where the pattern needs them | Contractual |
+| **Usage guidance** | How to use the component well: when to choose it over an alternative, composition, common misuse, and wording where it matters | Advisory |
+
+*Contractual* content is documented content that ADR-0002's rules can
+protect; whether a particular change to it is breaking is for ADR-0002 to
+determine. *Advisory* content is outside the stability contract. See
+[ADR-0005](../adr/0005-canonical-ui-component-standard.md), "Relationship to
+ADR-0002", including the case that record leaves open.
+
+**The test.** A statement is an integration requirement if ignoring it would:
+
+- break the component;
+- make it inaccessible;
+- violate its documented semantic or integration contract; or
+- cause documented component behavior to fail.
+
+If a reasonable application could make a different choice without any of those
+consequences, the statement is usage guidance. A choice that depends on the
+application's product, domain or brand is neither: it belongs to the
+application (§15.6).
+
+- **Requirement:** The trigger must be a `<button>`.
+- **Guidance:** Prefer a Drawer when the user benefits from keeping the
+  surrounding page in view.
+
+**Marking.**
+
+- An integration requirement **MUST** be written as a requirement ("must",
+  "must not", "requires").
+- Advice **MUST NOT** be written in requirement language.
+- Everything in a page's **Usage guidance** section is advisory. That section
+  **MUST NOT** contain requirements.
+- An advisory statement anywhere else on the page **MUST** begin with
+  **Guidance:** — except in **When to use which**, where each distinction is
+  labelled individually (§15.5).
+
+### 15.3 Required sections
 
 In this order, on every page:
 
 | # | Section | Contents |
 |---|---|---|
-| 1 | **Purpose** | What the component is and what it is for. Where a sibling component could be confused with it, say when to use which |
-| 2 | **Usage** | A minimal, correct markup example using the expected semantic element |
-| 3 | **Class API** | The block and each element, and what each is for |
-| 4 | **Variants** | Every variant modifier that exists, grouped by kind (colour, size, placement, …). "None." if there are none |
-| 5 | **States** | Every state modifier and native state the component styles, and which ARIA state the consumer should pair with each. "None." if there are none |
-| 6 | **Accessibility** | The expected element, keyboard interaction for interactive components, focus-visible behavior, the ARIA the consumer must supply, and forced-colors behavior where relevant |
-| 12 | **Stability** | The status of each part of the API (§16) |
-| 13 | **Source** | The `Source:` footer (§14) |
+| 1 | **Purpose** | What the component is and what it is for |
+| 3 | **Usage** | A minimal, correct markup example using the expected semantic element |
+| 4 | **Class API** | The block and each element, and what each is for |
+| 5 | **Variants** | Every variant modifier that exists, grouped by kind (colour, size, placement, …). "None." if there are none |
+| 6 | **States** | Every state modifier and native state the component styles, and which ARIA state the consumer should pair with each. "None." if there are none |
+| 7 | **Accessibility** | The expected element, keyboard interaction for interactive components, focus-visible behavior, the ARIA the consumer must supply, and forced-colors behavior where relevant |
+| 14 | **Stability** | The status of each part of the API (§16) |
+| 15 | **Source** | The `Source:` footer (§14) |
 
-### 15.2 Conditional sections
+### 15.4 Conditional and recommended sections
 
-Placed between Accessibility and Stability, in this order, **whenever they
-apply**:
+Placed at their numbered positions among the required sections, **whenever
+they apply**:
 
-| # | Section | Required when |
-|---|---|---|
-| 7 | **JavaScript responsibility** | The component has any state the consumer's script toggles. States exactly which class to add and remove, on which element, in response to what, and which focus or `Escape` behavior the consumer must implement |
-| 8 | **Motion** | The component animates or transitions |
-| 9 | **Responsive behavior** | The component has breakpoint-specific behavior |
-| 10 | **Related** | A cross-link materially helps — a sibling component, a composing pattern. Inline links are also acceptable |
-| 11 | **Legacy API** | The component has a Legacy / FROZEN API. Documents the legacy selectors fully, including their state classes and variants |
+| # | Section | Include when | Force |
+|---|---|---|---|
+| 2 | **When to use which** | A meaningful alternative exists (§15.5) | Each distinction labelled |
+| 8 | **JavaScript responsibility** | The component has any state the consumer's script toggles. States exactly which class to add and remove, on which element, in response to what, and which focus or `Escape` behavior the consumer must implement | Contractual |
+| 9 | **Motion** | The component animates or transitions | Contractual |
+| 10 | **Responsive behavior** | The component has breakpoint-specific behavior | Contractual |
+| 11 | **Usage guidance** | Recommended wherever component-specific best practice or common misuse is worth stating | Advisory |
+| 12 | **Related** | A cross-link materially helps — a sibling component, a composing pattern. Inline links are also acceptable | — |
+| 13 | **Legacy API** | The component has a Legacy / FROZEN API. Documents the legacy selectors fully, including their state classes and variants | Contractual |
 
-### 15.3 Rules
+### 15.5 When to use which
+
+- A page **MUST** include **When to use which** wherever a meaningful
+  alternative exists: a sibling component, or a native HTML element, that a
+  reader could reasonably choose for the same need.
+- Between two SpartaCSS components, the distinction **MUST** appear on both
+  pages. Where the alternative is a native element, the component's page
+  carries it.
+- Each distinction **MUST** say which to choose and why, and **MUST** be
+  labelled **Requirement:** where choosing wrongly would break semantics or
+  accessibility, or **Guidance:** where it is a matter of fit.
+- The rule is known to apply at least to these pairs. The pages themselves are
+  written in the documentation conformance pass.
+
+| Component | Alternative |
+|---|---|
+| Button | Link |
+| Alert | Notifications (Toast, Alert Banner) |
+| Drawer | Modal |
+| Tooltip | Visible explanatory text |
+| Tabs | Page navigation |
+| Dropdown | Native `<select>` |
+
+### 15.6 Knowledge, citations and product decisions
+
+- A page **MAY** apply and summarize established design, accessibility and
+  engineering knowledge as it bears on the component. It **MUST NOT**
+  reproduce general theory.
+- Where a page relies on an external normative authority, such as the
+  WAI-ARIA Authoring Practices, WCAG or MDN, it **MAY** cite it. A citation
+  **SHOULD** point to the specific pattern, criterion or reference relied on,
+  and **MUST NOT** be added for decoration.
+- The cross-cutting CSS/JavaScript/ARIA contract lives once, in
+  [`accessibility.md`](../accessibility.md). A page **SHOULD** link it rather
+  than restate it.
+- A page **MUST** remain usable on its own. It **MAY** reference other
+  RedSpartan documentation where relevant, but **MUST NOT** depend on it or
+  on any HQ URL.
+- **Product decisions belong to the application.** A page documents the
+  component's own states — a Button's `--loading`, a form field's validation
+  states, what Empty State renders. It **MUST NOT** prescribe
+  application-wide policy, such as how loading appears across a product,
+  whether destructive actions require confirmation, or when to show an empty
+  state. It **MAY** offer considerations as guidance. A `danger` variant
+  communicates destructive intent; it provides no confirmation behavior.
+
+### 15.7 Rules
 
 - A page **MUST NOT** document a class that does not exist.
 - A page **MUST** document every Supported selector of its component.
@@ -638,6 +744,8 @@ This register is not a work order. Nothing in it is changed by this standard.
 |---|---|---|
 | No page states a stability status | 0 of 27 component pages | To address in the documentation conformance pass |
 | Pages outside the common structure | `modal`, `tooltip`, `accordion`, `app-shell` | To address in the documentation conformance pass |
+| "When to use which" missing or one-sided | Covered today: Button ↔ Link (at the element level), Alert → Notifications, Drawer → Modal. Missing: Modal → Drawer, Tooltip vs visible text, Tabs vs page navigation, Dropdown vs native `<select>` (§15.5) | To address in the documentation conformance pass |
+| Guidance not marked as advisory | Advisory phrasing ("don't", "avoid", "prefer", "instead", …) appears on 24 of 27 pages, across most sections — the largest share in Accessibility — in the same voice as requirements (§15.2) | To address in the documentation conformance pass |
 | Shipped but undocumented classes | `.sp-center`, `.sp-center--full`, `.sp-tooltip--top`, `.sp-sr-only`, `.sp-not-sr-only`, `.sp-select-wrapper`, `.sp-select-icon`; legacy `.sp-modal-backdrop--active` and `.sp-modal__dialog--sm/md/lg/xl/full` | To classify as Supported or Internal (§16.2) |
 
 ---
@@ -662,6 +770,10 @@ is read as settling them.
 5. **The classification of individual literal and token defects** (§17.4).
 6. **How ADR-0002 classifies changes to visual values** — a colour, spacing
    or radius value — that neither rename nor remove a selector or token.
+7. **Documentation-only changes to integration requirements.** Whether
+   changing an integration requirement the CSS does not depend on, such as an
+   ARIA or focus-management expectation, in documentation alone is breaking
+   under ADR-0002 rule 6 or non-breaking as a documentation update (§15.2).
 
 ---
 

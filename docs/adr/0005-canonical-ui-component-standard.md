@@ -30,6 +30,23 @@ whose legacy APIs are formally `FROZEN`.
 [ADR-0001](0001-package-architecture.md) listed "Documentation strategy — how
 usage/reference documentation is structured" among its deferred decisions.
 
+Component pages also do more than list classes. Many already say when to
+choose a component over a sibling — `link.md` sends actions that do not
+navigate to Button "so the correct element/role is used"; `drawer.md`
+contrasts itself with Modal — and state what the consumer's markup, script and
+ARIA must do, and what to avoid. That content is valuable, but nothing
+distinguishes what a page *commits to* from what it merely *recommends*. The
+distinction matters because ADR-0002's rule 3 protects "a documented
+markup/structure contract a component depends on": advice written in the same
+voice as a requirement can be read as part of the stability contract.
+
+SpartaCSS's documentation is the artifact's own documentation. RedSpartan HQ
+catalogs SpartaCSS as a reusable artifact and points to this repository rather
+than duplicating it, and general design, accessibility and engineering theory
+is the subject of external standards and of general references such as HQ's
+Athenaeum. This record describes that boundary from SpartaCSS's side only; it
+makes no decision for HQ.
+
 A read-only architecture investigation also found that the library is not
 perfectly uniform. The same state is named more than one way (`--open`,
 `--visible`, `--active`; `--closing`, `--out`); `danger` and `error` are both
@@ -84,6 +101,44 @@ source folders that group related components (`src/modules/overlay`, `data`,
    the standard's register and classified as grandfathered compatibility
    behavior, as items for a later conformance workstream, or as issues for
    later architectural review. Resolving them is outside this decision.
+9. **Component documentation describes both the technical contract and how to
+   use the component correctly, and distinguishes three kinds of content by
+   their force:**
+   - **Provided behavior** — what SpartaCSS's own CSS does: visual states,
+     CSS-only interaction, focus styling, reduced-motion, forced-colors and
+     responsive behavior, and the behavior of documented selectors.
+   - **Integration requirements** — what the consumer must do for the
+     component to work correctly or accessibly: the expected semantic element
+     and markup, which state classes to add and remove and where, the ARIA to
+     keep in step with visual state, and focus management, focus trapping,
+     `Escape` handling and return focus where the pattern needs them.
+   - **Usage guidance** — advice for using the component well: when to choose
+     it over a sibling or a native alternative, composition, common misuse,
+     and wording where it matters. Usage guidance is **advisory** and outside
+     the stability contract.
+
+   A statement is an integration requirement if ignoring it would break the
+   component, make it inaccessible, violate its documented semantic or
+   integration contract, or cause documented behavior to fail. Otherwise it is
+   guidance. Pages make the distinction visible, so advice is never mistaken
+   for a commitment. How provided behavior and integration requirements
+   relate to ADR-0002 is set out in "Relationship to ADR-0002" below.
+10. **Documentation applies established knowledge to the component; it does
+    not host general theory or make product decisions.** A page may apply and
+    summarize established design, accessibility and engineering knowledge as
+    it bears on that component, and may cite the external normative authority
+    it relies on, such as the WAI-ARIA Authoring Practices, WCAG or MDN.
+    General theory is not reproduced. Decisions that belong to the consuming
+    application — how loading or empty states look across a product, whether
+    destructive actions are confirmed — remain the application's; a page
+    documents the component's own states and may offer considerations as
+    guidance. SpartaCSS documentation must remain usable without any other
+    RedSpartan documentation, and depends on no HQ URL.
+11. **These documentation rules cover SpartaCSS components and patterns**,
+    including components delivered by feature modules. Layout primitives,
+    utilities and tokens are documented in the foundation pages. The rules
+    govern SpartaCSS's documentation only, and set no rule for other
+    artifacts or for RedSpartan HQ.
 
 ---
 
@@ -95,13 +150,17 @@ appear to disagree.
 **What ADR-0002 states.** Its breaking-change rules apply to the **supported,
 documented** API surface. Among them: removing or renaming "a public class
 selector or BEM part" (rule 1); removing or renaming "a public modifier
-(`--variant`) class" (rule 2); changing a class's cascade-layer placement or
-precedence in a way that alters which rule wins (rule 5); changing
-accessibility behavior in a way that narrows or alters the supported contract
-(rule 6); and modifying or removing any selector "explicitly marked `FROZEN`
-in source" (rule 7). ADR-0002 does not distinguish variant modifiers from
-state modifiers, and it does not define stability labels for documentation
-pages.
+(`--variant`) class" (rule 2); changing "a documented markup/structure
+contract a component depends on" (rule 3); changing a class's cascade-layer
+placement or precedence in a way that alters which rule wins (rule 5);
+changing accessibility behavior in a way that narrows or alters the supported
+contract (rule 6); and modifying or removing any selector "explicitly marked
+`FROZEN` in source" (rule 7). Among the changes it classifies as non-breaking
+is one that "Updates documentation, internal comments, or build tooling with
+no observable change to shipped CSS". ADR-0002 does not distinguish variant
+modifiers from state modifiers, does not define stability labels for
+documentation pages, and does not distinguish advisory content on a
+documentation page from contractual content.
 
 **What this ADR establishes as its application of that contract.** These are
 readings of ADR-0002 adopted for component documentation, not text ADR-0002
@@ -120,6 +179,23 @@ contains:
   renaming one is therefore treated as breaking. ADR-0002's text names
   modifiers generically and does not mention state modifiers; this record
   adopts the reading that includes them.
+- **Provided behavior and integration requirements** (Decision 9) are the
+  documented content that ADR-0002's rules can protect. This record does not
+  extend any of those rules: whether a particular change to such content is
+  breaking, and under which rule, is for ADR-0002 to determine.
+- **Usage guidance**, identified as advisory, is treated as outside the
+  supported, documented API surface. Changing it alters documentation only,
+  with no observable change to shipped CSS — a change ADR-0002 classifies as
+  non-breaking. Marking guidance as advisory keeps it from being read as a
+  rule 3 markup/structure contract.
+
+**Not resolved here.** Rule 3 covers markup/structure "a component depends
+on", and ADR-0002's non-breaking list covers documentation-only updates. For
+an integration requirement the CSS itself does not depend on — an ARIA,
+focus-trapping or `Escape` expectation — a change made in documentation alone
+matches the wording of that non-breaking clause, while rule 6 protects the
+supported accessibility contract. ADR-0002's text does not settle which
+applies, and this record does not settle it either.
 
 ---
 
@@ -144,6 +220,16 @@ contains:
 - **Put the full rules in this ADR.** Rejected. The rules are detailed and
   will be versioned as the library grows. ADR-0003 already established the
   pattern of a short decision record paired with a normative standard.
+- **Keep component pages to API reference only.** Rejected. A consumer cannot
+  use a stateful component correctly from its classes alone; the markup,
+  script and ARIA it expects are part of using it, and most existing pages
+  already carry them.
+- **Treat everything on a component page as contractual.** Rejected. It would
+  turn advice into a stability commitment, so that improving a recommendation
+  could require a major version.
+- **Record documentation guidance in a separate ADR.** Rejected. What a
+  component page commits to is the question this record already answers;
+  splitting it would leave one decision across two records.
 
 ---
 
@@ -157,6 +243,8 @@ contains:
   CSS.
 - Gives every component page a stated stability status, so consumers can see
   which selectors ADR-0002's guarantees cover.
+- Lets consumers tell what SpartaCSS commits to from what it recommends, and
+  lets guidance improve without a major version.
 - No shipped CSS changes. This decision and the standard are documentation;
   under ADR-0002 that is non-breaking and requires no version change.
 
@@ -164,14 +252,18 @@ contains:
 
 - Immediate consistency is given up. The library keeps its known vocabulary
   collisions and literals until separate decisions address them.
+- Authors must classify each statement as a requirement or as guidance, and
+  some statements sit close to the line. The test in Decision 9 decides them.
 
 **Maintenance implications**
 
 - A documentation conformance pass follows. Each component page gains a
   stability section, the conditional sections the standard requires, and a
-  `Source:` footer naming contributing concern files. The four pages that do
-  not follow the common structure (`modal`, `tooltip`, `accordion`,
-  `app-shell`) are brought into it.
+  `Source:` footer naming contributing concern files. Pages with a meaningful
+  alternative gain "When to use which" guidance, on both sides of the pair,
+  and existing advice is marked as guidance. The four pages that do not
+  follow the common structure (`modal`, `tooltip`, `accordion`, `app-shell`)
+  are brought into it.
 - Undocumented classes become a decision, not a default. Classes shipped
   without documentation are not Supported. Each must be documented as
   Supported or labeled Internal; none is promoted by this decision.
@@ -201,6 +293,11 @@ contains:
 - **Visual value changes** — how ADR-0002 classifies changes to a visual
   value, such as a colour or spacing value, that neither rename nor remove
   anything.
+- **Documentation-only changes to integration requirements** — whether
+  changing an integration requirement the CSS does not depend on, such as an
+  ARIA or focus-management expectation, in documentation alone is breaking
+  under ADR-0002 rule 6 or non-breaking as a documentation update. See
+  "Relationship to ADR-0002".
 - **Documentation strategy, beyond component reference** — this record
   partially addresses ADR-0001's deferred documentation-strategy item by
   defining the structure of component reference documentation. How other
