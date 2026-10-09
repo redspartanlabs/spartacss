@@ -10,7 +10,7 @@ no framework bindings, usable from any site or app regardless of stack.
 **[→ Documentation index](docs/README.md)** — components, tokens, theming,
 layout, motion, accessibility, and the architecture decisions behind them.
 
-**Status:** the package is at `1.0.1` and not yet published to any
+**Status:** the package is at `1.0.2` and not yet published to any
 registry — per ADR-0001's phased distribution plan, it's currently consumed
 via a tag-pinned git dependency (see Installation below). See
 [ADR-0001](docs/adr/0001-package-architecture.md) for the architecture this
@@ -26,7 +26,7 @@ none of that documentation is repeated here.
 **1. Install.** A tag-pinned git dependency (see [Installation](#installation)):
 
 ```
-npm install github:redspartanlabs/spartacss#v1.0.1
+npm install github:redspartanlabs/spartacss#v1.0.2
 ```
 
 **2. Import a bundle.** One line gets you the default bundle — tokens,
@@ -68,7 +68,7 @@ Not yet published to a registry. Per the phased distribution plan in
 ADR-0001, install via a tag-pinned git dependency:
 
 ```
-npm install github:redspartanlabs/spartacss#v1.0.1
+npm install github:redspartanlabs/spartacss#v1.0.2
 ```
 
 A registry-published `npm install @redspartanlabs/spartacss` will follow in

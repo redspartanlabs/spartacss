@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
-## [Unreleased]
+## [1.0.2] - 2026-10-09
 
 ### Changed
 
@@ -450,7 +450,8 @@ output changed — a non-breaking, patch-level change per ADR-0002.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/redspartanlabs/spartacss/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/redspartanlabs/spartacss/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/redspartanlabs/spartacss/compare/v0.9.2...v1.0.0
 [0.9.2]: https://github.com/redspartanlabs/spartacss/compare/v0.9.1...v0.9.2
