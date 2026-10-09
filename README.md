@@ -10,12 +10,13 @@ no framework bindings, usable from any site or app regardless of stack.
 **[→ Documentation index](docs/README.md)** — components, tokens, theming,
 layout, motion, accessibility, and the architecture decisions behind them.
 
-**Status:** the package is at `1.0.2`. Its intended registry is npm, as
+**Status:** the package is at `1.0.3`. Its intended registry is npm, as
 `@redspartanlabs/spartacss`
-([ADR-0006](docs/adr/0006-npm-registry-distribution.md)), but no version has
-been published there yet (the GitHub release `1.0.2` is not on npm; the first
-npm release is intended to be `1.0.3`); until one is, it is consumed via a
-tag-pinned git dependency (see Installation below). GitHub remains the
+([ADR-0006](docs/adr/0006-npm-registry-distribution.md)), and `1.0.3` is the
+first release intended for it; `1.0.2` was a GitHub-only release, not intended
+for npm. To see which versions the registry has, run
+`npm view @redspartanlabs/spartacss versions`. Every release is also available
+as a tag-pinned git dependency (see Installation below). GitHub remains the
 canonical home for source, tags and releases. See
 [ADR-0001](docs/adr/0001-package-architecture.md) for the architecture this
 repository is built against, [ADR-0002](docs/adr/0002-versioning-and-stability-policy.md)
@@ -30,7 +31,7 @@ none of that documentation is repeated here.
 **1. Install.** A tag-pinned git dependency (see [Installation](#installation)):
 
 ```
-npm install github:redspartanlabs/spartacss#v1.0.2
+npm install github:redspartanlabs/spartacss#v1.0.3
 ```
 
 **2. Import a bundle.** One line gets you the default bundle — tokens,
@@ -69,17 +70,16 @@ what to leave alone. Then reach for a component:
 ## Installation
 
 SpartaCSS is intended for distribution on npm as `@redspartanlabs/spartacss`
-([ADR-0006](docs/adr/0006-npm-registry-distribution.md)). No version has been
-published there yet, so install via a tag-pinned git dependency, per
-ADR-0001's phased distribution plan:
+([ADR-0006](docs/adr/0006-npm-registry-distribution.md)). Install a release as
+a tag-pinned git dependency, per ADR-0001's phased distribution plan:
 
 ```
-npm install github:redspartanlabs/spartacss#v1.0.2
+npm install github:redspartanlabs/spartacss#v1.0.3
 ```
 
-Once a version is published to npm, `npm install @redspartanlabs/spartacss`
-will install the same release contents. This README will say so when that has
-happened and been verified.
+`1.0.3` is the first release intended for npm. Where the registry has it,
+`npm install @redspartanlabs/spartacss@1.0.3` installs the same release
+contents; check availability with `npm view @redspartanlabs/spartacss versions`.
 
 Git-tag installation delivers the prebuilt `dist/*.css` artifacts directly
 from the tagged release tree — installing does not run SpartaCSS's build,

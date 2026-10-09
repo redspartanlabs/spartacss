@@ -6,6 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [1.0.3] - 2026-10-09
+
+### Added
+
+- [ADR-0006](docs/adr/0006-npm-registry-distribution.md), which records npm
+  (the public registry) as SpartaCSS's intended registry under the name
+  `@redspartanlabs/spartacss`, GitHub as the canonical home for source, tags
+  and releases, publication as a manual and irreversible step, and `1.0.2` as
+  a GitHub-only release. Git-tag installation remains supported.
+- A "Publishing to npm" procedure in `RELEASING.md`: preflight checks for the
+  release tag and commit, name and version, rebuild and verification, package
+  inventory and integrity, registry target, authentication and access, and
+  version availability; publication of the verified tarball with
+  `--access public`; and verification of the published metadata, contents and
+  a clean consumer install.
+
+### Changed
+
+- The README now names npm as the intended distribution channel and no longer
+  says registry selection is pending. It does not claim that any version is
+  available on npm.
+- [ADR-0001](docs/adr/0001-package-architecture.md) and
+  [ADR-0004](docs/adr/0004-git-tag-artifact-distribution.md) gained
+  cross-references to ADR-0006. Their decisions are unchanged.
+
+This release changes documentation and the release procedure only. No public
+class selector, modifier, design token, markup contract or `exports` entry
+point changed, no shipped CSS output changed, and the package whitelist is
+unchanged — a non-breaking, patch-level change per ADR-0002. The package gains
+ADR-0006 under `docs/adr/`.
+
 ## [1.0.2] - 2026-10-09
 
 ### Changed
@@ -450,7 +481,8 @@ output changed — a non-breaking, patch-level change per ADR-0002.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/redspartanlabs/spartacss/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/redspartanlabs/spartacss/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/redspartanlabs/spartacss/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/redspartanlabs/spartacss/compare/v0.9.2...v1.0.0

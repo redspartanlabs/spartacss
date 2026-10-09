@@ -122,9 +122,9 @@ publishes to npm, and creating the GitHub Release does not publish the
 package. The registry and the package name are recorded in
 [ADR-0006](docs/adr/0006-npm-registry-distribution.md).
 
-Release `1.0.2` exists on GitHub only and has not been published to npm. The
-first npm publication is intended to be `1.0.3`, prepared through steps 1–18
-and then this section.
+Release `1.0.2` exists on GitHub only and is not published to npm. Release
+`1.0.3` is the first release intended for npm; it is prepared through steps
+1–18 and then this section.
 
 **Publication is permanent.** Once a version is published to npm it cannot be
 reused or replaced, and unpublishing does not free the version number. A
