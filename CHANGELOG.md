@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [Unreleased]
+
+### Changed
+
+- The package now includes its documentation. `package.json`'s `files` list
+  adds `docs/`, `CHANGELOG.md` and `RELEASING.md`, so the documentation
+  index, the component and foundation pages, the `docs/adr/` and
+  `docs/design/` material, and the files that the README and the
+  documentation link to are present in an installed package. No shipped CSS,
+  `exports` entry or package behavior changes. The `files` change was checked
+  against [ADR-0004](docs/adr/0004-git-tag-artifact-distribution.md)
+  Decisions 2 and 8: Decision 2 names the release contents as sitting
+  "alongside" the whitelisted files and does not make that list exclusive, and
+  Decision 8's `exports` map is unchanged.
+- Reworded the sentence in
+  [ADR-0005](docs/adr/0005-canonical-ui-component-standard.md) that describes
+  how RedSpartan HQ presents SpartaCSS. The record remains `Proposed`.
+
 ## [1.0.1] - 2026-08-13
 
 ### Fixed

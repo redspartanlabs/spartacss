@@ -17,6 +17,9 @@
   ],
   "files": [
     "dist",
+    "docs",
+    "CHANGELOG.md",
+    "RELEASING.md",
     "LICENSE",
     "NOTICE",
     "README.md"

@@ -40,10 +40,12 @@ distinction matters because ADR-0002's rule 3 protects "a documented
 markup/structure contract a component depends on": advice written in the same
 voice as a requirement can be read as part of the stability contract.
 
-SpartaCSS's documentation is the artifact's own documentation. RedSpartan HQ
-catalogs SpartaCSS as a reusable artifact and points to this repository rather
-than duplicating it, and general design, accessibility and engineering theory
-is the subject of external standards and of general references such as HQ's
+SpartaCSS's documentation is the artifact's own documentation, and this
+repository is its authoritative source. RedSpartan HQ catalogs SpartaCSS as a
+reusable artifact; how HQ presents SpartaCSS's documentation is governed by
+HQ's own records, and any such presentation derives from this documentation
+without replacing it. General design, accessibility and engineering theory is
+the subject of external standards and of general references such as HQ's
 Athenaeum. This record describes that boundary from SpartaCSS's side only; it
 makes no decision for HQ.
 

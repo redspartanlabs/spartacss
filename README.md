@@ -78,7 +78,9 @@ Git-tag installation delivers the prebuilt `dist/*.css` artifacts directly
 from the tagged release tree — installing does not run SpartaCSS's build,
 does not require Lightning CSS, and does not require SpartaCSS's build
 toolchain to be installed on the consumer's machine (see
-[ADR-0004](docs/adr/0004-git-tag-artifact-distribution.md)).
+[ADR-0004](docs/adr/0004-git-tag-artifact-distribution.md)). The package also
+includes this documentation (`docs/`), `CHANGELOG.md` and `RELEASING.md`, so
+the relative links in this README resolve in an installed copy.
 
 ## Usage
 
