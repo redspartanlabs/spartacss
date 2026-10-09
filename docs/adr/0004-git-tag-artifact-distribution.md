@@ -127,14 +127,16 @@ CSS") are non-breaking.
 - If and when a registry-published release (ADR-0001's later phase) is
   adopted, that work should confirm whether it reuses this same
   artifact-distribution contract or requires its own decision record —
-  this ADR does not presume that answer.
+  this ADR does not presume that answer. See
+  [ADR-0006](0006-npm-registry-distribution.md).
 
 ---
 
 ## Future ADRs / Decisions
 
 - **Registry publication** — carried forward from ADR-0001, unaffected
-  and undecided by this ADR.
+  and undecided by this ADR. Addressed later in
+  [ADR-0006](0006-npm-registry-distribution.md).
 - **CI-owned artifact production** — whether the release build/verify
   sequence in `RELEASING.md` is eventually automated in CI rather than
   run locally by a maintainer is not decided here; today's CI workflow is

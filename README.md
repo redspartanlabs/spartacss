@@ -10,9 +10,13 @@ no framework bindings, usable from any site or app regardless of stack.
 **[→ Documentation index](docs/README.md)** — components, tokens, theming,
 layout, motion, accessibility, and the architecture decisions behind them.
 
-**Status:** the package is at `1.0.2` and not yet published to any
-registry — per ADR-0001's phased distribution plan, it's currently consumed
-via a tag-pinned git dependency (see Installation below). See
+**Status:** the package is at `1.0.2`. Its intended registry is npm, as
+`@redspartanlabs/spartacss`
+([ADR-0006](docs/adr/0006-npm-registry-distribution.md)), but no version has
+been published there yet (the GitHub release `1.0.2` is not on npm; the first
+npm release is intended to be `1.0.3`); until one is, it is consumed via a
+tag-pinned git dependency (see Installation below). GitHub remains the
+canonical home for source, tags and releases. See
 [ADR-0001](docs/adr/0001-package-architecture.md) for the architecture this
 repository is built against, [ADR-0002](docs/adr/0002-versioning-and-stability-policy.md)
 for what counts as a breaking change, and [CHANGELOG.md](CHANGELOG.md) for
@@ -64,15 +68,18 @@ what to leave alone. Then reach for a component:
 
 ## Installation
 
-Not yet published to a registry. Per the phased distribution plan in
-ADR-0001, install via a tag-pinned git dependency:
+SpartaCSS is intended for distribution on npm as `@redspartanlabs/spartacss`
+([ADR-0006](docs/adr/0006-npm-registry-distribution.md)). No version has been
+published there yet, so install via a tag-pinned git dependency, per
+ADR-0001's phased distribution plan:
 
 ```
 npm install github:redspartanlabs/spartacss#v1.0.2
 ```
 
-A registry-published `npm install @redspartanlabs/spartacss` will follow in
-a later phase, once a registry target is chosen.
+Once a version is published to npm, `npm install @redspartanlabs/spartacss`
+will install the same release contents. This README will say so when that has
+happened and been verified.
 
 Git-tag installation delivers the prebuilt `dist/*.css` artifacts directly
 from the tagged release tree — installing does not run SpartaCSS's build,

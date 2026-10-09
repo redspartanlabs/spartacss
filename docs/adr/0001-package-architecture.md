@@ -22,6 +22,7 @@ Ownership separation matters because shared infrastructure that lives inside a s
 6. **Versioning follows semver.** The initial release represents the existing source, extracted with only the Toast cleanup (Decision 5) as a content change; breaking changes require a major version bump.
 7. **Distribution is phased.** Initially, consumers depend on a fixed, tag-pinned reference to the package; a registry-published release follows once a distribution target is chosen.
    See [ADR-0004](0004-git-tag-artifact-distribution.md) for what the tag-pinned reference concretely contains.
+   The registry and the package name are addressed in [ADR-0006](0006-npm-registry-distribution.md).
 
 **Licensing:** SpartaCSS is licensed under the Apache License 2.0. RedSpartan Labs retains ownership of branding, trademarks, and project identity separately from the license grant.
 
@@ -49,7 +50,7 @@ Ownership separation matters because shared infrastructure that lives inside a s
 
 ## Future ADRs / Decisions
 
-- **Package registry** — where the package is ultimately published.
-- **Package name** — including scope, linked to the registry decision.
+- **Package registry** — where the package is ultimately published. Addressed in [ADR-0006](0006-npm-registry-distribution.md).
+- **Package name** — including scope, linked to the registry decision. Addressed in [ADR-0006](0006-npm-registry-distribution.md).
 - **Documentation strategy** — how usage/reference documentation is structured, and whether it's referenced (not duplicated) from other RedSpartan documentation.
 - **Additional modules** — how future feature modules are added to the package boundary without destabilizing the core layer.
