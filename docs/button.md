@@ -24,7 +24,7 @@ activation (see Accessibility below).
 
 ### Size
 
-```html
+```html preview
 <button class="sp-button sp-button--primary sp-button--sm">Small</button>
 <button class="sp-button sp-button--primary sp-button--md">Medium (default)</button>
 <button class="sp-button sp-button--primary sp-button--lg">Large</button>

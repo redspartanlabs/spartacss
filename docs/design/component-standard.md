@@ -622,6 +622,33 @@ they apply**:
   Components consume global tokens and have no component token API to list;
   [`tokens.md`](../tokens.md) documents the tokens.
 
+### 15.8 Live examples
+
+A page **MAY** designate one HTML example for optional live rendering by
+consumers of the documentation. The decision is recorded in
+[ADR-0007](../adr/0007-documentation-preview-contract.md).
+
+- A page designates an example only with the marker: the info string of the
+  example's fenced code block is `html preview`.
+
+  ````markdown
+  ```html preview
+  <button class="sp-button sp-button--primary">Save</button>
+  ```
+  ````
+
+- A page **MUST NOT** contain more than one marked example.
+- A marked example **MUST** be a standalone HTML fragment: non-empty, not a
+  whole document, without a `<script>` element, and without site-relative link
+  targets. It **MUST NOT** depend on other content of its page.
+- The marker grants permission and nothing more. A page **MUST** still present
+  the example's code and explanation as ordinary documentation, and **MUST
+  NOT** rely on any consumer rendering the example.
+- A `preview` token in any other form (another language, another letter case,
+  or an additional token) is malformed and **MUST NOT** appear.
+- `scripts/verify-docs-preview.mjs`, run by `npm run verify`, checks the
+  marker, the one-per-page limit and the content rules above.
+
 ---
 
 ## 16. Stability status

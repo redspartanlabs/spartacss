@@ -191,6 +191,18 @@ every file that Git tracks at the tag under the paths in `package.json`'s
 node -e "const{execSync}=require('child_process'),fs=require('fs');const j=JSON.parse(fs.readFileSync(process.argv[1],'utf8'));const p=Array.isArray(j)?j[0]:Object.values(j)[0];const actual=p.files.map(f=>f.path).sort();const pj=JSON.parse(execSync('git show '+process.argv[2]+':package.json',{encoding:'utf8'}));const paths=[...new Set([...pj.files,'package.json','README.md','LICENSE'])];const expected=execSync('git ls-tree -r --name-only '+process.argv[2]+' -- '+paths.join(' '),{encoding:'utf8'}).split(/\r?\n/).filter(Boolean).sort();const missing=expected.filter(f=>!actual.includes(f)),unexpected=actual.filter(f=>!expected.includes(f));console.log('expected',expected.length,'packed',actual.length,'missing',JSON.stringify(missing),'unexpected',JSON.stringify(unexpected));process.exit(missing.length||unexpected.length?1:0)" <directory>/pack.json vX.Y.Z
 ```
 
+**Check the documentation contract.** `npm run verify` has already checked the
+working tree. Check the package itself too: extract the tarball into an empty
+directory outside the repository (for example by running
+`tar -xzf <tarball>` from inside that directory), then run this from the
+repository root:
+
+```
+node scripts/verify-docs-preview.mjs <empty directory>/package
+```
+
+It must print `OK`. Any other result means stop and report.
+
 It prints the expected and packed counts, the files missing from the package
 and the unexpected files in it, and exits non-zero unless both lists are empty.
 Any missing or unexpected file means stop. Because `npm pack` also packs

@@ -98,6 +98,9 @@ above does not settle.
 | [ADR-0002](adr/0002-versioning-and-stability-policy.md) | What counts as a breaking change for a pure-CSS design system. Read this before depending on a class name. |
 | [ADR-0003](adr/0003-independent-iconography-system.md) | Why the iconography system is SpartaCSS's own. |
 | [ADR-0004](adr/0004-git-tag-artifact-distribution.md) | Why release tags carry prebuilt `dist/` artifacts. |
+| [ADR-0005](adr/0005-canonical-ui-component-standard.md) | The canonical UI component standard: why it exists and what it leaves open. Still Proposed. |
+| [ADR-0006](adr/0006-npm-registry-distribution.md) | npm as the intended registry, under `@redspartanlabs/spartacss`, with GitHub as the canonical home. |
+| [ADR-0007](adr/0007-documentation-preview-contract.md) | How a documentation page designates one HTML example for optional live rendering. |
 
 Release history lives in [CHANGELOG.md](../CHANGELOG.md); the procedure for
 cutting a release is [RELEASING.md](../RELEASING.md).

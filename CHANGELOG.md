@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [1.0.4] - 2026-10-09
+
+### Added
+
+- [ADR-0007](docs/adr/0007-documentation-preview-contract.md), which defines
+  how a documentation page designates one HTML example for optional live
+  rendering: the fence info string `html preview`. The marker grants
+  permission and requires nothing of a consumer, a page has at most one, and
+  consumers must not infer a live example any other way.
+- Section 15.8 of the component standard, stating the authoring rule for the
+  marker.
+- `scripts/verify-docs-preview.mjs`, run by `npm run verify`, which checks the
+  marker, the one-per-page limit and the content rules. `RELEASING.md` runs it
+  against the extracted release package.
+
+### Changed
+
+- The Size example on the Button page carries the marker. The page renders as
+  before.
+- The Decisions table in the documentation index now lists ADR-0005, ADR-0006
+  and ADR-0007.
+
+This release changes documentation and the release procedure only. No public
+class selector, modifier, design token, markup contract or `exports` entry
+point changed, no shipped CSS output changed, and the package whitelist is
+unchanged — a non-breaking, patch-level change per ADR-0002. The package gains
+ADR-0007 under `docs/adr/`.
+
 ## [1.0.3] - 2026-10-09
 
 ### Added
@@ -481,7 +509,8 @@ output changed — a non-breaking, patch-level change per ADR-0002.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.4...HEAD
+[1.0.4]: https://github.com/redspartanlabs/spartacss/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/redspartanlabs/spartacss/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/redspartanlabs/spartacss/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/redspartanlabs/spartacss/compare/v1.0.0...v1.0.1
