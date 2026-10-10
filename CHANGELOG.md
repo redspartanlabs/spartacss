@@ -6,6 +6,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html),
 per ADR-0001.
 
+## [Unreleased]
+
+## [1.0.5] - 2026-10-09
+
+### Added
+
+- [ADR-0008](docs/adr/0008-multiple-live-examples.md), which supersedes only the
+  one-example-per-page limit of ADR-0007. A documentation page may mark any
+  number of HTML examples `html preview`. A marker may carry `height=N`,
+  optionally followed by `wide=M`. Both values are whole-number `rem`
+  recommendations from 3 to 60: `height` recommends the frame height for a
+  narrow example, while `wide` recommends a comfortably wide frame. Marked
+  examples may not contain elements that load or embed anything,
+  event-handler attributes, or
+  `javascript:`, `data:` or `vbscript:` URLs.
+- Documentation pages: [Getting started](docs/getting-started.md) and three
+  guides, [Building page layouts](docs/guide-layouts.md),
+  [Designing forms](docs/guide-forms.md) and
+  [Staying consistent](docs/guide-consistency.md). The documentation index lists
+  them under "Start here" and "Guides".
+- `scripts/verify-docs-preview.test.mjs`, run by `npm run verify`, which shows
+  each rule of the documentation example validator failing on a bad page.
+
+### Changed
+
+- Every component and foundation page now renders its variants and states as live
+  examples, and gains the sections the component standard calls for where they
+  were missing: when to use which, JavaScript responsibility, responsive
+  behavior, common mistakes, and related pages. Existing statements are kept.
+- `scripts/verify-docs-preview.mjs` now also checks that every `sp-` class named
+  in any HTML example in `docs/` is defined by the built stylesheet, so it runs
+  after the build. Section 15.8 of the component standard is updated to match.
+- The Icons page gains a gallery of every icon the release ships.
+
+This is a documentation-only change: no CSS, class, token, `exports` entry or
+whitelist changed.
+
 ## [1.0.4] - 2026-10-09
 
 ### Added
@@ -509,7 +546,8 @@ output changed — a non-breaking, patch-level change per ADR-0002.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.4...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.5...HEAD
+[1.0.5]: https://github.com/redspartanlabs/spartacss/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/redspartanlabs/spartacss/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/redspartanlabs/spartacss/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/redspartanlabs/spartacss/compare/v1.0.1...v1.0.2

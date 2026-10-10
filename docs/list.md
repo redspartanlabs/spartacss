@@ -6,9 +6,17 @@ List styles `<ul>`/`<ol>` content with consistent spacing, marker
 coloring, nesting, and several presentation variants (unstyled, inline,
 divided, checked).
 
+## When to use which
+
+- **Guidance:** use List for a sequence or set of short items: points, steps,
+  features. Use `--ol` when order matters and `--ul` when it does not.
+- **Guidance:** for tabular data with columns, use [Table](./table.md). For a
+  row of navigation links, a list of links styled with `--inline` or
+  `--unstyled` is fine, inside a `<nav>`.
+
 ## Usage
 
-```html
+```html preview height=11
 <ul class="sp-list sp-list--ul">
   <li class="sp-list__item">First point</li>
   <li class="sp-list__item">Second point</li>
@@ -31,21 +39,48 @@ divided, checked).
   lower-alpha for nested `--ol`) — no extra class needed on the nested
   list.
 
-## Variants
-
-```html
-<ul class="sp-list sp-list--unstyled">...</ul> <!-- no marker, no indent -->
-<ul class="sp-list sp-list--inline">...</ul>   <!-- horizontal, wrapping -->
-<ul class="sp-list sp-list--divided">...</ul>  <!-- horizontal rule between items -->
-<ul class="sp-list sp-list--checked">...</ul>  <!-- checkmark instead of a marker -->
+```html preview height=11
+<ul class="sp-list sp-list--ul">
+  <li class="sp-list__item">Fruit
+    <ul class="sp-list sp-list--ul">
+      <li class="sp-list__item">Apple</li>
+      <li class="sp-list__item">Pear</li>
+    </ul>
+  </li>
+  <li class="sp-list__item">Vegetables</li>
+</ul>
 ```
+
+## Variants
 
 `--unstyled`, `--inline`, `--divided`, and `--checked` all remove the
 native marker and left padding — they're independent presentation modes,
 not combinable with `--ul`/`--ol` (which rely on native markers) or
 meaningfully with each other.
 
+```html preview height=7
+<ul class="sp-list sp-list--unstyled"><li class="sp-list__item">No marker</li><li class="sp-list__item">No indent</li></ul>
+```
+
+```html preview height=5
+<ul class="sp-list sp-list--inline"><li class="sp-list__item">Horizontal</li><li class="sp-list__item">and</li><li class="sp-list__item">wrapping</li></ul>
+```
+
+```html preview height=13
+<ul class="sp-list sp-list--divided"><li class="sp-list__item">A rule between</li><li class="sp-list__item">each pair</li><li class="sp-list__item">of items</li></ul>
+```
+
+```html preview height=9
+<ul class="sp-list sp-list--checked"><li class="sp-list__item">Included in every plan</li><li class="sp-list__item">Unlimited projects</li><li class="sp-list__item">Priority support</li></ul>
+```
+
 Size: `--sm`, default (unsized), `--lg`.
+
+```html preview height=8
+<ul class="sp-list sp-list--ul sp-list--sm"><li class="sp-list__item">Small</li></ul>
+<ul class="sp-list sp-list--ul"><li class="sp-list__item">Default</li></ul>
+<ul class="sp-list sp-list--ul sp-list--lg"><li class="sp-list__item">Large</li></ul>
+```
 
 ## State modifiers
 
@@ -63,6 +98,29 @@ None — List is a static content component with no interactive states.
   underlying `<ul>`/`<li>` semantics are unchanged, so list semantics
   (item count, list role) are preserved for assistive technology
   regardless of which visual variant is applied.
+
+## Responsive behavior
+
+List has no breakpoint-specific behavior. `--inline` wraps onto further lines
+when the items do not fit.
+
+## Common mistakes
+
+**Combining `--ul` with `--unstyled`, `--inline`, `--divided` or `--checked`.**
+Those variants replace the native marker that `--ul` and `--ol` depend on.
+Choose one mode.
+
+**Using `--ol` where order does not matter.** The numbers promise a sequence.
+
+**Using a list for layout.** A `<ul>` of unrelated blocks adds list semantics
+the reader does not need. Use a [stack](./layout.md) for spacing.
+
+## Related
+
+- [Table](./table.md) — data with columns.
+- [Forms](./forms.md) — the checkmark token shared with Checkbox.
+- [Breadcrumbs](./breadcrumbs.md) — a navigation trail, which is its own
+  component.
 
 ---
 Source: `src/components/sparta-list.css`

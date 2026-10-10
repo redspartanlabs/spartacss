@@ -10,7 +10,7 @@ no framework bindings, usable from any site or app regardless of stack.
 **[→ Documentation index](docs/README.md)** — components, tokens, theming,
 layout, motion, accessibility, and the architecture decisions behind them.
 
-**Status:** the package is at `1.0.4`. Its intended registry is npm, as
+**Status:** the package is at `1.0.5`. Its intended registry is npm, as
 `@redspartanlabs/spartacss`
 ([ADR-0006](docs/adr/0006-npm-registry-distribution.md)), and `1.0.3` is the
 first release intended for it; `1.0.2` was a GitHub-only release, not intended
@@ -31,7 +31,7 @@ none of that documentation is repeated here.
 **1. Install.** A tag-pinned git dependency (see [Installation](#installation)):
 
 ```
-npm install github:redspartanlabs/spartacss#v1.0.4
+npm install github:redspartanlabs/spartacss#v1.0.5
 ```
 
 **2. Import a bundle.** One line gets you the default bundle — tokens,
@@ -74,7 +74,7 @@ SpartaCSS is intended for distribution on npm as `@redspartanlabs/spartacss`
 a tag-pinned git dependency, per ADR-0001's phased distribution plan:
 
 ```
-npm install github:redspartanlabs/spartacss#v1.0.4
+npm install github:redspartanlabs/spartacss#v1.0.5
 ```
 
 `1.0.3` is the first release intended for npm. Where the registry has it,

@@ -15,13 +15,22 @@ and are not interchangeable:
 If you need a tiny inline status indicator, use Badge. If you need a
 selectable or removable token (filter pills, multi-select tags), use Chip.
 
+## When to use which
+
+- **Guidance:** use Badge to label or count something that is not itself
+  actionable: a status ("Beta"), a count ("3 unread"), a category.
+- **Guidance:** use Chip when the label is something the reader can select,
+  toggle or remove: an active filter, a tag in an input.
+- **Guidance:** for a message rather than a label, use [Alert](./alert.md).
+  For a button-shaped action, use [Button](./button.md).
+
 ---
 
 ## Badge
 
 ### Usage
 
-```html
+```html preview height=5
 <span class="sp-badge sp-badge--primary">New</span>
 <span class="sp-badge sp-badge--success sp-badge--dot">Online</span>
 ```
@@ -35,14 +44,31 @@ selectable or removable token (filter pills, multi-select tags), use Chip.
 Color: `--primary`, `--secondary`, `--success`, `--warning`, `--error`,
 `--info`, `--neutral`.
 
+```html preview height=7
+<span class="sp-badge sp-badge--primary">Primary</span>
+<span class="sp-badge sp-badge--secondary">Secondary</span>
+<span class="sp-badge sp-badge--success">Success</span>
+<span class="sp-badge sp-badge--warning">Warning</span>
+<span class="sp-badge sp-badge--error">Error</span>
+<span class="sp-badge sp-badge--info">Info</span>
+<span class="sp-badge sp-badge--neutral">Neutral</span>
+```
+
 Size: `--sm`, default (unsized), `--lg`.
+
+```html preview height=5
+<span class="sp-badge sp-badge--neutral sp-badge--sm">Draft</span>
+<span class="sp-badge sp-badge--neutral">Default</span>
+<span class="sp-badge sp-badge--error sp-badge--lg">Failed</span>
+```
 
 Style: `--dot` — prepends a small solid `currentColor` dot before the
 label (via `::before`), for a status-indicator look.
 
-```html
-<span class="sp-badge sp-badge--neutral sp-badge--sm">Draft</span>
-<span class="sp-badge sp-badge--error sp-badge--lg">Failed</span>
+```html preview height=5
+<span class="sp-badge sp-badge--success sp-badge--dot">Online</span>
+<span class="sp-badge sp-badge--warning sp-badge--dot">Degraded</span>
+<span class="sp-badge sp-badge--error sp-badge--dot">Offline</span>
 ```
 
 ### State modifiers
@@ -64,7 +90,7 @@ the text content, not conveyed by color alone.
 
 ### Usage
 
-```html
+```html preview height=5
 <span class="sp-chip sp-chip--interactive">
   Frontend
   <button class="sp-chip__remove" aria-label="Remove Frontend filter">×</button>
@@ -86,8 +112,19 @@ tuned for Chip's larger surface).
 
 Size: `--sm`, default (unsized), `--lg`.
 
-```html
-<span class="sp-chip sp-chip--primary sp-chip--sm">Active</span>
+```html preview height=7 wide=5
+<span class="sp-chip">Default</span>
+<span class="sp-chip sp-chip--primary">Primary</span>
+<span class="sp-chip sp-chip--secondary">Secondary</span>
+<span class="sp-chip sp-chip--success">Success</span>
+<span class="sp-chip sp-chip--warning">Warning</span>
+<span class="sp-chip sp-chip--error">Error</span>
+```
+
+```html preview height=6
+<span class="sp-chip sp-chip--primary sp-chip--sm">Small</span>
+<span class="sp-chip sp-chip--primary">Default</span>
+<span class="sp-chip sp-chip--primary sp-chip--lg">Large</span>
 ```
 
 ### State modifiers
@@ -102,6 +139,19 @@ Size: `--sm`, default (unsized), `--lg`.
 - `.sp-chip__remove:hover` — the remove button's opacity increases from
   0.6 to 1 on hover, independent of the parent chip's own state.
 
+```html preview height=7 wide=5
+<span class="sp-chip sp-chip--interactive">Unselected</span>
+<span class="sp-chip sp-chip--interactive sp-chip--selected">Selected</span>
+<span class="sp-chip sp-chip--interactive sp-chip--active">Active (same as selected)</span>
+```
+
+A removable chip pairs the chip with its remove button:
+
+```html preview height=5
+<span class="sp-chip sp-chip--primary">Design<button class="sp-chip__remove" aria-label="Remove Design filter">×</button></span>
+<span class="sp-chip sp-chip--primary">Engineering<button class="sp-chip__remove" aria-label="Remove Engineering filter">×</button></span>
+```
+
 ### Accessibility
 
 - `.sp-chip__remove` is a `<button>`-shaped visual, so use a real
@@ -115,6 +165,55 @@ Size: `--sm`, default (unsized), `--lg`.
   should communicate that state via `aria-pressed` on the underlying
   element — SpartaCSS styles `.sp-chip--selected`/`--active` visually but
   does not set or read any ARIA state itself.
+
+What SpartaCSS provides, and what stays yours:
+
+| SpartaCSS provides | Your application provides |
+| --- | --- |
+| The pill, its colors and sizes, the selected look, the remove button's look | Making an interactive chip a real `<button>` (or giving it a role and key handling) |
+| Hover response on `--interactive` | `aria-pressed` for a toggle, and the remove behavior itself |
+
+## Responsive behavior
+
+Neither Badge nor Chip has breakpoint-specific behavior. They are inline
+elements and flow with the text around them. Place a group of chips in a
+[cluster](./layout.md) so they wrap onto new lines instead of overflowing.
+
+## Common mistakes
+
+**A chip that looks interactive but is a `<span>` with a click handler.**
+`.sp-chip--interactive` is appearance only.
+
+```html
+<!-- Wrong: not focusable, no keyboard activation -->
+<span class="sp-chip sp-chip--interactive" onclick="toggle()">Frontend</span>
+
+<!-- Right: a real button that is also the chip -->
+<button type="button" class="sp-chip sp-chip--interactive" aria-pressed="false">Frontend</button>
+```
+
+**A remove button with only "×".**
+
+```html
+<!-- Wrong: announced as "times, button" -->
+<button class="sp-chip__remove">×</button>
+
+<!-- Right -->
+<button class="sp-chip__remove" aria-label="Remove Frontend filter">×</button>
+```
+
+**Using Badge as a button.** A Badge has no hover, focus or active state and
+is not meant to be activated. For something to click, use Chip or Button.
+
+**A color-only status.** A green dot and a red dot with no text tell color-blind
+readers nothing. Keep the text ("Online", "Offline") — the dot is decoration.
+
+## Related
+
+- [Button](./button.md) — for actions.
+- [Alert](./alert.md) — for messages.
+- [Forms](./forms.md) — chips are often used as input tags.
+- [Layout](./layout.md) — clusters for groups of chips.
 
 ---
 Source: `src/components/sparta-badge.css`

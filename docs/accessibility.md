@@ -121,5 +121,62 @@ resolves to whatever the user's OS/browser high-contrast theme defines, by
 design, so these borders stay correct under any forced-colors palette the
 user has chosen.
 
+## What each component leaves to you
+
+A quick reference. Each row is detailed on the component's own page.
+
+| Component | SpartaCSS provides | You provide |
+| --- | --- | --- |
+| [Button](./button.md) | Appearance, visible focus ring, disabled and loading looks | A real `<button>` or `<a>`; a name for an icon-only button; preventing activation while loading; `aria-busy` |
+| [Forms](./forms.md) | Appearance of every control and its states | A `<label>` for each control; `required`; `aria-invalid` and `aria-describedby` with the message text |
+| [Modal](./modal.md), [Drawer](./drawer.md) | Structure, open and closed states, transitions | `role="dialog"`, `aria-modal`, a name; moving and trapping focus; `Escape`; restoring focus |
+| [Dropdown](./dropdown.md) | Opening on hover and focus, with no script | `Escape` and outside-click closing; menu roles if needed |
+| [Tooltip](./tooltip.md) | Showing on hover and focus | A focusable trigger; `aria-describedby` if you rely on the text |
+| [Tabs](./tabs.md) | Active, hidden and disabled looks | The ARIA tabs pattern, roving focus and arrow keys, if you want them |
+| [Accordion](./accordion.md) | Open and closed states, transition | Toggling the open class; `aria-expanded` and `aria-controls` |
+| [Alert](./alert.md), [Notifications](./notifications.md) | The look | `role="alert"` or `role="status"` for messages that appear dynamically; focus management for a Dialog |
+| [Table](./table.md) | The look, a sort indicator | `scope` on headers; `aria-sort`; the sorting itself |
+| [Navbar](./app-shell.md) | The layout and the collapsed menu | `<nav>` and its name; `aria-expanded` on the toggle; `aria-current` |
+| [Pagination](./pagination.md), [Breadcrumbs](./breadcrumbs.md) | The look | `<nav>` with a label; `aria-current="page"` |
+| [Progress](./progress.md) | The look and animation | `role` and accessible name; values that match the bar |
+
+## Responsive behavior
+
+Accessibility behavior in SpartaCSS does not depend on viewport width. Focus
+styling, reduced motion and forced colors apply at every size.
+
+## Common mistakes
+
+**Assuming a class implies a role.** `.sp-modal` does not add
+`role="dialog"`, `.sp-tabs` does not add `role="tablist"`. SpartaCSS never adds
+ARIA.
+
+**Treating the visual state as the accessible state.** `.sp-tabs__tab--active`,
+`.sp-accordion__item--open` and `.sp-pagination__link--active` style the
+state. Your markup also has to say it with `aria-selected`, `aria-expanded` or
+`aria-current`.
+
+**Removing the focus ring.** The visible focus indicator is part of the
+contract. Do not override `outline` or `box-shadow` on focus to hide it.
+
+**Color as the only signal.** Several components (Alert, the Badge dot, field
+states) convey severity or status partly through color. Keep the text, and an
+icon where the component page recommends one, so the meaning does not depend on
+color alone.
+
+**Hiding text with `display: none`.** That hides it from assistive technology
+too. Use `.sp-sr-only` for text that should be read but not seen.
+
+**Waiting for SpartaCSS to add the script.** It will not. The behavior listed in
+"You provide" above is yours by design.
+
+## Related
+
+- [Motion](./motion.md) — the reduced-motion contract.
+- [Forms](./forms.md), [Modal](./modal.md), [Tabs](./tabs.md) — the components
+  with the most to wire up.
+- [Getting started](./getting-started.md) — a first page that gets the basics
+  right.
+
 ---
 Source: `src/core/sparta-accessibility.css`

@@ -6,8 +6,14 @@ This page is navigation only — it links documentation rather than restating
 it. Each linked document remains the authority on its own subject, and each
 names its own source file at the bottom so you can read the CSS behind it.
 
-New to SpartaCSS? Start with the [README](../README.md)'s Getting started
-section, then come back here.
+New to SpartaCSS? Start with [Getting started](getting-started.md), then come
+back here. The [README](../README.md) has the same steps in brief.
+
+## Start here
+
+| Document | What it covers |
+| --- | --- |
+| [Getting started](getting-started.md) | What SpartaCSS is, how to install it and load a bundle, a first page, theming, and how to override it without forking it. |
 
 ## Foundations
 
@@ -75,6 +81,17 @@ for any of it.
 | [Page Header](page-header.md) | Title, eyebrow, subtitle, meta row and trailing actions. |
 | [Navbar & App Shell](app-shell.md) | The `.sp-navbar` navigation component and the `.sp-app-shell` application layout. |
 
+## Guides
+
+How the pieces fit together into real interfaces. They add no classes of their
+own: everything in them is documented on the page it links.
+
+| Document | What it covers |
+| --- | --- |
+| [Building page layouts](guide-layouts.md) | Composing the app shell, page header, container, stack, cluster and grid into dashboards, list pages and content layouts, and making them responsive. |
+| [Designing forms](guide-forms.md) | Structuring fields and forms, choosing controls, validation and error messages, and submitting. |
+| [Staying consistent](guide-consistency.md) | Using tokens and components rather than rebuilding them, changing the system at the token level, and keeping meaning consistent. |
+
 ## Modules that need their own import
 
 These two are **not** in `spartacss.css`. Import the module alongside core,
@@ -100,7 +117,8 @@ above does not settle.
 | [ADR-0004](adr/0004-git-tag-artifact-distribution.md) | Why release tags carry prebuilt `dist/` artifacts. |
 | [ADR-0005](adr/0005-canonical-ui-component-standard.md) | The canonical UI component standard: why it exists and what it leaves open. Still Proposed. |
 | [ADR-0006](adr/0006-npm-registry-distribution.md) | npm as the intended registry, under `@redspartanlabs/spartacss`, with GitHub as the canonical home. |
-| [ADR-0007](adr/0007-documentation-preview-contract.md) | How a documentation page designates one HTML example for optional live rendering. |
+| [ADR-0007](adr/0007-documentation-preview-contract.md) | How a documentation page designates HTML examples for optional live rendering. Amended by ADR-0008. |
+| [ADR-0008](adr/0008-multiple-live-examples.md) | Any number of marked examples per page, optional `height` and `wide` hints, and stricter rules for example content. |
 
 Release history lives in [CHANGELOG.md](../CHANGELOG.md); the procedure for
 cutting a release is [RELEASING.md](../RELEASING.md).

@@ -14,11 +14,29 @@ message.
 This module requires core (`spartacss.css`) — every visual property
 resolves through core's token layer, and it has no tokens of its own.
 
+## When to use which
+
+- **Guidance:** use a **Toast** for a short confirmation or notice that is a
+  result of something the reader just did ("Saved"), that can disappear on its
+  own, and that does not need a decision.
+- **Guidance:** use an **Alert Banner** for a page-level condition that should
+  stay until the reader dismisses it or it no longer applies: a connection
+  problem, a read-only mode, a maintenance notice.
+- **Guidance:** use a **Confirm / Dialog** when the reader must decide before
+  continuing — typically to confirm something destructive. Everything behind it
+  waits.
+- **Guidance:** for a message that belongs to a part of the page and stays
+  there, use [Alert](./alert.md). For a general-purpose dialog with arbitrary
+  content, use [Modal](./modal.md).
+
+Do not rely on a Toast as the only way a reader learns something essential:
+it disappears, and a reader may not see it in time.
+
 ## Toast
 
 ### Usage
 
-```html
+```html preview height=12
 <div class="sp-toast-wrap sp-toast-wrap--top-right">
   <div class="sp-toast sp-toast--success">
     <span class="sp-toast__icon">✓</span>
@@ -53,6 +71,16 @@ Position (apply to `.sp-toast-wrap`): `--top-left`, `--top-right`,
 Color (apply to `.sp-toast`): `--success`, `--error`, `--warning`,
 `--info`, `--neutral`.
 
+```html preview height=34
+<div class="sp-toast-wrap sp-toast-wrap--top-center">
+  <div class="sp-toast sp-toast--success"><span class="sp-toast__icon">✓</span><div class="sp-toast__body"><div class="sp-toast__title">Success</div><div class="sp-toast__text">It worked.</div></div></div>
+  <div class="sp-toast sp-toast--error"><span class="sp-toast__icon">✕</span><div class="sp-toast__body"><div class="sp-toast__title">Error</div><div class="sp-toast__text">It failed.</div></div></div>
+  <div class="sp-toast sp-toast--warning"><span class="sp-toast__icon">!</span><div class="sp-toast__body"><div class="sp-toast__title">Warning</div><div class="sp-toast__text">Be careful.</div></div></div>
+  <div class="sp-toast sp-toast--info"><span class="sp-toast__icon">i</span><div class="sp-toast__body"><div class="sp-toast__title">Info</div><div class="sp-toast__text">For your information.</div></div></div>
+  <div class="sp-toast sp-toast--neutral"><span class="sp-toast__icon">•</span><div class="sp-toast__body"><div class="sp-toast__title">Neutral</div><div class="sp-toast__text">A plain notice.</div></div></div>
+</div>
+```
+
 ### State modifiers
 
 `.sp-toast--out` plays the exit animation. SpartaCSS does not remove the
@@ -64,7 +92,7 @@ toast from the DOM or track its lifetime — your own script adds
 
 ### Usage
 
-```html
+```html preview height=8
 <div class="sp-alert-banner sp-alert-banner--warning">
   <span class="sp-alert-banner__icon">⚠</span>
   <div class="sp-alert-banner__body">
@@ -91,12 +119,25 @@ a legacy/current pair.
 
 Color: `--success`, `--error`, `--warning`, `--info`, `--neutral`.
 
+```html preview height=18
+<div class="sp-stack">
+  <div class="sp-alert-banner sp-alert-banner--success"><span class="sp-alert-banner__icon">✓</span><div class="sp-alert-banner__body"><div class="sp-alert-banner__title">Success</div><div class="sp-alert-banner__text">Everything is up to date.</div></div></div>
+  <div class="sp-alert-banner sp-alert-banner--error"><span class="sp-alert-banner__icon">✕</span><div class="sp-alert-banner__body"><div class="sp-alert-banner__title">Error</div><div class="sp-alert-banner__text">The sync failed.</div></div></div>
+  <div class="sp-alert-banner sp-alert-banner--warning"><span class="sp-alert-banner__icon">!</span><div class="sp-alert-banner__body"><div class="sp-alert-banner__title">Warning</div><div class="sp-alert-banner__text">Scheduled maintenance tonight.</div></div></div>
+  <div class="sp-alert-banner sp-alert-banner--info"><span class="sp-alert-banner__icon">i</span><div class="sp-alert-banner__body"><div class="sp-alert-banner__title">Info</div><div class="sp-alert-banner__text">A new version is available.</div></div></div>
+  <div class="sp-alert-banner sp-alert-banner--neutral"><span class="sp-alert-banner__icon">•</span><div class="sp-alert-banner__body"><div class="sp-alert-banner__title">Neutral</div><div class="sp-alert-banner__text">A plain notice.</div></div></div>
+</div>
+```
+
 Layout: `--full` (edge-to-edge, no radius, bottom border instead of a
 left accent — for a banner spanning the full page width) and `--compact`
 (tighter padding, title/text collapse to a single inline line).
 
-```html
-<div class="sp-alert-banner sp-alert-banner--info sp-alert-banner--full">...</div>
+```html preview height=7
+<div class="sp-stack">
+  <div class="sp-alert-banner sp-alert-banner--info sp-alert-banner--full"><span class="sp-alert-banner__icon">i</span><div class="sp-alert-banner__body"><div class="sp-alert-banner__title">Full width</div><div class="sp-alert-banner__text">Edge to edge, no radius.</div></div></div>
+  <div class="sp-alert-banner sp-alert-banner--info sp-alert-banner--compact"><span class="sp-alert-banner__icon">i</span><div class="sp-alert-banner__body"><div class="sp-alert-banner__title">Compact</div><div class="sp-alert-banner__text">Title and text on one line.</div></div></div>
+</div>
 ```
 
 ### State modifiers
@@ -109,7 +150,7 @@ response to a click.
 
 ### Usage
 
-```html
+```html preview height=24
 <div class="sp-dialog-overlay">
   <div class="sp-dialog">
     <div class="sp-dialog__header">
@@ -160,11 +201,42 @@ Size: `--sm`, default (unsized), `--lg` (apply to `.sp-dialog`).
 
 Icon tone: `.sp-dialog__icon--danger` / `--warning` / `--info` / `--success`.
 
+```html preview height=20
+<div class="sp-dialog-overlay">
+  <div class="sp-dialog sp-dialog--sm">
+    <div class="sp-dialog__header">
+      <span class="sp-dialog__icon sp-dialog__icon--info">i</span>
+      <div class="sp-dialog__title-group">
+        <div class="sp-dialog__title">Small dialog</div>
+        <div class="sp-dialog__desc">An informational confirmation.</div>
+      </div>
+    </div>
+    <div class="sp-dialog__footer sp-dialog__footer--split">
+      <button class="sp-dialog-btn sp-dialog-btn--ghost">Back</button>
+      <button class="sp-dialog-btn sp-dialog-btn--primary">Continue</button>
+    </div>
+  </div>
+</div>
+```
+
 ### State modifiers
 
 `.sp-dialog-overlay--out` plays an exit fade. As with Toast, your own
 script adds it, waits for the animation, then removes the dialog.
 `.sp-dialog-btn:disabled` dims the button and disables pointer events.
+
+## JavaScript responsibility
+
+These components are styling only. Your script:
+
+- creates a Toast, places it in a `.sp-toast-wrap`, and — if it should
+  disappear — runs the timer, adds `.sp-toast--out`, waits for the animation to
+  finish, then removes it;
+- removes or hides an Alert Banner when its close button is pressed;
+- opens a Dialog, moves focus into it, traps focus while it is open, closes it
+  on `Escape` if you want that, and returns focus to the control that opened
+  it, adding `.sp-dialog-overlay--out` first if the exit animation should play;
+- adds the ARIA roles listed below.
 
 ## Accessibility (all three)
 
@@ -183,6 +255,41 @@ script adds it, waits for the animation, then removes the dialog.
 - `.sp-toast__close`, `.sp-alert-banner__close`, and `.sp-dialog__close`
   all render as bare glyphs by default (`×`) — always pair with
   `aria-label` as shown throughout Usage above.
+
+## Responsive behavior
+
+None of the three has breakpoint-specific rules. A Toast wrapper is fixed to the
+corner or edge its position modifier names, and an Alert Banner is a block that
+fills its container; `--full` makes it span the page. A Dialog is a centered
+box capped by its size modifier.
+
+## Common mistakes
+
+**Mixing `.sp-button` into a Dialog footer.** Dialog has its own
+`.sp-dialog-btn` classes, scoped to it. Use those.
+
+**A Toast as the only way to learn something.** It disappears. If the message
+matters, also show it somewhere that stays.
+
+**No role on a dynamic message.** A Toast or Banner inserted after load is not
+announced unless it has `role="status"` or `role="alert"`.
+
+**A Dialog with no focus management.** It blocks the page visually, but focus
+can still move to the controls behind it. See JavaScript responsibility.
+
+**A close button that is only "×".** Give each close button an `aria-label`.
+
+**A progress bar that does not match the timer.** `.sp-toast__progress` only
+animates for the duration you set. If the toast is dismissed on a different
+schedule, the bar misleads.
+
+## Related
+
+- [Alert](./alert.md) — a static message that stays in the page.
+- [Modal](./modal.md) — a general-purpose dialog.
+- [Button](./button.md) — buttons for use outside a Dialog.
+- [Accessibility](./accessibility.md) — ARIA responsibility boundaries.
+- [Motion](./motion.md) — the reduced-motion contract.
 
 ---
 Source: `src/modules/feedback/sparta-notifications.css`

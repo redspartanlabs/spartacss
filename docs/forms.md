@@ -14,9 +14,27 @@ fits your form's complexity. `.sp-field` is documented in full below since
 it's the more capable option; `.sp-form-group` is documented briefly since
 it's a thin wrapper with no variants of its own.
 
+Every primitive styles a **native** form element. Nothing here replaces the
+browser's form behavior: validation, autofill, submission and keyboard
+operation are the elements', not SpartaCSS's. SpartaCSS provides the
+appearance and the visual states; your application provides the labels, the
+validation logic and the messages.
+
+## When to use which
+
+- **Guidance:** pick `.sp-form-group` for a simple label-control-hint stack,
+  and `.sp-field` when you need a required/optional marker, an icon inside the
+  control, a validation state, or a label beside the control.
+- **Requirement:** use a native `<select>` (`.sp-select`) when the reader must
+  choose from a list as part of a form. A [Dropdown](./dropdown.md) is a menu
+  of actions or navigation, not a form control.
+- **Guidance:** for a single yes/no, a Checkbox suits a choice that is
+  submitted with the form (accept terms); a Toggle Switch suits a setting that
+  takes effect immediately. For one choice among several, use Radios.
+
 ## `.sp-form-group` (simple wrapper)
 
-```html
+```html preview height=9
 <div class="sp-form-group">
   <label class="sp-label" for="email">Email</label>
   <input class="sp-input" id="email" type="email" />
@@ -32,15 +50,23 @@ it's a thin wrapper with no variants of its own.
 - `.sp-form-error` — error-colored text below the control (styling only —
   toggling it based on validation state is up to you).
 
+```html preview height=9
+<div class="sp-form-group">
+  <label class="sp-label sp-label--required" for="name">Name</label>
+  <input class="sp-input sp-input--error" id="name" type="text" required aria-invalid="true" aria-describedby="name-error" />
+  <span class="sp-form-error" id="name-error">Enter your name.</span>
+</div>
+```
+
 ## `.sp-field` (full field system)
 
 ### Usage
 
-```html
+```html preview height=9
 <div class="sp-field">
-  <label class="sp-field__label sp-field__label--required" for="name">Name</label>
+  <label class="sp-field__label sp-field__label--required" for="name2">Name</label>
   <div class="sp-field__control">
-    <input class="sp-input" id="name" type="text" />
+    <input class="sp-input" id="name2" type="text" required />
   </div>
   <span class="sp-field__hint">As it appears on your ID.</span>
 </div>
@@ -48,14 +74,14 @@ it's a thin wrapper with no variants of its own.
 
 With a leading icon and an error state:
 
-```html
+```html preview height=9
 <div class="sp-field sp-field--error">
   <label class="sp-field__label" for="search">Search</label>
   <div class="sp-field__control sp-field__control--icon-left">
     <span class="sp-field__icon sp-field__icon--left">🔍</span>
-    <input class="sp-input" id="search" type="text" />
+    <input class="sp-input" id="search" type="text" aria-invalid="true" aria-describedby="search-error" />
   </div>
-  <span class="sp-field__error">This field is required.</span>
+  <span class="sp-field__error" id="search-error">This field is required.</span>
 </div>
 ```
 
@@ -94,26 +120,78 @@ With a leading icon and an error state:
 `--error`, `--success`, and `--warning` are mutually exclusive — apply at
 most one at a time.
 
+```html preview height=32
+<div class="sp-stack">
+  <div class="sp-field sp-field--error">
+    <label class="sp-field__label" for="f-err">Error</label>
+    <div class="sp-field__control"><input class="sp-input" id="f-err" type="text" value="bad value" aria-invalid="true" aria-describedby="f-err-msg" /></div>
+    <span class="sp-field__error" id="f-err-msg">That value is not valid.</span>
+  </div>
+  <div class="sp-field sp-field--success">
+    <label class="sp-field__label" for="f-ok">Success</label>
+    <div class="sp-field__control"><input class="sp-input" id="f-ok" type="text" value="good value" /></div>
+    <span class="sp-field__hint">Looks good.</span>
+  </div>
+  <div class="sp-field sp-field--warning">
+    <label class="sp-field__label" for="f-warn">Warning</label>
+    <div class="sp-field__control"><input class="sp-input" id="f-warn" type="text" value="questionable" aria-describedby="f-warn-msg" /></div>
+    <span class="sp-field__warning" id="f-warn-msg">This is usually longer.</span>
+  </div>
+  <div class="sp-field sp-field--disabled">
+    <label class="sp-field__label" for="f-dis">Disabled</label>
+    <div class="sp-field__control"><input class="sp-input" id="f-dis" type="text" value="read only for now" disabled /></div>
+    <span class="sp-field__hint">The input itself is also disabled.</span>
+  </div>
+</div>
+```
+
+Required and optional markers, and an inline field:
+
+```html preview height=12
+<div class="sp-stack">
+  <div class="sp-field">
+    <label class="sp-field__label sp-field__label--optional" for="f-opt">Nickname</label>
+    <div class="sp-field__control"><input class="sp-input" id="f-opt" type="text" /></div>
+  </div>
+  <div class="sp-field sp-field--inline">
+    <label class="sp-field__label" for="f-inl">Inline</label>
+    <div class="sp-field__control"><input class="sp-input" id="f-inl" type="text" /></div>
+  </div>
+</div>
+```
+
 ---
 
 ## Input
 
-```html
-<input class="sp-input" type="text" placeholder="you@example.com" />
+```html preview height=6
+<input class="sp-input" type="text" placeholder="you@example.com" aria-label="Email" />
 ```
 
 - **Class API:** `.sp-input` — base class, works on any `<input type="...">`.
+  It is a full-width block: it fills its container.
 - **Variants:** `--sm`, default (unsized), `--lg`.
 - **States:** `:hover` (not while focused/disabled), `:focus` (border +
   shadow ring), `:disabled` (45% opacity), `--error` (red border + red
   focus ring — can be applied directly to `.sp-input` or inherited via a
   parent `.sp-field--error`).
 
+```html preview height=21
+<div class="sp-stack">
+  <input class="sp-input sp-input--sm" type="text" placeholder="Small" aria-label="Small" />
+  <input class="sp-input" type="text" placeholder="Default" aria-label="Default" />
+  <input class="sp-input sp-input--lg" type="text" placeholder="Large" aria-label="Large" />
+  <input class="sp-input" type="text" value="Disabled" aria-label="Disabled" disabled />
+  <input class="sp-input sp-input--error" type="text" value="Error" aria-label="Error" aria-invalid="true" />
+</div>
+```
+
 ## Select
 
-```html
-<select class="sp-select">
+```html preview height=6
+<select class="sp-select" aria-label="Option">
   <option>Option A</option>
+  <option>Option B</option>
 </select>
 ```
 
@@ -126,10 +204,17 @@ most one at a time.
   exception — see [`tokens.md`](./tokens.md#reference-vs-override-guidance)).
   It does not currently repaint per-theme.
 
+```html preview height=10
+<div class="sp-stack">
+  <select class="sp-select sp-select--error" aria-label="Error" aria-invalid="true"><option>Error state</option></select>
+  <select class="sp-select" aria-label="Disabled" disabled><option>Disabled</option></select>
+</div>
+```
+
 ## Textarea
 
-```html
-<textarea class="sp-textarea" placeholder="Your message"></textarea>
+```html preview height=11
+<textarea class="sp-textarea" placeholder="Your message" aria-label="Message"></textarea>
 ```
 
 - **Class API:** `.sp-textarea` — base class; `resize: vertical` by
@@ -139,7 +224,7 @@ most one at a time.
 
 ## Checkbox & Radio
 
-```html
+```html preview height=5
 <label class="sp-checkbox">
   <input type="checkbox" />
   <span class="sp-checkbox--label">Accept terms</span>
@@ -161,9 +246,18 @@ most one at a time.
   `--sp-icon-bg-check-white`; radio shows an inset "dot" via `box-shadow`),
   `:disabled` (45% opacity).
 
+```html preview height=11
+<div class="sp-stack">
+  <label class="sp-checkbox"><input type="checkbox" checked /><span class="sp-checkbox--label">Checked</span></label>
+  <label class="sp-checkbox"><input type="checkbox" disabled /><span class="sp-checkbox--label">Disabled</span></label>
+  <label class="sp-radio"><input type="radio" name="size" checked /><span class="sp-radio--label">Selected</span></label>
+  <label class="sp-radio"><input type="radio" name="size" /><span class="sp-radio--label">Not selected</span></label>
+</div>
+```
+
 ## Toggle Switch
 
-```html
+```html preview height=5
 <label class="sp-toggle">
   <input class="sp-toggle__input" type="checkbox" />
   <span class="sp-toggle__label">Enable notifications</span>
@@ -176,6 +270,15 @@ most one at a time.
   thumb, and the thumb's checked-state travel distance, together.
 - **States:** `:checked` (track fills primary, thumb slides right),
   `:focus-visible` (shadow ring on the track), `:disabled` (45% opacity).
+
+```html preview height=13
+<div class="sp-stack">
+  <label class="sp-toggle sp-toggle--sm"><input class="sp-toggle__input" type="checkbox" checked /><span class="sp-toggle__label">Small, on</span></label>
+  <label class="sp-toggle"><input class="sp-toggle__input" type="checkbox" checked /><span class="sp-toggle__label">Default, on</span></label>
+  <label class="sp-toggle sp-toggle--lg"><input class="sp-toggle__input" type="checkbox" /><span class="sp-toggle__label">Large, off</span></label>
+  <label class="sp-toggle"><input class="sp-toggle__input" type="checkbox" disabled /><span class="sp-toggle__label">Disabled</span></label>
+</div>
+```
 
 ## Accessibility (all form primitives)
 
@@ -202,6 +305,72 @@ most one at a time.
   (`::after` content) — pair with the native `required` attribute on the
   input itself so assistive technology and form validation both recognize
   it, not just sighted users.
+- **Requirement:** a validation state needs more than the class. Set
+  `aria-invalid="true"` on the control, and point `aria-describedby` at the
+  message, as the error examples above do. SpartaCSS draws the red; it does
+  not tell assistive technology the value is invalid.
+
+What SpartaCSS provides, and what stays yours:
+
+| SpartaCSS provides | Your application provides |
+| --- | --- |
+| The appearance of every control and its hover, focus, checked and disabled states | The `<label>` for every control |
+| The error, success, warning and disabled looks | Deciding when a field is in each state, and the message text |
+| Required and optional markers as styled text | The `required` attribute, and the validation itself |
+| Nothing at runtime — there is no JavaScript | `aria-invalid`, `aria-describedby`, and moving focus to the first error on submit |
+
+## Responsive behavior
+
+`.sp-input` is a full-width block, so a field fills the width you give it and
+no breakpoint is needed. `.sp-field--inline` keeps its label and control on one
+row; on a narrow container, prefer the default stacked field. To place fields
+side by side on wide screens and stacked on narrow ones, put them in a
+[grid](./layout.md).
+
+## Common mistakes
+
+**A control with no label.** A placeholder is not a label: it disappears when
+the reader types, and is not reliably announced.
+
+```html
+<!-- Wrong -->
+<input class="sp-input" type="email" placeholder="Email" />
+
+<!-- Right -->
+<label class="sp-label" for="email">Email</label>
+<input class="sp-input" id="email" type="email" />
+```
+
+**An error that is only a red border.** Add text, and tell assistive
+technology.
+
+```html
+<!-- Wrong: color is the only signal -->
+<input class="sp-input sp-input--error" type="text" />
+
+<!-- Right -->
+<input class="sp-input sp-input--error" id="n" type="text" aria-invalid="true" aria-describedby="n-err" />
+<span class="sp-form-error" id="n-err">Enter your name.</span>
+```
+
+**`.sp-field--disabled` without `disabled`.** The class dims the field; it
+does not disable the input. The reader can still type in it.
+
+**A required marker without `required`.** The `*` is decoration. Set the
+attribute so validation and assistive technology know.
+
+**Mixing `.sp-field` and `.sp-form-group` states.** `--error` on
+`.sp-field` styles the control inside it; on a `.sp-form-group` there is no
+such modifier. Put `.sp-input--error` on the control there.
+
+## Related
+
+- [Button](./button.md) — submit and reset buttons.
+- [Dropdown](./dropdown.md) — a menu, not a form control.
+- [Layout](./layout.md) — placing fields in a stack or grid.
+- [Accessibility](./accessibility.md) — focus and ARIA responsibility
+  boundaries.
+- [Alert](./alert.md) — a form-level message.
 
 ---
 Source: `src/components/sparta-form.css`

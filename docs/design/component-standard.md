@@ -624,30 +624,51 @@ they apply**:
 
 ### 15.8 Live examples
 
-A page **MAY** designate one HTML example for optional live rendering by
-consumers of the documentation. The decision is recorded in
-[ADR-0007](../adr/0007-documentation-preview-contract.md).
+A page **MAY** designate HTML examples for optional live rendering by
+consumers of the documentation. The decisions are recorded in
+[ADR-0007](../adr/0007-documentation-preview-contract.md) and
+[ADR-0008](../adr/0008-multiple-live-examples.md).
 
 - A page designates an example only with the marker: the info string of the
-  example's fenced code block is `html preview`.
+  example's fenced code block is `html preview`, optionally followed by
+  `height=N` and then `wide=M`. Each is a whole number of rem from 3 to 60:
+  `height` is the author's recommendation for the height of a frame showing the
+  example at the narrowest layout it is designed for, and `wide` the
+  recommendation for a frame that is comfortably wide (about 30rem or more),
+  where wrapping content takes less room. They are advice, and an example
+  without them is equally valid. `wide` is only given together with `height`.
 
   ````markdown
-  ```html preview
+  ```html preview height=8
   <button class="sp-button sp-button--primary">Save</button>
   ```
   ````
 
-- A page **MUST NOT** contain more than one marked example.
+- A page **MAY** contain any number of marked examples. A page **SHOULD**
+  mark an example wherever seeing the rendering helps a reader understand a
+  variant or state the page documents, and **SHOULD** leave unmarked an
+  example whose point is its code.
 - A marked example **MUST** be a standalone HTML fragment: non-empty, not a
-  whole document, without a `<script>` element, and without site-relative link
-  targets. It **MUST NOT** depend on other content of its page.
+  whole document, and without a `<script>` element, an event-handler
+  attribute, a `javascript:`, `data:` or `vbscript:` URL, an element that
+  loads, embeds or submits something (`<iframe>`, `<object>`, `<embed>`,
+  `<link>`, `<meta>`, `<base>`, `<style>`, `<form>`), or a site-relative
+  link target. It **MUST NOT** depend on other content of its page.
+- A marked example is rendered by the package's own stylesheet, so its
+  appearance **MUST** be what the published CSS produces for its markup. It
+  **MAY** set `data-theme` on an element of its own to show a theme.
+- Every `sp-` class named in an HTML example, marked or not, **MUST** be a
+  class the built CSS defines (§15.7).
 - The marker grants permission and nothing more. A page **MUST** still present
   the example's code and explanation as ordinary documentation, and **MUST
-  NOT** rely on any consumer rendering the example.
+  NOT** rely on any consumer rendering the example. An example that needs
+  script to show its behaviour **MUST** be explained in prose instead of
+  marked.
 - A `preview` token in any other form (another language, another letter case,
-  or an additional token) is malformed and **MUST NOT** appear.
+  an additional token, or a malformed or out-of-range height) is malformed and
+  **MUST NOT** appear.
 - `scripts/verify-docs-preview.mjs`, run by `npm run verify`, checks the
-  marker, the one-per-page limit and the content rules above.
+  marker, the content rules and the class names above.
 
 ---
 

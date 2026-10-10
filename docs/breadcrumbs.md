@@ -5,20 +5,43 @@
 Breadcrumbs renders a horizontal trail of links showing the current page's
 position in a hierarchy, with an automatic separator between items.
 
+## When to use which
+
+- **Guidance:** use Breadcrumbs to show where the current page sits in a
+  hierarchy and to let the reader climb back up it. It suits sites with several
+  levels; it adds little to a flat site.
+- **Guidance:** for navigating between sibling pages, use a list of
+  [links](./link.md) or [Pagination](./pagination.md). For switching views on
+  one page, use [Tabs](./tabs.md).
+
 ## Usage
+
+The links in this example point at `#` targets so that it can be shown on its
+own; in your application they are your pages' real URLs, as in the code below
+the example.
+
+```html preview height=6
+<nav class="sp-breadcrumbs" aria-label="Breadcrumb">
+  <ol class="sp-breadcrumbs__list">
+    <li class="sp-breadcrumbs__item">
+      <a class="sp-breadcrumbs__link" href="#home">Home</a>
+    </li>
+    <li class="sp-breadcrumbs__item">
+      <a class="sp-breadcrumbs__link" href="#reports">Reports</a>
+    </li>
+    <li class="sp-breadcrumbs__item">
+      <span class="sp-breadcrumbs__current" aria-current="page">Q3 Summary</span>
+    </li>
+  </ol>
+</nav>
+```
 
 ```html
 <nav class="sp-breadcrumbs" aria-label="Breadcrumb">
   <ol class="sp-breadcrumbs__list">
-    <li class="sp-breadcrumbs__item">
-      <a class="sp-breadcrumbs__link" href="/">Home</a>
-    </li>
-    <li class="sp-breadcrumbs__item">
-      <a class="sp-breadcrumbs__link" href="/reports">Reports</a>
-    </li>
-    <li class="sp-breadcrumbs__item">
-      <span class="sp-breadcrumbs__current">Q3 Summary</span>
-    </li>
+    <li class="sp-breadcrumbs__item"><a class="sp-breadcrumbs__link" href="/">Home</a></li>
+    <li class="sp-breadcrumbs__item"><a class="sp-breadcrumbs__link" href="/reports">Reports</a></li>
+    <li class="sp-breadcrumbs__item"><span class="sp-breadcrumbs__current" aria-current="page">Q3 Summary</span></li>
   </ol>
 </nav>
 ```
@@ -38,9 +61,13 @@ position in a hierarchy, with an automatic separator between items.
 
 Override the separator per instance by redeclaring the custom property:
 
-```html
-<nav class="sp-breadcrumbs" style="--sp-breadcrumb-sep: '›'">
-  ...
+```html preview height=6
+<nav class="sp-breadcrumbs" style="--sp-breadcrumb-sep: '›'" aria-label="Breadcrumb">
+  <ol class="sp-breadcrumbs__list">
+    <li class="sp-breadcrumbs__item"><a class="sp-breadcrumbs__link" href="#home">Home</a></li>
+    <li class="sp-breadcrumbs__item"><a class="sp-breadcrumbs__link" href="#docs">Docs</a></li>
+    <li class="sp-breadcrumbs__item"><span class="sp-breadcrumbs__current" aria-current="page">Guide</span></li>
+  </ol>
 </nav>
 ```
 
@@ -64,6 +91,43 @@ None — Breadcrumbs has no interactive states beyond the native `:hover`/
   decorative and not read as meaningful text by screen readers reading
   generated content conventions — don't rely on it to convey structure;
   the underlying `<ol>`/`<li>` list order already does that.
+
+## Responsive behavior
+
+`.sp-breadcrumbs__list` wraps, so a long trail flows onto further lines on a
+narrow screen instead of overflowing. There are no breakpoint-specific rules.
+
+```html preview height=8
+<nav class="sp-breadcrumbs" aria-label="Breadcrumb">
+  <ol class="sp-breadcrumbs__list">
+    <li class="sp-breadcrumbs__item"><a class="sp-breadcrumbs__link" href="#a">Organization settings</a></li>
+    <li class="sp-breadcrumbs__item"><a class="sp-breadcrumbs__link" href="#b">Billing and subscriptions</a></li>
+    <li class="sp-breadcrumbs__item"><a class="sp-breadcrumbs__link" href="#c">Payment methods</a></li>
+    <li class="sp-breadcrumbs__item"><span class="sp-breadcrumbs__current" aria-current="page">Add a card</span></li>
+  </ol>
+</nav>
+```
+
+## Common mistakes
+
+**No `<nav>` and no label.** Without them the trail is not a landmark, and
+there is nothing to tell a screen-reader user what it is.
+
+**The current page as a link.** A crumb that links to the page you are on adds
+a dead end. Use `.sp-breadcrumbs__current`.
+
+**A trail that does not match the hierarchy.** Breadcrumbs show where a page
+*is*, not how the reader got there. Build the trail from the page's position.
+
+**Expecting the separator to be read aloud.** It is generated content; the
+`<ol>` carries the structure.
+
+## Related
+
+- [Link](./link.md) — the underlying links.
+- [Pagination](./pagination.md) — moving between pages of a set.
+- [Page header](./page-header.md) — breadcrumbs are often placed above a title.
+- [Accessibility](./accessibility.md) — landmarks and labels.
 
 ---
 Source: `src/modules/data/sparta-breadcrumbs.css`

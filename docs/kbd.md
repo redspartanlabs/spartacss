@@ -7,7 +7,7 @@ combo wrapper for chaining multiple keys with a separator.
 
 ## Usage
 
-```html
+```html preview height=7
 <p>Press <kbd class="sp-kbd">Esc</kbd> to close.</p>
 
 <span class="sp-kbd-combo">
@@ -30,8 +30,16 @@ combo wrapper for chaining multiple keys with a separator.
 
 Size: `--sm`, default (unsized), `--lg` — applies to `.sp-kbd` only.
 
-```html
+```html preview height=5
 <kbd class="sp-kbd sp-kbd--sm">Tab</kbd>
+<kbd class="sp-kbd">Tab</kbd>
+<kbd class="sp-kbd sp-kbd--lg">Tab</kbd>
+```
+
+A shortcut written with a different separator:
+
+```html preview height=5
+<span class="sp-kbd-combo"><kbd class="sp-kbd">⌘</kbd><span class="sp-kbd-sep">+</span><kbd class="sp-kbd">Shift</kbd><span class="sp-kbd-sep">+</span><kbd class="sp-kbd">P</kbd></span>
 ```
 
 ## State modifiers
@@ -47,6 +55,28 @@ recognize it as keyboard-input content. `.sp-kbd-sep`'s separator
 character is real text content (not a pseudo-element), so it's read
 normally by screen readers — choose a separator that reads sensibly aloud
 (e.g. "+") if that matters for your audience.
+
+## Responsive behavior
+
+Kbd has no breakpoint-specific behavior. A combo is `inline-flex`, so it stays
+together; long sentences containing combos wrap around them.
+
+## Common mistakes
+
+**A shortcut that does nothing.** Kbd only *displays* a key. SpartaCSS does not
+bind keys. If your application advertises "Ctrl + K", it must handle it.
+
+**Using `<kbd>` for a button.** A key badge is not interactive. For something
+to press, use [Button](./button.md).
+
+**A separator that reads badly aloud.** The separator is real text. "+" reads
+as "plus". A decorative character such as "·" may be read out literally.
+
+## Related
+
+- [Button](./button.md) — interactive controls.
+- [Tooltip](./tooltip.md) — a common place to show a shortcut.
+- [Accessibility](./accessibility.md) — keyboard expectations.
 
 ---
 Source: `src/components/sparta-kbd.css`

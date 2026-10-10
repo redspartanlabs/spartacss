@@ -1,6 +1,6 @@
 {
   "name": "@redspartanlabs/spartacss",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A framework-agnostic CSS design system built for systems that must last.",
   "license": "Apache-2.0",
   "repository": {
@@ -42,7 +42,8 @@
     "build:bundle": "node -e \"require('fs').mkdirSync('dist',{recursive:true})\" && lightningcss --bundle src/sparta.css -o dist/sparta.css && lightningcss --bundle src/spartacss.css -o dist/spartacss.css && lightningcss --bundle src/sparta-all.css -o dist/sparta-all.css && node -e \"require('fs').copyFileSync('src/modules/icons/sparta-icons.css','dist/sparta-icons.css')\" && node -e \"require('fs').copyFileSync('src/modules/feedback/sparta-notifications.css','dist/sparta-notifications.css')\"",
     "build:minify": "lightningcss --bundle --minify src/sparta.css -o dist/sparta.min.css && lightningcss --bundle --minify src/spartacss.css -o dist/spartacss.min.css && lightningcss --bundle --minify src/sparta-all.css -o dist/sparta-all.min.css && lightningcss --minify src/modules/icons/sparta-icons.css -o dist/sparta-icons.min.css && lightningcss --minify src/modules/feedback/sparta-notifications.css -o dist/sparta-notifications.min.css",
     "build": "npm run build:bundle && npm run build:minify",
-    "verify": "node scripts/verify-legacy-bundle.mjs && node scripts/verify-docs-preview.mjs",
+    "verify": "node scripts/verify-legacy-bundle.mjs && node scripts/verify-docs-preview.mjs && npm run test:docs",
+    "test:docs": "node --test scripts/verify-docs-preview.test.mjs",
     "verify:artifact": "node scripts/verify-release-artifact.mjs"
   },
   "devDependencies": {

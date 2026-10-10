@@ -2,6 +2,9 @@
 
 **Status:** Accepted (2026-10-09)
 
+**Amended by:** [ADR-0008](0008-multiple-live-examples.md), which supersedes decision 3 (one marked
+example per page) and extends the marker grammar of decision 1.
+
 ---
 
 ## Context
