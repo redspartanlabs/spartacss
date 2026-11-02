@@ -42,11 +42,19 @@ for any of it.
 | --- | --- |
 | [Button](button.md) | `.sp-button` with its size, color, width and loading modifiers. |
 | [Card](card.md) | A surface with header, body and footer parts. |
-| [Forms](forms.md) | Input, Select, Textarea, Checkbox, Radio and Toggle Switch, plus the `.sp-form-group` and `.sp-field` wrapper systems. |
-| [Badge & Chip](badge.md) | Two pill-shaped labels that are deliberately not interchangeable — a static badge and an interactive chip. |
+| [Forms](forms.md) | The `.sp-form-group` and `.sp-field` wrapper systems, and an overview of the form controls. |
+| [Input](input.md) | `.sp-input` on a native `<input>`, with size and error variants. |
+| [Select](select.md) | `.sp-select`, a native `<select>` with its own chevron. |
+| [Textarea](textarea.md) | `.sp-textarea` on a native `<textarea>`. |
+| [Checkbox & Radio](checkbox-radio.md) | `.sp-checkbox` and `.sp-radio` around native inputs. |
+| [Toggle Switch](toggle.md) | `.sp-toggle`, a native checkbox styled as an on/off switch. |
+| [Badge](badge.md) | A static, compact status or count label. |
+| [Chip](chip.md) | A larger, optionally interactive and removable token — a selected filter or an input tag. |
 | [Alert](alert.md) | An inline, static status message. For transient messages, see Notifications. |
 | [Avatar](avatar.md) | User and entity representation, plus overlapping groups. |
-| [Progress](progress.md) | Spinner, Progress Bar and Skeleton — three independent APIs sharing one source file. |
+| [Progress](progress.md) | A determinate progress bar. Shares a source file with Spinner and Skeleton. |
+| [Spinner](spinner.md) | An indeterminate loading ring, in five sizes and six colors. |
+| [Skeleton](skeleton.md) | A shimmering placeholder for content that is loading. |
 | [Link](link.md) | Inline and standalone hyperlinks, including external-link presentation. |
 | [Kbd](kbd.md) | Keyboard-key badges and key combinations. |
 | [Divider](divider.md) | Horizontal and vertical separators, with an optional label. |
@@ -79,7 +87,8 @@ for any of it.
 | Document | What it covers |
 | --- | --- |
 | [Page Header](page-header.md) | Title, eyebrow, subtitle, meta row and trailing actions. |
-| [Navbar & App Shell](app-shell.md) | The `.sp-navbar` navigation component and the `.sp-app-shell` application layout. |
+| [Navbar](navbar.md) | The `.sp-navbar` navigation component, with a brand, links, actions and a collapsing menu. |
+| [App Shell](app-shell.md) | The `.sp-app-shell` application layout that pairs a Navbar with a content area. |
 
 ## Guides
 
@@ -94,14 +103,16 @@ own: everything in them is documented on the page it links.
 
 ## Modules that need their own import
 
-These two are **not** in `spartacss.css`. Import the module alongside core,
-or use `sparta-all.css`, which contains both. Both depend on core's tokens
-— see each document for the specifics.
+These are **not** in `spartacss.css`. Import the module alongside core,
+or use `sparta-all.css`, which contains all of them. Each depends on core's
+tokens — see each document for the specifics.
 
 | Document | What it covers | Import |
 | --- | --- | --- |
 | [Icons](icons.md) | The `.sp-icon` system: named classes rendered through a mask-based `::before`, inheriting `currentColor`. | `@redspartanlabs/spartacss/sparta-icons.css` |
-| [Notifications](notifications.md) | Toast, Alert Banner, and Confirm/Dialog. | `@redspartanlabs/spartacss/sparta-notifications.css` |
+| [Notifications](notifications.md) | Alert Banner, and the module Toast and Dialog share. | `@redspartanlabs/spartacss/sparta-notifications.css` |
+| [Toast](toast.md) | A transient, auto-dismissing message. | `@redspartanlabs/spartacss/sparta-notifications.css` |
+| [Dialog](dialog.md) | A blocking confirm dialog. | `@redspartanlabs/spartacss/sparta-notifications.css` |
 
 ## Decisions
 

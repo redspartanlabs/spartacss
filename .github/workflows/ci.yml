@@ -22,8 +22,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # The browser regression tests (test/browser) need Playwright's browsers.
+      # They are large and keyed to the locked Playwright version, so they are
+      # cached. On a cache hit only the operating-system libraries are installed.
+      - name: Read the locked Playwright version
+        id: playwright
+        run: echo "version=$(node -p "require('./node_modules/@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npm exec playwright install --with-deps chromium firefox webkit
+
+      - name: Install Playwright operating-system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npm exec playwright install-deps chromium firefox webkit
+
       - name: Build
         run: npm run build
 
-      - name: Verify legacy bundle
+      - name: Verify
         run: npm run verify

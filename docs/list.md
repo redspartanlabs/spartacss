@@ -90,7 +90,7 @@ None — List is a static content component with no interactive states.
 
 - `.sp-list--checked`'s checkmark (rendered via `::before`, sharing the
   same `--sp-icon-bg-check-white` token as Checkbox's checked state — see
-  [`forms.md`](./forms.md#checkbox--radio)) is decorative. The item's own
+  [`checkbox-radio.md`](./checkbox-radio.md)) is decorative. The item's own
   text content is what conveys meaning — don't rely on the checkmark alone
   to communicate "completed" or "included" if that distinction matters;
   say so in the text.

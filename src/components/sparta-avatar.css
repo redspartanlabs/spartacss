@@ -56,19 +56,19 @@
 
   .sp-avatar--primary {
     background: var(--sp-color-primary-subtle);
-    color: var(--sp-color-primary);
+    color: var(--sp-text-primary);
     border-color: var(--sp-color-primary);
   }
 
   .sp-avatar--secondary {
     background: var(--sp-color-secondary-subtle);
-    color: var(--sp-color-secondary);
+    color: var(--sp-text-primary);
     border-color: var(--sp-color-secondary);
   }
 
   .sp-avatar--success {
     background: var(--sp-color-success-subtle);
-    color: var(--sp-color-success);
+    color: var(--sp-text-primary);
     border-color: var(--sp-color-success);
   }
 

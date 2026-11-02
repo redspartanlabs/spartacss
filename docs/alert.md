@@ -55,13 +55,17 @@ shapes; any SVG that sizes to its slot works.
   the row, top-aligned with the text baseline.
 - `.sp-alert__content` — wraps title + body; takes up remaining width.
 - `.sp-alert__title` — bold, uppercase, small-caps-style label line.
-- `.sp-alert__body` — the message text, rendered at 85% opacity to
-  visually recede below the title.
+- `.sp-alert__body` — the message text, in `--sp-text-secondary` at full
+  opacity so it recedes below the title while staying legible (no opacity
+  reduction).
 
 ## Variants
 
-Color/severity — each sets background (`-subtle` token), left border
-color, and text color to match:
+Color/severity — each sets the background (`-subtle` token) and left border
+to the variant color. Title and body text use the neutral theme text colors
+(`--sp-text-primary`, `--sp-text-secondary`), which keep at least 4.5:1 on the
+tinted background in both themes; the variant color is carried by the border,
+the background and the icon. Icons and dots keep a semantic tone: 65% of the variant color mixed with `--sp-text-primary`, which lightens in the dark theme and darkens in the light theme (at least 3.4:1 against the tinted surface on the page, surface and elevated backgrounds). Set the icon's own `color` if you need a different tone:
 
 ```html preview height=34
 <div class="sp-stack">
@@ -107,6 +111,8 @@ dismissible alert, use Alert Banner (`sparta-notifications.css`) instead.
   `role="status"` for less urgent updates) to `.sp-alert` yourself —
   SpartaCSS does not add this for you (see
   [`accessibility.md`](./accessibility.md#aria-responsibility-boundaries)).
+- Text contrast: the title and body are measured at 4.5:1 or better on every
+  variant, in both themes, on the base, surface and elevated backgrounds.
 - Color alone conveys severity (success/warning/error/info); pairing with
   a distinct icon per variant (as shown in Usage) is recommended so the
   message isn't color-only.
@@ -159,7 +165,7 @@ cannot distinguish the colors.
 
 - [Notifications](./notifications.md) — transient Toast and Alert Banner.
 - [Icons](./icons.md) — the `.sp-icon` integration with Alert.
-- [Badge & Chip](./badge.md) — small labels.
+- [Badge](./badge.md) and [Chip](./chip.md) — small labels.
 - [Forms](./forms.md) — field-level error text.
 - [Design tokens](./tokens.md) — the `-subtle` color tokens behind each variant.
 

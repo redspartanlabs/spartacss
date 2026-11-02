@@ -151,9 +151,11 @@ visible at rest:
 <a class="sp-button sp-button--primary" href="#top" aria-disabled="true">Disabled link</a>
 ```
 
-Focus is shown by keyboard navigation. Tab to a button to see it: the focus
-ring is a box-shadow (`--sp-shadow-focus`), drawn only for `:focus-visible`, so
-it appears for keyboard users and not on a mouse click.
+Focus is shown by keyboard navigation. Tab to a button to see it: a 2px solid
+outline in `--sp-text-primary` with a 2px offset, drawn only for
+`:focus-visible`, so it appears for keyboard users and not on a mouse click. It
+is at least 11:1 against the page backgrounds in both themes, stays visible
+while the button is hovered or pressed, and is kept in forced-colors mode.
 
 ## Accessibility
 
@@ -161,10 +163,17 @@ it appears for keyboard users and not on a mouse click.
   visual state changes for `:disabled`, `:focus-visible`, etc., but native
   keyboard activation (`Enter`/`Space` on `<button>`) comes from the
   element, not the class.
-- `:focus-visible` renders as a box-shadow ring (`--sp-shadow-focus`)
-  rather than the shared outline-based focus rule, since a shadow reads
-  more clearly against a filled/colored button surface. See
-  [`accessibility.md`](./accessibility.md) for the full focus-ring policy.
+- `:focus-visible` uses the shared outline-based focus rule (2px solid
+  `--sp-text-primary`, 2px offset). Earlier releases drew a 35%-alpha brand
+  box-shadow ring, which was 1.3:1 against the dark page, was replaced by the
+  hover shadow, and was removed in forced-colors mode. See
+  [`accessibility.md`](./accessibility.md) for the focus policy.
+- The `--warning` button uses dark text (`--sp-bg-inverse`) in every state
+  (4.98:1 at rest, 6.98:1 on hover, 4.80:1 pressed); white text on the warning
+  fills did not meet 4.5:1. The `--success` hover fill is slightly lighter than
+  the pressed fill so white text keeps 4.59:1. `--outline-warning` fills with
+  the same dark text on hover and press. Disabled buttons are not required to meet
+  the text ratio and keep their 0.45 opacity.
 - `.sp-button--loading` only removes visual pointer interaction; it does
   not announce a busy state to assistive technology — pair it with
   `aria-busy="true"` on the button if the loading state should be

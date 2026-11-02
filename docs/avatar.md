@@ -67,6 +67,9 @@ Avatar Group:
 
 ### Color
 
+Color variants set the border and the subtle background; the initials use
+neutral `--sp-text-primary` (at least 4.5:1 in both themes).
+
 ```html preview height=6
 <span class="sp-avatar">AB</span>
 <span class="sp-avatar sp-avatar--primary">AB</span>
@@ -109,7 +112,7 @@ this time.
 - `.sp-avatar__status` is a purely visual dot with no accessible text of
   its own. If the status needs to be conveyed to assistive technology,
   add visually-hidden text (e.g. `.sp-sr-only`, see
-  [`accessibility.md`](./accessibility.md#keyboard-and-focus-expectations))
+  [`accessibility.md`](./accessibility.md#visually-hidden-text))
   alongside it rather than relying on color alone.
 
 ```html preview height=6
@@ -143,7 +146,7 @@ color alone.
 
 ## Related
 
-- [Badge & Chip](./badge.md) — labels and tokens.
+- [Badge](./badge.md) and [Chip](./chip.md) — labels and tokens.
 - [Accessibility](./accessibility.md) — the `.sp-sr-only` utility.
 - [Card](./card.md) and [List](./list.md) — common places for avatars.
 

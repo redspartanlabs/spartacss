@@ -193,11 +193,15 @@ page. Use it only when the task cannot continue without an answer.
 ## Legacy: `.sp-modal-backdrop` / `.sp-modal__dialog`
 
 `.sp-modal-backdrop` and `.sp-modal__dialog` are a separate, older Modal
-implementation. Both APIs now support a `.sp-modal--closing` exit
+implementation. The legacy API is those two classes together with their
+modifiers: `.sp-modal-backdrop--active`, and `.sp-modal__dialog--sm`, `--md`,
+`--lg`, `--xl` and `--full`. Both APIs now support a `.sp-modal--closing` exit
 transition (the supported API gained this in `0.9.0`, closing a previous
-parity gap). The legacy selectors remain fully supported and their
-behavior is unchanged, but they will not receive new variants. Prefer
-`.sp-modal__overlay`/`.sp-modal__content` above for new work.
+parity gap).
+
+The legacy API is frozen: its selectors remain fully supported and their
+behavior is unchanged, but it will not gain variants. Use
+`.sp-modal__overlay` and `.sp-modal__content` (above) for new work.
 
 ## Related
 

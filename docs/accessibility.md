@@ -39,11 +39,21 @@ design, not an oversight.
   indicator via `:focus-visible`, defined once in
   `src/core/sparta-accessibility.css` and consumed by all components — no
   per-component focus-ring CSS to duplicate.
-- Form controls and Button define their own `:focus-visible` treatment
-  (`--sp-border-focus`-based, often paired with `--sp-shadow-focus`) rather
-  than the default `outline`, because a box-model-aware ring reads better
-  against a filled control; the shared rule explicitly excludes them
-  (`:not(.sp-input):not(.sp-select)...`) so the two don't fight.
+- The shared indicator is a 2px solid outline in `--sp-text-primary` with a
+  2px offset. The color is read at the point of use, so it follows the nearest
+  `data-theme` or `.sp-light` region: 11:1 or better against the page,
+  surface and elevated backgrounds in both themes (the brand primary it replaced
+  was 2.59:1 in the dark theme). It applies to Button, links, tabs, Accordion
+  headers and other focusable elements. Because it is an outline, hover and
+  active shadows cannot replace it and forced-colors mode keeps it.
+- Form controls (`.sp-input`, `.sp-select`, `.sp-textarea`, checkbox, radio and
+  toggle inputs) keep their own `:focus-visible` treatment: a border change and a
+  brand ring, with the shared outline suppressed by `outline: none !important`.
+  Known limitations, not changed in this release: the dark-theme brand border is
+  2.59:1 against the page (below 3:1); the suppression cannot be overridden from
+  consumer CSS; and a focused `.sp-select--error` or `.sp-input--error` shows the
+  brand border instead of the error border (the `.sp-field--error` wrapper form is
+  correct). These are recorded as a follow-up.
 - `.sp-skip-link` — a standard skip-to-content pattern, hidden until
   focused (`top: -100%` → `top: 0` on `:focus`). Consumers are responsible
   for placing it as the first focusable element in the page and pointing
@@ -144,6 +154,39 @@ A quick reference. Each row is detailed on the component's own page.
 
 Accessibility behavior in SpartaCSS does not depend on viewport width. Focus
 styling, reduced motion and forced colors apply at every size.
+
+## Visually hidden text
+
+Some text is for assistive technology only, such as the "Online" read after a
+status dot, or the name of an icon-only control. `display: none` and `hidden`
+remove text from assistive technology as well, so they cannot do this (see
+Common mistakes). `.sp-sr-only` hides text visually and keeps it available.
+
+- `.sp-sr-only` — reduces the element to a one-pixel clipped box:
+  `position: absolute`, `width` and `height` of `1px`, `margin: -1px`,
+  `padding: 0`, `border: 0`, `overflow: hidden`, `clip: rect(0, 0, 0, 0)` and
+  `white-space: nowrap`.
+- `.sp-not-sr-only` — reverses that clipping on an element that also carries
+  `.sp-sr-only`: `position: static`, `width` and `height` of `auto`, `margin`
+  and `padding` of `0`, `overflow: visible`, `clip: auto` and
+  `white-space: normal`. It does not restore `border`, which `.sp-sr-only`
+  sets to `0`.
+
+With both classes on one element, `.sp-not-sr-only` wins because it is defined
+after `.sp-sr-only` in the same layer. It has no state or breakpoint behavior
+of its own, and no other SpartaCSS rule uses it: your markup or script decides
+when to apply it. For a link that appears on focus, use `.sp-skip-link`
+(see [Keyboard and focus expectations](./accessibility.md#keyboard-and-focus-expectations)).
+
+```html
+<button class="sp-button" type="button">
+  <span class="sp-icon sp-icon-trash" aria-hidden="true"></span>
+  <span class="sp-sr-only">Delete draft</span>
+</button>
+```
+
+The [Avatar](./avatar.md) page shows a status dot with visually hidden text
+beside it.
 
 ## Common mistakes
 

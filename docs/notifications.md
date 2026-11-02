@@ -9,7 +9,8 @@ and **Confirm/Dialog** (blocking decision modal) — combined in one file
 because they're commonly imported together, per the file's own header
 comment. They are three distinct, independent APIs; pick whichever
 matches the message's urgency and lifetime, not all three for the same
-message.
+message. Toast and Dialog each have their own page; this page documents Alert
+Banner and the behavior the three share.
 
 This module requires core (`spartacss.css`) — every visual property
 resolves through core's token layer, and it has no tokens of its own.
@@ -34,59 +35,8 @@ it disappears, and a reader may not see it in time.
 
 ## Toast
 
-### Usage
-
-```html preview height=12
-<div class="sp-toast-wrap sp-toast-wrap--top-right">
-  <div class="sp-toast sp-toast--success">
-    <span class="sp-toast__icon">✓</span>
-    <div class="sp-toast__body">
-      <div class="sp-toast__title">Saved</div>
-      <div class="sp-toast__text">Your changes have been saved.</div>
-    </div>
-    <button class="sp-toast__close" aria-label="Dismiss">×</button>
-    <div class="sp-toast__progress" style="animation-duration: 5s"></div>
-  </div>
-</div>
-```
-
-### Class API
-
-- `.sp-toast-wrap` — fixed-position container for one or more toasts;
-  position is set entirely by its variant (below), not by default.
-- `.sp-toast` — an individual toast. Plays an entrance animation on
-  render.
-- `.sp-toast__icon` / `__body` / `__title` / `__text` / `__action` /
-  `__close` — structural slots.
-- `.sp-toast__progress` — an optional bottom bar showing time until
-  auto-dismiss; set its own `animation-duration` inline (as above) to
-  match how long the toast will stay visible — SpartaCSS does not
-  compute or synchronize this with any actual dismiss timer.
-
-### Variants
-
-Position (apply to `.sp-toast-wrap`): `--top-left`, `--top-right`,
-`--top-center`, `--bottom-left`, `--bottom-right`, `--bottom-center`.
-
-Color (apply to `.sp-toast`): `--success`, `--error`, `--warning`,
-`--info`, `--neutral`.
-
-```html preview height=34
-<div class="sp-toast-wrap sp-toast-wrap--top-center">
-  <div class="sp-toast sp-toast--success"><span class="sp-toast__icon">✓</span><div class="sp-toast__body"><div class="sp-toast__title">Success</div><div class="sp-toast__text">It worked.</div></div></div>
-  <div class="sp-toast sp-toast--error"><span class="sp-toast__icon">✕</span><div class="sp-toast__body"><div class="sp-toast__title">Error</div><div class="sp-toast__text">It failed.</div></div></div>
-  <div class="sp-toast sp-toast--warning"><span class="sp-toast__icon">!</span><div class="sp-toast__body"><div class="sp-toast__title">Warning</div><div class="sp-toast__text">Be careful.</div></div></div>
-  <div class="sp-toast sp-toast--info"><span class="sp-toast__icon">i</span><div class="sp-toast__body"><div class="sp-toast__title">Info</div><div class="sp-toast__text">For your information.</div></div></div>
-  <div class="sp-toast sp-toast--neutral"><span class="sp-toast__icon">•</span><div class="sp-toast__body"><div class="sp-toast__title">Neutral</div><div class="sp-toast__text">A plain notice.</div></div></div>
-</div>
-```
-
-### State modifiers
-
-`.sp-toast--out` plays the exit animation. SpartaCSS does not remove the
-toast from the DOM or track its lifetime — your own script adds
-`--out`, waits for the animation to finish, then removes the element
-(and is responsible for the auto-dismiss timer itself, if any).
+Toast is documented on its own page: [Toast](./toast.md) — the transient,
+auto-dismissing message, its positions and colors.
 
 ## Alert Banner
 
@@ -117,7 +67,12 @@ a legacy/current pair.
 
 ### Variants
 
-Color: `--success`, `--error`, `--warning`, `--info`, `--neutral`.
+Color: `--success`, `--error`, `--warning`, `--info`, `--neutral`. Banner title and
+text use neutral theme text colors on the tint (at least 4.5:1 in both themes);
+the variant color is carried by the left border, the background and the icon
+(the 65% mix of the variant color and `--sp-text-primary`, at least 3.4:1). The
+dismiss button is `--sp-text-secondary` at full opacity; hover raises it to
+`--sp-text-primary` with a 12% tint background.
 
 ```html preview height=18
 <div class="sp-stack">
@@ -148,82 +103,8 @@ response to a click.
 
 ## Confirm / Dialog
 
-### Usage
-
-```html preview height=24
-<div class="sp-dialog-overlay">
-  <div class="sp-dialog">
-    <div class="sp-dialog__header">
-      <span class="sp-dialog__icon sp-dialog__icon--danger">!</span>
-      <div class="sp-dialog__title-group">
-        <div class="sp-dialog__title">Delete project?</div>
-        <div class="sp-dialog__desc">This action cannot be undone.</div>
-      </div>
-    </div>
-    <div class="sp-dialog__footer">
-      <button class="sp-dialog-btn sp-dialog-btn--ghost">Cancel</button>
-      <button class="sp-dialog-btn sp-dialog-btn--danger">Delete</button>
-    </div>
-    <button class="sp-dialog__close" aria-label="Close">×</button>
-  </div>
-</div>
-```
-
-Dialog is a modal-replacement for browser `confirm()`/`prompt()` —
-destructive-action confirmation and blocking decisions, distinct from
-[`modal.md`](./modal.md)'s general-purpose content dialog. Dialog ships
-its **own** button classes (`.sp-dialog-btn*`) scoped locally to its
-footer, deliberately not `.sp-button`, so a dialog's buttons render
-correctly even if core Button styles haven't loaded yet — don't mix
-`.sp-button` into a `.sp-dialog__footer`; use `.sp-dialog-btn*`.
-
-### Class API
-
-- `.sp-dialog-overlay` — fixed backdrop, specific to Dialog (not shared
-  with Modal's `.sp-modal__overlay` or Drawer's `.sp-backdrop`).
-- `.sp-dialog` — the dialog box.
-- `.sp-dialog__header` / `__icon` / `__title-group` / `__title` / `__desc`
-  — header slots.
-- `.sp-dialog__input` — optional text input, for a "type to confirm"
-  pattern.
-- `.sp-dialog__confirm-hint` — hint text pairing with `__input` (e.g.
-  "Type **project-name** to confirm").
-- `.sp-dialog__footer` / `.sp-dialog__footer--split` — action row;
-  `--split` pushes buttons to opposite ends instead of the default
-  right-aligned group.
-- `.sp-dialog-btn` (+ `--ghost` / `--primary` / `--danger`) — Dialog's own
-  scoped button styles, not `.sp-button`.
-- `.sp-dialog__close` — corner close button.
-
-### Variants
-
-Size: `--sm`, default (unsized), `--lg` (apply to `.sp-dialog`).
-
-Icon tone: `.sp-dialog__icon--danger` / `--warning` / `--info` / `--success`.
-
-```html preview height=20
-<div class="sp-dialog-overlay">
-  <div class="sp-dialog sp-dialog--sm">
-    <div class="sp-dialog__header">
-      <span class="sp-dialog__icon sp-dialog__icon--info">i</span>
-      <div class="sp-dialog__title-group">
-        <div class="sp-dialog__title">Small dialog</div>
-        <div class="sp-dialog__desc">An informational confirmation.</div>
-      </div>
-    </div>
-    <div class="sp-dialog__footer sp-dialog__footer--split">
-      <button class="sp-dialog-btn sp-dialog-btn--ghost">Back</button>
-      <button class="sp-dialog-btn sp-dialog-btn--primary">Continue</button>
-    </div>
-  </div>
-</div>
-```
-
-### State modifiers
-
-`.sp-dialog-overlay--out` plays an exit fade. As with Toast, your own
-script adds it, waits for the animation, then removes the dialog.
-`.sp-dialog-btn:disabled` dims the button and disables pointer events.
+Confirm / Dialog is documented on its own page: [Dialog](./dialog.md) — the
+blocking decision dialog, its sizes, icon tones and its own button classes.
 
 ## JavaScript responsibility
 
@@ -285,6 +166,7 @@ schedule, the bar misleads.
 
 ## Related
 
+- [Toast](./toast.md) and [Dialog](./dialog.md) — the other two patterns.
 - [Alert](./alert.md) — a static message that stays in the page.
 - [Modal](./modal.md) — a general-purpose dialog.
 - [Button](./button.md) — buttons for use outside a Dialog.
