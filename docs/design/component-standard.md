@@ -751,7 +751,7 @@ This register is not a work order. Nothing in it is changed by this standard.
 | Deviation | Evidence | Class |
 |---|---|---|
 | `error` used for destructive action | `.sp-button--error` and `--outline-error`; there is no `.sp-button--danger` | Grandfathered |
-| Styles for a variant that does not exist | `.sp-alert--danger .sp-icon` in `sparta-icons.css`; Alert has no `--danger` variant | To classify |
+| Styles for a variant that does not exist | `.sp-alert--danger .sp-icon` in `sparta-icons.css`; Alert has no `--danger` variant. The rule now uses the same icon tone as `.sp-alert--error` (§17.4), so it is no longer inert | Internal; not removed |
 
 ### 17.4 Tokens, literals and motion
 
@@ -762,7 +762,7 @@ This register is not a work order. Nothing in it is changed by this standard.
 | Validation focus rings are literals | `rgba(198, 40, 40, 0.3)` and siblings in `sparta-form.css` do not follow `--sp-color-error` overrides | To classify |
 | Dark text on the secondary colour is a literal | `#111111` three times in `sparta-button.css` | To classify |
 | Syntax colours are literals | `#3355FF`, `#E5C158` in `sparta-code.css` | To classify |
-| Icon severity tints reference undefined tokens | `--sp-info-base`, `--sp-success-base`, `--sp-warning-base`, `--sp-error-base` in `sparta-icons.css` are never defined; `icons.md` documents the resulting limitation | To classify |
+| Icon severity tints referenced undefined tokens | Corrected in the Contrast Batch 2: `.sp-alert--* .sp-icon` now use `color-mix(in srgb, var(--sp-color-*) 65%, var(--sp-text-primary))` | Resolved |
 | Motion variants reuse token names for other durations | `.sp-drawer--fast` is `150ms` and `--slow` is `420ms`; `--sp-duration-fast` is `100ms` and `--sp-duration-slow` is `260ms` | To classify |
 
 ### 17.5 Layers and precedence
@@ -774,11 +774,22 @@ This register is not a work order. Nothing in it is changed by this standard.
 | Legacy `FROZEN` rules outrank the `accessibility` layer | §10.2 item 4 | Review |
 | Legacy Accordion trigger focus under forced colors | Unlayered `.sp-accordion__trigger:focus-visible` sets `outline: none` with an inset `box-shadow`, which forced-colors mode suppresses; the forced-colors block does not cover it | Review |
 
+### 17.5a Accessibility limits that remain
+
+Recorded after the Contrast Batch 2 (see `CHANGELOG.md`). None is changed by it.
+
+| Deviation | Evidence | Class |
+|---|---|---|
+| Form-control focus indicator | `.sp-input`, `.sp-select`, `.sp-textarea` and checkbox, radio and toggle inputs suppress the outline with `outline: none !important` in the accessibility layer and rely on a brand border and a 35%-alpha ring; the dark-theme brand border is 2.59:1 against the page, and consumer CSS cannot restore an outline | Review (follow-up) |
+| Error-state border lost on focus | `.sp-select--error:focus` and `.sp-input--error:focus` show the brand border (`.sp-select:focus` outranks `.sp-select--error`); `.sp-field--error` wrappers are correct | To classify (follow-up) |
+| Outline-style Button text | `--outline-primary`, `--outline-success`, `--outline-warning` and `--outline-secondary` use the variant color as text on the page background: 2.59:1 to 4.39:1 in the dark theme and 1.85:1 to 3.33:1 in the light theme for some variants | To classify |
+| Other semantic-colored text | links, error text and `.sp-code` use unmodified semantic colors on neutral surfaces | To classify |
+
 ### 17.6 Source ownership
 
 | Deviation | Evidence | Class |
 |---|---|---|
-| Duplicate selector | `.sp-select-wrapper .sp-select-icon` is defined in both `sparta-utilities.css` and `sparta-icons.css` | To classify |
+| Duplicate selector | `.sp-select-wrapper .sp-select-icon` is defined in both `sparta-utilities.css` and `sparta-icons.css`. Both copies only set colour: no rule defines the wrapper or positions the icon, and `.sp-select` draws its own chevron | Internal; any cleanup is a separate decision and has not been made. Not removed |
 
 ### 17.7 Responsive behavior
 
@@ -794,7 +805,8 @@ This register is not a work order. Nothing in it is changed by this standard.
 | Pages outside the common structure | `modal`, `tooltip`, `accordion`, `app-shell` | To address in the documentation conformance pass |
 | "When to use which" missing or one-sided | Covered today: Button ↔ Link (at the element level), Alert → Notifications, Drawer → Modal. Missing: Modal → Drawer, Tooltip vs visible text, Tabs vs page navigation, Dropdown vs native `<select>` (§15.5) | To address in the documentation conformance pass |
 | Guidance not marked as advisory | Advisory phrasing ("don't", "avoid", "prefer", "instead", …) appears on 24 of 27 pages, across most sections — the largest share in Accessibility — in the same voice as requirements (§15.2) | To address in the documentation conformance pass |
-| Shipped but undocumented classes | `.sp-center`, `.sp-center--full`, `.sp-tooltip--top`, `.sp-sr-only`, `.sp-not-sr-only`, `.sp-select-wrapper`, `.sp-select-icon`; legacy `.sp-modal-backdrop--active` and `.sp-modal__dialog--sm/md/lg/xl/full` | To classify as Supported or Internal (§16.2) |
+| Shipped but undocumented classes | `.sp-select-wrapper`, `.sp-select-icon` (see §17.6) | Internal (§4.3). Not removed |
+| Legacy Modal modifiers | `.sp-modal-backdrop--active`, `.sp-modal__dialog--sm/md/lg/xl/full` | Legacy (inside the `FROZEN` block, §16.1); documented as legacy in `modal.md` |
 
 ---
 

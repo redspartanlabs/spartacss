@@ -1,4 +1,4 @@
-# Badge & Chip
+# Badge
 
 ## Purpose
 
@@ -13,7 +13,8 @@ and are not interchangeable:
   built-in remove button.
 
 If you need a tiny inline status indicator, use Badge. If you need a
-selectable or removable token (filter pills, multi-select tags), use Chip.
+selectable or removable token (filter pills, multi-select tags), use
+[Chip](./chip.md), which has its own page.
 
 ## When to use which
 
@@ -42,7 +43,9 @@ selectable or removable token (filter pills, multi-select tags), use Chip.
 ### Variants
 
 Color: `--primary`, `--secondary`, `--success`, `--warning`, `--error`,
-`--info`, `--neutral`.
+`--info`, `--neutral`. The tinted variants use the variant color for the border
+and (subtle) background and neutral `--sp-text-primary` for the label, so the
+label keeps at least 4.5:1 in both themes.
 
 ```html preview height=7
 <span class="sp-badge sp-badge--primary">Primary</span>
@@ -62,8 +65,9 @@ Size: `--sm`, default (unsized), `--lg`.
 <span class="sp-badge sp-badge--error sp-badge--lg">Failed</span>
 ```
 
-Style: `--dot` — prepends a small solid `currentColor` dot before the
-label (via `::before`), for a status-indicator look.
+Style: `--dot` — prepends a small solid dot before the label (via `::before`),
+for a status-indicator look. On a color variant the dot is the 65% mix of the
+variant color and `--sp-text-primary` (at least 3:1 against the badge).
 
 ```html preview height=5
 <span class="sp-badge sp-badge--success sp-badge--dot">Online</span>
@@ -88,119 +92,17 @@ the text content, not conveyed by color alone.
 
 ## Chip
 
-### Usage
-
-```html preview height=5
-<span class="sp-chip sp-chip--interactive">
-  Frontend
-  <button class="sp-chip__remove" aria-label="Remove Frontend filter">×</button>
-</span>
-```
-
-### Class API
-
-- `.sp-chip` — base class. Works as a static label on its own; add
-  `--interactive` for hover feedback and `.sp-chip__remove` for a remove
-  affordance.
-- `.sp-chip__remove` — small circular button, meant to sit inside a chip.
-
-### Variants
-
-Color: `--primary`, `--secondary`, `--success`, `--warning`, `--error`
-(same subtle-background/border/text pattern as Badge's color variants,
-tuned for Chip's larger surface).
-
-Size: `--sm`, default (unsized), `--lg`.
-
-```html preview height=7 wide=5
-<span class="sp-chip">Default</span>
-<span class="sp-chip sp-chip--primary">Primary</span>
-<span class="sp-chip sp-chip--secondary">Secondary</span>
-<span class="sp-chip sp-chip--success">Success</span>
-<span class="sp-chip sp-chip--warning">Warning</span>
-<span class="sp-chip sp-chip--error">Error</span>
-```
-
-```html preview height=6
-<span class="sp-chip sp-chip--primary sp-chip--sm">Small</span>
-<span class="sp-chip sp-chip--primary">Default</span>
-<span class="sp-chip sp-chip--primary sp-chip--lg">Large</span>
-```
-
-### State modifiers
-
-- `.sp-chip--interactive` — adds `cursor: pointer` and a hover response
-  (surface background, lighter border, primary text) — use when the whole
-  chip is clickable (e.g. a filter toggle).
-- `.sp-chip--selected` / `.sp-chip--active` — both apply the identical
-  "selected" treatment (primary-subtle background/border/text); use
-  whichever name reads better for your use case (toggle-style selection
-  vs. active-filter state) — they are aliases, not different states.
-- `.sp-chip__remove:hover` — the remove button's opacity increases from
-  0.6 to 1 on hover, independent of the parent chip's own state.
-
-```html preview height=7 wide=5
-<span class="sp-chip sp-chip--interactive">Unselected</span>
-<span class="sp-chip sp-chip--interactive sp-chip--selected">Selected</span>
-<span class="sp-chip sp-chip--interactive sp-chip--active">Active (same as selected)</span>
-```
-
-A removable chip pairs the chip with its remove button:
-
-```html preview height=5
-<span class="sp-chip sp-chip--primary">Design<button class="sp-chip__remove" aria-label="Remove Design filter">×</button></span>
-<span class="sp-chip sp-chip--primary">Engineering<button class="sp-chip__remove" aria-label="Remove Engineering filter">×</button></span>
-```
-
-### Accessibility
-
-- `.sp-chip__remove` is a `<button>`-shaped visual, so use a real
-  `<button>` element for it (as in the Usage example) — this gives native
-  keyboard operability for free.
-- Always give `.sp-chip__remove` an accessible name via `aria-label`
-  (e.g. `aria-label="Remove {chip label}"`) — its visible content is
-  typically a bare glyph (`×`) with no inherent meaning to assistive
-  technology.
-- `.sp-chip--interactive` chips that act as toggles (selected/unselected)
-  should communicate that state via `aria-pressed` on the underlying
-  element — SpartaCSS styles `.sp-chip--selected`/`--active` visually but
-  does not set or read any ARIA state itself.
-
-What SpartaCSS provides, and what stays yours:
-
-| SpartaCSS provides | Your application provides |
-| --- | --- |
-| The pill, its colors and sizes, the selected look, the remove button's look | Making an interactive chip a real `<button>` (or giving it a role and key handling) |
-| Hover response on `--interactive` | `aria-pressed` for a toggle, and the remove behavior itself |
+Chip is documented on its own page: [Chip](./chip.md) — usage, color and size
+variants, the `--interactive`, `--selected` and `--active` states, the remove
+button, accessibility and common mistakes.
 
 ## Responsive behavior
 
-Neither Badge nor Chip has breakpoint-specific behavior. They are inline
-elements and flow with the text around them. Place a group of chips in a
+Neither Badge nor [Chip](./chip.md) has breakpoint-specific behavior. They are
+inline elements and flow with the text around them. Place a group of chips in a
 [cluster](./layout.md) so they wrap onto new lines instead of overflowing.
 
 ## Common mistakes
-
-**A chip that looks interactive but is a `<span>` with a click handler.**
-`.sp-chip--interactive` is appearance only.
-
-```html
-<!-- Wrong: not focusable, no keyboard activation -->
-<span class="sp-chip sp-chip--interactive" onclick="toggle()">Frontend</span>
-
-<!-- Right: a real button that is also the chip -->
-<button type="button" class="sp-chip sp-chip--interactive" aria-pressed="false">Frontend</button>
-```
-
-**A remove button with only "×".**
-
-```html
-<!-- Wrong: announced as "times, button" -->
-<button class="sp-chip__remove">×</button>
-
-<!-- Right -->
-<button class="sp-chip__remove" aria-label="Remove Frontend filter">×</button>
-```
 
 **Using Badge as a button.** A Badge has no hover, focus or active state and
 is not meant to be activated. For something to click, use Chip or Button.
@@ -212,7 +114,7 @@ readers nothing. Keep the text ("Online", "Offline") — the dot is decoration.
 
 - [Button](./button.md) — for actions.
 - [Alert](./alert.md) — for messages.
-- [Forms](./forms.md) — chips are often used as input tags.
+- [Chip](./chip.md) — a selectable or removable token.
 - [Layout](./layout.md) — clusters for groups of chips.
 
 ---

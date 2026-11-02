@@ -7,62 +7,24 @@ loading/progress-indication primitives: **Spinner** (indeterminate
 rotation), **Progress Bar** (determinate fill), and **Skeleton**
 (placeholder shimmer). They're related by purpose — all communicate
 "something is loading" — but are three distinct, independent APIs; use
-whichever fits your loading scenario, not all three together.
+whichever fits your loading scenario, not all three together. Spinner and
+Skeleton each have their own page; this page documents Progress Bar.
 
 ## When to use which
 
-- **Guidance:** use a **Spinner** when work is in progress and you cannot say
+- **Guidance:** use a **Spinner** ([Spinner](./spinner.md)) when work is in progress and you cannot say
   how much is done, or how long it will take.
 - **Guidance:** use a **Progress Bar** when you know the fraction complete — an
   upload, a multi-step flow.
-- **Guidance:** use **Skeleton** when you are waiting for content and know its
+- **Guidance:** use **Skeleton** ([Skeleton](./skeleton.md)) when you are waiting for content and know its
   rough shape, so the layout does not jump when it arrives.
 - **Guidance:** for a button that is busy, use the button's own
   `--loading` state rather than a separate spinner. See [Button](./button.md).
 
 ## Spinner
 
-### Usage
-
-```html preview height=5
-<span class="sp-spinner" role="status" aria-label="Loading"></span>
-```
-
-### Class API
-
-- `.sp-spinner` — a rotating ring, built from a bordered circle with one
-  colored edge. Animates via the `sp-spin` keyframe (see
-  [`motion.md`](./motion.md)).
-
-### Variants
-
-Size: `--xs`, `--sm`, `--md` (default), `--lg`, `--xl`.
-
-```html preview height=7
-<span class="sp-spinner sp-spinner--xs" role="status" aria-label="Loading"></span>
-<span class="sp-spinner sp-spinner--sm" role="status" aria-label="Loading"></span>
-<span class="sp-spinner sp-spinner--md" role="status" aria-label="Loading"></span>
-<span class="sp-spinner sp-spinner--lg" role="status" aria-label="Loading"></span>
-<span class="sp-spinner sp-spinner--xl" role="status" aria-label="Loading"></span>
-```
-
-Color: `--secondary`, `--success`, `--warning`, `--error`, `--muted`
-(default is primary).
-
-```html preview height=10 wide=6
-<span class="sp-spinner sp-spinner--lg" role="status" aria-label="Loading"></span>
-<span class="sp-spinner sp-spinner--lg sp-spinner--secondary" role="status" aria-label="Loading"></span>
-<span class="sp-spinner sp-spinner--lg sp-spinner--success" role="status" aria-label="Loading"></span>
-<span class="sp-spinner sp-spinner--lg sp-spinner--warning" role="status" aria-label="Loading"></span>
-<span class="sp-spinner sp-spinner--lg sp-spinner--error" role="status" aria-label="Loading"></span>
-<span class="sp-spinner sp-spinner--lg sp-spinner--muted" role="status" aria-label="Loading"></span>
-```
-
-### States
-
-None — Spinner is always animating once rendered; there is no
-static/paused variant. Remove the element from the DOM (or hide it) when
-loading completes.
+Spinner is documented on its own page: [Spinner](./spinner.md) — the
+indeterminate rotating ring, its sizes and colors.
 
 ## Progress Bar
 
@@ -125,42 +87,9 @@ mode for Progress Bar (use Spinner for indeterminate loading instead).
 
 ## Skeleton
 
-### Usage
-
-```html preview height=10
-<div class="sp-skeleton-group">
-  <div class="sp-skeleton sp-skeleton--heading"></div>
-  <div class="sp-skeleton sp-skeleton--text"></div>
-  <div class="sp-skeleton sp-skeleton--text"></div>
-</div>
-```
-
-### Class API
-
-- `.sp-skeleton` — base shimmering placeholder block (animated gradient
-  sweep via the `sp-shimmer` keyframe).
-- `.sp-skeleton-group` — a vertical flex wrapper for stacking multiple
-  skeleton lines with consistent gap.
-
-### Variants (shape presets)
-
-```html preview height=30
-<div class="sp-stack">
-  <div class="sp-skeleton sp-skeleton--text"></div>      <!-- one text line -->
-  <div class="sp-skeleton sp-skeleton--heading"></div>   <!-- wider heading line -->
-  <div class="sp-skeleton sp-skeleton--avatar"></div>    <!-- circular -->
-  <div class="sp-skeleton sp-skeleton--button"></div>    <!-- button-sized block -->
-  <div class="sp-skeleton sp-skeleton--card"></div>      <!-- large block -->
-  <div class="sp-skeleton sp-skeleton--table-row"></div> <!-- row-height block -->
-</div>
-```
-
-Corner radius override: `--sm` / `--lg` (default radius is `--sp-radius-md`).
-
-### States
-
-None — Skeleton always animates; swap it out for real content once loaded
-rather than toggling a state on it.
+Skeleton is documented on its own page: [Skeleton](./skeleton.md) — the
+shimmering placeholder, its shape presets and the `.sp-skeleton-group`
+wrapper.
 
 ## Accessibility
 
@@ -218,6 +147,8 @@ noise. Choose the one that matches what you know (see When to use which).
 
 ## Related
 
+- [Spinner](./spinner.md) and [Skeleton](./skeleton.md) — the other two
+  loading primitives.
 - [Button](./button.md) — the `--loading` state for a busy button.
 - [Motion](./motion.md) — the animations and the reduced-motion contract.
 - [Accessibility](./accessibility.md) — ARIA responsibility boundaries.

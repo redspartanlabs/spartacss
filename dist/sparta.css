@@ -699,12 +699,12 @@
 }
 
 @layer accessibility {
-  :focus-visible:not(.sp-input):not(.sp-select):not(.sp-textarea):not(.sp-button):not(.sp-toggle__input) {
-    outline: 2px solid var(--sp-color-primary);
+  :focus-visible:not(.sp-input):not(.sp-select):not(.sp-textarea):not(.sp-toggle__input) {
+    outline: 2px solid var(--sp-text-primary);
     outline-offset: 2px;
   }
 
-  .sp-input:focus-visible, .sp-select:focus-visible, .sp-textarea:focus-visible, .sp-button:focus-visible, .sp-checkbox input:focus-visible, .sp-radio input:focus-visible, .sp-toggle__input:focus-visible {
+  .sp-input:focus-visible, .sp-select:focus-visible, .sp-textarea:focus-visible, .sp-checkbox input:focus-visible, .sp-radio input:focus-visible, .sp-toggle__input:focus-visible {
     outline: none !important;
   }
 

@@ -199,7 +199,11 @@
    0.6.0 — see docs/modal.md. `.sp-modal-backdrop`/`.sp-modal__dialog`
    below are a separate, older implementation of the same concept,
    including a `--closing` exit-transition state the supported and
-   documented API does not have. Kept unlayered exactly as before.
+   documented API does not have. The frozen set is this whole block:
+   `.sp-modal-backdrop` (with `--active`), `.sp-modal__dialog` (with
+   `--sm`, `--md`, `--lg`, `--xl`, `--full`), and the rules below that
+   combine `.sp-modal--open` or `.sp-modal--closing` with those parts,
+   including the narrow-viewport rule. Kept unlayered exactly as before.
    Not removed, not modified, will not receive new variants going
    forward — same convention as the frozen `.sp-flex`/atomic
    utilities from 0.4.0. */

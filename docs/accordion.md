@@ -56,6 +56,12 @@ toggling it is your script's job.
 - `.sp-accordion__content` — the collapsible body. Animates open/closed via
   `grid-template-rows`, so no fixed height is required.
 
+- **Guidance:** when the content has several elements, put them inside one wrapper
+  element, `<div class="sp-accordion__content"><div>…</div></div>`. Only the first
+  direct child collapses with the content; a second or later direct child keeps
+  its height in the closed accordion and leaves blank space. This is recommended
+  markup, not a requirement of the API, and single-element content is unaffected.
+
 The chevron comes from the [icon module](./icons.md), so the accordion needs
 `sparta-icons.css` or a bundle that includes it.
 
@@ -105,6 +111,13 @@ shipped. The consumer is responsible for:
 - Toggling `.sp-accordion__item--open` in response to user interaction.
 - Any `aria-expanded`/`aria-controls` attributes needed to communicate
   expanded/collapsed state to assistive technology.
+
+Content in a closed item is hidden from the keyboard and from assistive
+technology, not only clipped: `.sp-accordion__content` is `visibility: hidden`
+until its item has `--open`, so links and buttons inside it cannot receive focus
+while the section is collapsed. This applies to `.sp-accordion__content` only;
+the legacy `.sp-accordion__content--animated` is unchanged and still clips its
+content without hiding it.
 
 `.sp-accordion__header` is a real `<button>`, so it's keyboard-focusable
 and activatable by default without any extra markup. The open/close

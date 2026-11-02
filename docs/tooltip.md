@@ -42,7 +42,10 @@ action required from the consumer.
 ### Placement
 
 Placement modifiers go on `.sp-tooltip`, not on `.sp-tooltip__text`. The
-default is above the trigger.
+default is above the trigger. `--top` is an optional, explicit alias for that
+default: it places the tooltip above the trigger exactly as the unmodified
+`.sp-tooltip` does, so use it only if you want the placement stated in the
+markup.
 
 ```html preview height=13 wide=11
 <div style="padding: 3rem 4rem">
@@ -57,6 +60,7 @@ default is above the trigger.
 
 ```html
 <span class="sp-tooltip">...<span class="sp-tooltip__text">...</span></span>                        <!-- top (default) -->
+<span class="sp-tooltip sp-tooltip--top">...<span class="sp-tooltip__text">...</span></span>            <!-- top, stated explicitly -->
 <span class="sp-tooltip sp-tooltip--bottom">...<span class="sp-tooltip__text">...</span></span>
 <span class="sp-tooltip sp-tooltip--left">...<span class="sp-tooltip__text">...</span></span>
 <span class="sp-tooltip sp-tooltip--right">...<span class="sp-tooltip__text">...</span></span>

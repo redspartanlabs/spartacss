@@ -8,6 +8,127 @@ per ADR-0001.
 
 ## [Unreleased]
 
+## [1.1.0] - TBD (the date is set when the release is tagged)
+
+### Added
+
+- Development-only browser regression tests, `npm run test:browser`, in Chromium,
+  Firefox and WebKit: the supported and legacy Accordion
+  (`test/browser/accordion.spec.mjs`) and measured contrast and focus checks
+  (`test/browser/contrast.spec.mjs`). They use `@playwright/test` as a new
+  development dependency and run in `npm run verify` through
+  `scripts/run-browser-tests.mjs`, which also checks that the built stylesheet is
+  not older than its source. CI installs the Playwright browsers. Nothing under
+  `test/` or `scripts/` is in the published `files`, and no JavaScript enters
+  the CSS distribution.
+- Documentation pages for components that shared a page: Input, Select, Textarea,
+  Checkbox & Radio and Toggle Switch (from Forms); Badge and Chip; Toast and Dialog
+  (from Notifications); Spinner, Skeleton and Progress; Navbar and App Shell. The
+  Select page documents the native `.sp-select`.
+
+### Changed
+
+- Documentation: `docs/tooltip.md` documents `.sp-tooltip--top`, the explicit form
+  of the default placement. `docs/layout.md` documents `.sp-cluster--justify-end`
+  and adds "Additional layout helpers" for `.sp-center` and `.sp-center--full`;
+  the four layout primitives are unchanged. `docs/accessibility.md` gains
+  "Visually hidden text", documenting `.sp-sr-only` and `.sp-not-sr-only`.
+  `docs/modal.md` names the legacy Modal modifiers as part of the frozen legacy
+  API, and the `FROZEN` comment in `sparta-modal.css` lists the same modifiers.
+- The component standard's register (§17) records `.sp-select-wrapper`,
+  `.sp-select-icon` and `.sp-alert--danger .sp-icon` as Internal, no longer lists
+  the newly documented classes as undocumented, and gains §17.5a, the
+  accessibility limits that remain. Nothing was removed.
+
+### Fixed
+
+- **Accordion:** closed, supported `.sp-accordion__content` is no longer
+  keyboard-focusable or exposed in the accessibility tree. It is now
+  `visibility: hidden` while its item is closed, with the visibility change
+  delayed on closing so the collapse animation still plays; opening is
+  immediate. Content wrapped in extra elements, and nested accordions, behave
+  as before. The legacy `.sp-accordion__content--animated` API is unchanged and
+  still clips its content without hiding it.
+- **Accordion, reduced motion:** the visibility delay is removed under
+  `prefers-reduced-motion: reduce`, so closed content is not left exposed.
+- **Accordion source:** the final `@media (prefers-reduced-motion: reduce)` block
+  in `sparta-accordion.css` was never closed. Closing it changes no emitted CSS.
+- Known limitation, documented and unchanged: a second or later direct child of
+  `.sp-accordion__content` keeps its height while closed. `docs/accordion.md`
+  recommends one wrapper element.
+
+### Accessibility: contrast corrections (visible changes)
+
+Visual corrections for WCAG 1.4.3 (text, 4.5:1), 1.4.11 (non-text, 3:1) and
+focus visibility (2.4.7; the 3:1 indicator contrast is a design target, not a
+conformance claim). No public selector, markup contract or token name changed.
+ADR-0002 does not classify changes to visual values (component standard §18.6);
+these accessibility-driven corrections are treated as non-breaking and released
+as a minor version. Measured in Chromium, Firefox and WebKit against the page, surface
+and elevated backgrounds, in both themes (`test/browser/contrast.spec.mjs`).
+
+- **Alert, Banner, Badge, Chip, Avatar:** the title, body and label text on tinted
+  surfaces is now neutral theme text (`--sp-text-primary`; `--sp-text-secondary`
+  for `.sp-alert__body`) instead of the variant color, which was as low as
+  1.7:1 to 2.5:1 on several variants. The variant color stays on the border and
+  the background. Text is now 8.9:1 or better (dark) and 13.6:1 or better (light).
+- **Icons and dots** (`.sp-alert__icon`, `.sp-alert-banner__icon`,
+  `.sp-toast__icon`, `.sp-dialog__icon--*`, `.sp-badge--dot::before`) keep a
+  semantic tone: `color-mix(in srgb, var(--sp-color-X) 65%, var(--sp-text-primary))`,
+  at least 3.4:1 on every surface and theme (they were 2.3:1 to 3.9:1 in the dark
+  theme). This also replaces the undefined `--sp-info-base`, `--sp-success-base`,
+  `--sp-warning-base` and `--sp-error-base` in `sparta-icons.css`, so
+  `.sp-alert--* .sp-icon` now takes effect.
+- **Opacity removed:** `.sp-alert__body` (was 0.85), `.sp-chip__remove` (was 0.6)
+  and `.sp-alert-banner__close` (was 0.6) are drawn at full opacity. Their hover
+  feedback is now a background tint (15% chip remove, 12% banner close) instead of
+  an opacity change; the banner close rests at `--sp-text-secondary` and rises to
+  `--sp-text-primary`. Disabled and decorative opacity is unchanged.
+- **Warning Button:** dark text (`--sp-bg-inverse`) in every state: 4.98:1 at rest,
+  6.98:1 on hover, 4.80:1 pressed (was white at 3.79:1, 2.70:1 and 5.60:1). The
+  pressed fill is a 90% mix of `--sp-color-warning` with
+  `--sp-color-warning-active` so the foreground does not flip; a darker pressed
+  fill cannot reach 5:1 with dark text because the resting fill is 4.98:1.
+  `.sp-button--outline-warning` fills with the same dark text and pressed fill on
+  hover and press (was white at 3.79:1).
+- **Success Button:** the hover fill is a 50% mix of `--sp-color-success-hover` and
+  `--sp-color-success` (white text 4.59:1, was 4.12:1). The lift and shadow are
+  unchanged. Disabled Warning and Success buttons are dimmer in contrast terms
+  (dark text at 0.45 opacity); disabled controls are exempt from 1.4.3.
+- **Focus indicator:** the shared `:focus-visible` outline is now 2px solid
+  `--sp-text-primary` (14.1:1 to 18.9:1 against the page backgrounds; it was the
+  brand primary at 2.05:1 to 2.59:1 in the dark theme). It follows scoped
+  `data-theme` and `.sp-light` regions. `.sp-button` no longer appears in the
+  `outline: none !important` rule in `sparta-accessibility.css`, and the button's
+  own `outline: none` and box-shadow ring were removed: the old 35%-alpha ring was
+  1.3:1 against the dark page, was replaced by the hover shadow while hovered, and
+  left a focused button with no indicator in forced-colors mode. The outline stays
+  visible on hover and press and under forced colors. Pointer clicks still show
+  no indicator on buttons. Links, tabs and Accordion headers gain the same color
+  from the shared rule.
+- **Not changed (recorded as follow-ups, documented in `docs/accessibility.md` and
+  §17 of the component standard):** the focus treatment of `.sp-input`,
+  `.sp-select`, `.sp-textarea`, checkbox, radio and toggle inputs (dark-theme
+  brand border 2.59:1; the `!important` suppression cannot be overridden); the
+  Native Select / Input error border that reverts to the brand border on focus
+  (`.sp-select--error`, `.sp-input--error`); the text color of outline-style
+  Buttons; links, error text and `.sp-code` colors.
+
+Visual review: the changes above are intended and visible. Text on tinted surfaces
+changes from the variant color to near-white (dark) or near-black (light); the
+focus ring changes from a pink halo to a white or black outline; Warning Buttons
+change from white to dark text. Automated checks cover Chromium, Firefox and WebKit;
+manual review in Safari, with screen readers and in a real forced-colors mode is
+still pending.
+
+Apart from the contrast and focus corrections and the Accordion rule above,
+this release changes documentation and one source comment only: no selector, token
+name or markup contract was changed or removed, and no supported or frozen legacy
+API was altered or removed. Under ADR-0002 the Accordion correction is a defect fix
+(ADR-0002 rule 6 reading), and the contrast and focus changes are
+accessibility-driven visual corrections that ship in a minor release with the
+documented visual review above.
+
 ## [1.0.5] - 2026-10-09
 
 ### Added
@@ -546,7 +667,8 @@ output changed — a non-breaking, patch-level change per ADR-0002.
   system; ownership confirmed as belonging to the icon system, duplicate
   block removed from core.
 
-[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.0.5...HEAD
+[Unreleased]: https://github.com/redspartanlabs/spartacss/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/redspartanlabs/spartacss/compare/v1.0.5...v1.1.0
 [1.0.5]: https://github.com/redspartanlabs/spartacss/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/redspartanlabs/spartacss/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/redspartanlabs/spartacss/compare/v1.0.2...v1.0.3

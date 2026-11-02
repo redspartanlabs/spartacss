@@ -12,7 +12,8 @@ inline layout). Both wrapper systems style the same underlying
 ways to structure a field, not a legacy/current pair — pick whichever
 fits your form's complexity. `.sp-field` is documented in full below since
 it's the more capable option; `.sp-form-group` is documented briefly since
-it's a thin wrapper with no variants of its own.
+it's a thin wrapper with no variants of its own. Each control has its own
+page, listed under Form controls below.
 
 Every primitive styles a **native** form element. Nothing here replaces the
 browser's form behavior: validation, autofill, submission and keyboard
@@ -162,123 +163,18 @@ Required and optional markers, and an inline field:
 
 ---
 
-## Input
+## Form controls
 
-```html preview height=6
-<input class="sp-input" type="text" placeholder="you@example.com" aria-label="Email" />
-```
+Each control is documented on its own page: its usage, variants and states,
+accessibility notes and common mistakes. They share the source file
+`sparta-form.css` and the wrappers above.
 
-- **Class API:** `.sp-input` — base class, works on any `<input type="...">`.
-  It is a full-width block: it fills its container.
-- **Variants:** `--sm`, default (unsized), `--lg`.
-- **States:** `:hover` (not while focused/disabled), `:focus` (border +
-  shadow ring), `:disabled` (45% opacity), `--error` (red border + red
-  focus ring — can be applied directly to `.sp-input` or inherited via a
-  parent `.sp-field--error`).
-
-```html preview height=21
-<div class="sp-stack">
-  <input class="sp-input sp-input--sm" type="text" placeholder="Small" aria-label="Small" />
-  <input class="sp-input" type="text" placeholder="Default" aria-label="Default" />
-  <input class="sp-input sp-input--lg" type="text" placeholder="Large" aria-label="Large" />
-  <input class="sp-input" type="text" value="Disabled" aria-label="Disabled" disabled />
-  <input class="sp-input sp-input--error" type="text" value="Error" aria-label="Error" aria-invalid="true" />
-</div>
-```
-
-## Select
-
-```html preview height=6
-<select class="sp-select" aria-label="Option">
-  <option>Option A</option>
-  <option>Option B</option>
-</select>
-```
-
-- **Class API:** `.sp-select` — base class; disables native appearance and
-  draws its own chevron.
-- **Variants:** none beyond `--error`.
-- **States:** `:hover`, `:focus`, `:disabled`, `--error`.
-- **Note:** the chevron icon is a hardcoded literal `background-image`,
-  deliberately not tokenized (documented in source as a single-consumer
-  exception — see [`tokens.md`](./tokens.md#reference-vs-override-guidance)).
-  It does not currently repaint per-theme.
-
-```html preview height=10
-<div class="sp-stack">
-  <select class="sp-select sp-select--error" aria-label="Error" aria-invalid="true"><option>Error state</option></select>
-  <select class="sp-select" aria-label="Disabled" disabled><option>Disabled</option></select>
-</div>
-```
-
-## Textarea
-
-```html preview height=11
-<textarea class="sp-textarea" placeholder="Your message" aria-label="Message"></textarea>
-```
-
-- **Class API:** `.sp-textarea` — base class; `resize: vertical` by
-  default (disabled when `:disabled`).
-- **Variants:** `--error`.
-- **States:** `:hover`, `:focus`, `:disabled`.
-
-## Checkbox & Radio
-
-```html preview height=5
-<label class="sp-checkbox">
-  <input type="checkbox" />
-  <span class="sp-checkbox--label">Accept terms</span>
-</label>
-
-<label class="sp-radio">
-  <input type="radio" name="plan" />
-  <span class="sp-radio--label">Monthly</span>
-</label>
-```
-
-- **Class API:** `.sp-checkbox` / `.sp-radio` wrap a native
-  `input[type="checkbox"]` / `input[type="radio"]` plus optional
-  `.sp-checkbox--label` / `.sp-radio--label` text.
-- **Variants:** none — shape (square vs. circle) is determined entirely
-  by the wrapper class.
-- **States:** `:hover` (border tints primary), `:focus-visible` (shadow
-  ring), `:checked` (fills primary; checkbox shows a white check icon via
-  `--sp-icon-bg-check-white`; radio shows an inset "dot" via `box-shadow`),
-  `:disabled` (45% opacity).
-
-```html preview height=11
-<div class="sp-stack">
-  <label class="sp-checkbox"><input type="checkbox" checked /><span class="sp-checkbox--label">Checked</span></label>
-  <label class="sp-checkbox"><input type="checkbox" disabled /><span class="sp-checkbox--label">Disabled</span></label>
-  <label class="sp-radio"><input type="radio" name="size" checked /><span class="sp-radio--label">Selected</span></label>
-  <label class="sp-radio"><input type="radio" name="size" /><span class="sp-radio--label">Not selected</span></label>
-</div>
-```
-
-## Toggle Switch
-
-```html preview height=5
-<label class="sp-toggle">
-  <input class="sp-toggle__input" type="checkbox" />
-  <span class="sp-toggle__label">Enable notifications</span>
-</label>
-```
-
-- **Class API:** `.sp-toggle` wraps `.sp-toggle__input` (a checkbox styled
-  as a track+thumb switch) and optional `.sp-toggle__label`.
-- **Variants:** `--sm`, default (unsized), `--lg` — scales both track and
-  thumb, and the thumb's checked-state travel distance, together.
-- **States:** `:checked` (track fills primary, thumb slides right),
-  `:focus-visible` (shadow ring on the track), `:disabled` (45% opacity).
-
-```html preview height=13
-<div class="sp-stack">
-  <label class="sp-toggle sp-toggle--sm"><input class="sp-toggle__input" type="checkbox" checked /><span class="sp-toggle__label">Small, on</span></label>
-  <label class="sp-toggle"><input class="sp-toggle__input" type="checkbox" checked /><span class="sp-toggle__label">Default, on</span></label>
-  <label class="sp-toggle sp-toggle--lg"><input class="sp-toggle__input" type="checkbox" /><span class="sp-toggle__label">Large, off</span></label>
-  <label class="sp-toggle"><input class="sp-toggle__input" type="checkbox" disabled /><span class="sp-toggle__label">Disabled</span></label>
-</div>
-```
+- [Input](./input.md) — `.sp-input`, with `--sm`, `--lg` and `--error`.
+- [Select](./select.md) — `.sp-select`, a native `<select>` with its own
+  chevron.
+- [Textarea](./textarea.md) — `.sp-textarea`.
+- [Checkbox & Radio](./checkbox-radio.md) — `.sp-checkbox` and `.sp-radio`.
+- [Toggle Switch](./toggle.md) — `.sp-toggle`, a checkbox styled as a switch.
 
 ## Accessibility (all form primitives)
 

@@ -81,6 +81,7 @@ Default gap is `--sp-space-4`.
 <div class="sp-cluster">...</div>
 <div class="sp-cluster sp-cluster--center">...</div>
 <div class="sp-cluster sp-cluster--justify-between">...</div>
+<div class="sp-cluster sp-cluster--justify-end">...</div>
 ```
 
 `.sp-cluster` has **no default cross-axis alignment** — it falls back to the
@@ -88,6 +89,10 @@ initial `stretch` value rather than assuming items should be vertically
 centered. If you're clustering same-height items (buttons, badges, tags) and
 want them centered, add `.sp-cluster--center` explicitly. Gap modifiers
 (`--sm`/`--lg`/`--xl`) follow the same scale as `.sp-stack`.
+
+`--justify-between` pushes the first and last items to opposite ends of the
+row; `--justify-end` packs the items at the end of the row
+(`justify-content: flex-end`).
 
 ```html preview height=17 wide=14
 <div class="sp-stack">
@@ -167,6 +172,35 @@ Two viewport widths are used across this file's `@media` conditions:
 responsive rules should reuse these values rather than introducing new ones.
 They cannot be expressed as CSS custom properties, since `@media` conditions
 don't resolve `var()`; this document is the single source of truth for them.
+
+## Additional layout helpers
+
+Alongside the four primitives, the layout layer ships two centering helpers.
+They are not part of the four-primitive vocabulary above and do not follow its
+naming: `.sp-center` is a flex container that centers content, not an Every
+Layout primitive.
+
+```html
+<div class="sp-center">...</div>
+<div class="sp-center sp-center--full">...</div>
+```
+
+- `.sp-center` — `display: flex` with `align-items: center` and
+  `justify-content: center`, so its content is centered on both axes within
+  the element's own box. It sets no height of its own, so give the element
+  one; without it the element is only as tall as its content, and there is
+  nothing to center vertically within.
+- `.sp-center--full` — adds `min-height: 100vh`, so the element is at least as
+  tall as the viewport.
+
+```html preview height=9
+<div class="sp-center" style="height: 6rem; border: 1px dashed var(--sp-border-strong)">
+  <span class="sp-badge">Centered on both axes</span>
+</div>
+```
+
+To center a block horizontally and limit its width, use
+[`.sp-container`](./layout.md#sp-container), not `.sp-center`.
 
 ## Legacy: `.sp-flex` and atomic utilities
 

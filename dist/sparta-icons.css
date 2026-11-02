@@ -106,11 +106,11 @@
   height: 1.25rem;
 }
 
-.sp-alert--info    .sp-icon { color: var(--sp-info-base);    }
-.sp-alert--success .sp-icon { color: var(--sp-success-base); }
-.sp-alert--warning .sp-icon { color: var(--sp-warning-base); }
+.sp-alert--info    .sp-icon { color: color-mix(in srgb, var(--sp-color-info) 65%, var(--sp-text-primary));    }
+.sp-alert--success .sp-icon { color: color-mix(in srgb, var(--sp-color-success) 65%, var(--sp-text-primary)); }
+.sp-alert--warning .sp-icon { color: color-mix(in srgb, var(--sp-color-warning) 65%, var(--sp-text-primary)); }
 .sp-alert--danger  .sp-icon,
-.sp-alert--error   .sp-icon { color: var(--sp-error-base);   }
+.sp-alert--error   .sp-icon { color: color-mix(in srgb, var(--sp-color-error) 65%, var(--sp-text-primary));   }
 
 /* ============================================================
    COMPONENT INTEGRATION — Drawer

@@ -82,10 +82,10 @@
   margin-top: 0.0625rem;
 }
 
-.sp-toast--success .sp-toast__icon { color: var(--sp-color-success); }
-.sp-toast--error   .sp-toast__icon { color: var(--sp-color-error); }
-.sp-toast--warning .sp-toast__icon { color: var(--sp-color-warning); }
-.sp-toast--info     .sp-toast__icon { color: var(--sp-color-info); }
+.sp-toast--success .sp-toast__icon { color: color-mix(in srgb, var(--sp-color-success) 65%, var(--sp-text-primary)); }
+.sp-toast--error   .sp-toast__icon { color: color-mix(in srgb, var(--sp-color-error) 65%, var(--sp-text-primary)); }
+.sp-toast--warning .sp-toast__icon { color: color-mix(in srgb, var(--sp-color-warning) 65%, var(--sp-text-primary)); }
+.sp-toast--info     .sp-toast__icon { color: color-mix(in srgb, var(--sp-color-info) 65%, var(--sp-text-primary)); }
 
 .sp-toast__body {
   flex: 1;
@@ -195,28 +195,44 @@
   background: var(--sp-color-success-subtle);
   border-color: color-mix(in srgb, var(--sp-color-success) 35%, transparent);
   border-left-color: var(--sp-color-success);
-  color: var(--sp-color-success);
+  color: var(--sp-text-primary);
+}
+
+.sp-alert-banner--success .sp-alert-banner__icon {
+  color: color-mix(in srgb, var(--sp-color-success) 65%, var(--sp-text-primary));
 }
 
 .sp-alert-banner--error {
   background: var(--sp-color-error-subtle);
   border-color: color-mix(in srgb, var(--sp-color-error) 35%, transparent);
   border-left-color: var(--sp-color-error);
-  color: var(--sp-color-error);
+  color: var(--sp-text-primary);
+}
+
+.sp-alert-banner--error .sp-alert-banner__icon {
+  color: color-mix(in srgb, var(--sp-color-error) 65%, var(--sp-text-primary));
 }
 
 .sp-alert-banner--warning {
   background: var(--sp-color-warning-subtle);
   border-color: color-mix(in srgb, var(--sp-color-warning) 35%, transparent);
   border-left-color: var(--sp-color-warning);
-  color: var(--sp-color-warning);
+  color: var(--sp-text-primary);
+}
+
+.sp-alert-banner--warning .sp-alert-banner__icon {
+  color: color-mix(in srgb, var(--sp-color-warning) 65%, var(--sp-text-primary));
 }
 
 .sp-alert-banner--info {
   background: var(--sp-color-info-subtle);
   border-color: color-mix(in srgb, var(--sp-color-info) 35%, transparent);
   border-left-color: var(--sp-color-info);
-  color: var(--sp-color-info);
+  color: var(--sp-text-primary);
+}
+
+.sp-alert-banner--info .sp-alert-banner__icon {
+  color: color-mix(in srgb, var(--sp-color-info) 65%, var(--sp-text-primary));
 }
 
 .sp-alert-banner--neutral {
@@ -282,19 +298,20 @@
   justify-content: center;
   background: transparent;
   border: none;
-  color: currentColor;
-  opacity: 0.6;
+  color: var(--sp-text-secondary);
   cursor: pointer;
   border-radius: var(--sp-radius-sm);
   font-size: 0.875rem;
-  transition: opacity var(--sp-duration-fast) var(--sp-ease);
+  transition: background var(--sp-duration-fast) var(--sp-ease), color var(--sp-duration-fast) var(--sp-ease);
 }
 
-.sp-alert-banner__close:hover { opacity: 1; }
+.sp-alert-banner__close:hover {
+  color: var(--sp-text-primary);
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
 
 .sp-alert-banner__close:focus-visible {
   outline: none;
-  opacity: 1;
   box-shadow: var(--sp-shadow-focus);
 }
 
@@ -387,10 +404,10 @@
   font-size: 1.25rem;
 }
 
-.sp-dialog__icon--danger  { background: var(--sp-color-error-subtle);   color: var(--sp-color-error); }
-.sp-dialog__icon--warning { background: var(--sp-color-warning-subtle); color: var(--sp-color-warning); }
-.sp-dialog__icon--info    { background: var(--sp-color-info-subtle);    color: var(--sp-color-info); }
-.sp-dialog__icon--success { background: var(--sp-color-success-subtle); color: var(--sp-color-success); }
+.sp-dialog__icon--danger  { background: var(--sp-color-error-subtle);   color: color-mix(in srgb, var(--sp-color-error) 65%, var(--sp-text-primary)); }
+.sp-dialog__icon--warning { background: var(--sp-color-warning-subtle); color: color-mix(in srgb, var(--sp-color-warning) 65%, var(--sp-text-primary)); }
+.sp-dialog__icon--info    { background: var(--sp-color-info-subtle);    color: color-mix(in srgb, var(--sp-color-info) 65%, var(--sp-text-primary)); }
+.sp-dialog__icon--success { background: var(--sp-color-success-subtle); color: color-mix(in srgb, var(--sp-color-success) 65%, var(--sp-text-primary)); }
 
 .sp-dialog__title-group {
   flex: 1;

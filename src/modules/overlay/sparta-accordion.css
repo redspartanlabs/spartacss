@@ -97,6 +97,30 @@
     padding: var(--sp-space-4) var(--sp-space-5);
   }
 
+  /* Closed content must also leave the tab order and the accessibility tree:
+     the 0fr collapse above only clips it. The selector is written for the closed
+     state, with a descendant combinator, so that: content wrapped in extra elements
+     still works as it always has; an open item nested in a closed one stays hidden;
+     and opening needs no rule (visibility simply stops being hidden, with no
+     transition for visibility in the open state, so it appears at once). The delayed
+     visibility transition applies on closing only, so the collapse still animates.
+     The legacy --animated content is a separate, frozen API and is excluded. */
+  .sp-accordion__item:not(.sp-accordion__item--open) .sp-accordion__content:not(.sp-accordion__content--animated) {
+    visibility: hidden;
+    transition:
+      grid-template-rows var(--sp-duration-base) var(--sp-ease-out),
+      opacity var(--sp-duration-base) var(--sp-ease-out),
+      visibility 0s linear var(--sp-duration-base);
+  }
+
+  /* The global reduced-motion rule shortens durations but not delays, so drop
+     the visibility delay too; otherwise closed content stays exposed for a moment. */
+  @media (prefers-reduced-motion: reduce) {
+    .sp-accordion__item:not(.sp-accordion__item--open) .sp-accordion__content:not(.sp-accordion__content--animated) {
+      transition-delay: 0s;
+    }
+  }
+
 
 }
 
@@ -221,3 +245,4 @@
   .sp-accordion__trigger::after {
     transition: none;
   }
+}

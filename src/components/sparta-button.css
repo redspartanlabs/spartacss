@@ -31,10 +31,9 @@
       transform var(--sp-duration-fast) var(--sp-ease);
   }
 
-  .sp-button:focus-visible {
-    outline: none;
-    box-shadow: var(--sp-shadow-focus);
-  }
+  /* Keyboard focus is the shared 2px outline from the accessibility layer. It is
+     an outline, not a box-shadow, so hover and active shadows cannot replace it
+     and forced-colors mode keeps it. */
 
   .sp-button:disabled,
   .sp-button[aria-disabled="true"] {
@@ -103,8 +102,10 @@
     box-shadow: var(--sp-shadow-sm);
   }
 
+  /* Hover is mixed back toward the base fill: white on --sp-color-success-hover
+     is 4.12:1; this mix is 4.59:1. */
   .sp-button--success:hover:not(:disabled) {
-    background: var(--sp-color-success-hover);
+    background: color-mix(in srgb, var(--sp-color-success-hover) 50%, var(--sp-color-success));
     box-shadow: var(--sp-shadow-md);
     transform: translateY(-1px);
   }
@@ -114,9 +115,13 @@
     transform: translateY(0);
   }
 
+  /* Dark foreground in every state: white fails on the warning fills (3.79:1
+     default, 2.70:1 hover). --sp-bg-inverse is theme-invariant (#111111).
+     Default 4.98:1, hover 6.98:1, active 4.80:1. The active fill is mixed
+     toward the pressed colour so the foreground never flips. */
   .sp-button--warning {
     background: var(--sp-color-warning);
-    color: var(--sp-text-on-color);
+    color: var(--sp-bg-inverse);
     box-shadow: var(--sp-shadow-sm);
   }
 
@@ -127,7 +132,7 @@
   }
 
   .sp-button--warning:active:not(:disabled) {
-    background: var(--sp-color-warning-active);
+    background: color-mix(in srgb, var(--sp-color-warning) 90%, var(--sp-color-warning-active));
     transform: translateY(0);
   }
 
@@ -243,13 +248,13 @@
   }
   .sp-button--outline-warning:hover:not(:disabled) {
     background: var(--sp-color-warning);
-    color: var(--sp-text-on-color);
+    color: var(--sp-bg-inverse);
     box-shadow: var(--sp-shadow-sm);
     transform: translateY(-1px);
   }
   .sp-button--outline-warning:active:not(:disabled) {
-    background: var(--sp-color-warning-active);
-    color: var(--sp-text-on-color);
+    background: color-mix(in srgb, var(--sp-color-warning) 90%, var(--sp-color-warning-active));
+    color: var(--sp-bg-inverse);
     transform: translateY(0);
   }
 

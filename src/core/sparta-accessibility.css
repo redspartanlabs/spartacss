@@ -3,15 +3,19 @@
    ============================================================ */
 
 @layer accessibility {
-  :focus-visible:not(.sp-input):not(.sp-select):not(.sp-textarea):not(.sp-button):not(.sp-toggle__input) {
-    outline: 2px solid var(--sp-color-primary);
+  /* Shared keyboard focus indicator: links, tabs, Accordion headers, buttons and
+     other focusable elements. --sp-text-primary is read here, at the use site,
+     so it follows the nearest data-theme / .sp-light scope (11-19:1 on the page
+     surfaces; the brand primary was 2.59:1 in the dark theme). Form controls
+     keep their own treatment below (see docs/accessibility.md). */
+  :focus-visible:not(.sp-input):not(.sp-select):not(.sp-textarea):not(.sp-toggle__input) {
+    outline: 2px solid var(--sp-text-primary);
     outline-offset: 2px;
   }
 
   .sp-input:focus-visible,
   .sp-select:focus-visible,
   .sp-textarea:focus-visible,
-  .sp-button:focus-visible,
   .sp-checkbox input:focus-visible,
   .sp-radio input:focus-visible,
   .sp-toggle__input:focus-visible {

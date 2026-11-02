@@ -1,17 +1,14 @@
-# Navbar & App Shell
+# App Shell
 
-`.sp-navbar` is SpartaCSS's navigation component, and `.sp-app-shell` is its
-application-shell pattern for pairing Navbar with a page's content area.
-`.sp-navbar__toggle` icon-color rules and a `.sp-navbar`/`.sp-sidebar`
-print-hide rule predate both — they existed in `sparta-utilities.css`,
-`sparta-icons.css`, and `sparta-accessibility.css` since before the modular
-architecture split, with no actual Navbar component behind them until
-`0.5.0` introduced one.
+`.sp-app-shell` is SpartaCSS's application-shell pattern for pairing a
+[Navbar](./navbar.md) with a page's content area. Navbar, SpartaCSS's navigation
+component, has its own page.
 
 ## When to use which
 
-- **Guidance:** use Navbar for a site's or application's primary navigation: a
-  row of top-level destinations with a brand and, optionally, actions.
+- **Guidance:** use [Navbar](./navbar.md) for a site's or application's primary
+  navigation: a row of top-level destinations with a brand and, optionally,
+  actions.
 - **Guidance:** use App Shell when you want the whole-page composition —
   navbar on top, page content filling the rest — as a fixed reference point.
 - **Guidance:** for a secondary or temporary side panel, use
@@ -22,85 +19,9 @@ architecture split, with no actual Navbar component behind them until
 
 ## `.sp-navbar`
 
-The collapse breakpoint is a viewport media query, so a live example responds
-to the width of the frame that shows it. The frames on this page are narrower
-than `768px`, so the navbar below shows its narrow layout: the links are
-hidden behind the menu button.
-
-```html preview height=7
-<nav class="sp-navbar" aria-label="Main">
-  <div class="sp-navbar__brand">Acme</div>
-
-  <button class="sp-navbar__toggle" aria-label="Toggle menu" aria-expanded="false">
-    <span class="sp-icon sp-icon-menu"></span>
-  </button>
-
-  <div class="sp-navbar__links">
-    <a class="sp-navbar__link sp-navbar__link--active" href="#dashboard" aria-current="page">Dashboard</a>
-    <a class="sp-navbar__link" href="#reports">Reports</a>
-    <a class="sp-navbar__link" href="#settings">Settings</a>
-  </div>
-
-  <div class="sp-navbar__actions">
-    <button class="sp-button sp-button--sm">Sign out</button>
-  </div>
-</nav>
-```
-
-- `.sp-navbar__brand` — logo/title slot, left-aligned, never shrinks.
-- `.sp-navbar__links` — the nav-item row. Above `768px` it renders inline;
-  below `768px` it's hidden by default and only shown, as a full-width
-  stacked column, when `.sp-navbar--open` is present on `.sp-navbar`.
-- `.sp-navbar__link` / `.sp-navbar__link--active` — individual nav items.
-- `.sp-navbar__actions` — right-aligned slot (buttons, avatar, etc.), never
-  shrinks.
-- `.sp-navbar__toggle` — the mobile menu button. Hidden above `768px`,
-  shown below it. Its icon color states are already defined in
-  `sparta-utilities.css`/`sparta-icons.css` — this component only adds the
-  button's own structural rules.
-
-### The `--open` state (no JS shipped)
-
-SpartaCSS ships no JavaScript. `.sp-navbar--open` is a plain state modifier
-that your own script adds to `.sp-navbar` (typically on the toggle button's
-click handler) — the same convention already used by `.sp-modal--open` and
-`.sp-accordion__item--open`. SpartaCSS doesn't introduce a new state
-mechanism for Navbar; it reuses the one that already exists.
-
-The same navbar with `--open`: below `768px` the links are shown as a stacked
-column.
-
-```html preview height=14 wide=11
-<nav class="sp-navbar sp-navbar--open" aria-label="Main">
-  <div class="sp-navbar__brand">Acme</div>
-
-  <button class="sp-navbar__toggle" aria-label="Toggle menu" aria-expanded="true">
-    <span class="sp-icon sp-icon-menu"></span>
-  </button>
-
-  <div class="sp-navbar__links">
-    <a class="sp-navbar__link sp-navbar__link--active" href="#dashboard" aria-current="page">Dashboard</a>
-    <a class="sp-navbar__link" href="#reports">Reports</a>
-    <a class="sp-navbar__link" href="#settings">Settings</a>
-  </div>
-
-  <div class="sp-navbar__actions">
-    <button class="sp-button sp-button--sm">Sign out</button>
-  </div>
-</nav>
-```
-
-The `768px` collapse breakpoint is the same one documented in
-`docs/layout.md` — no new breakpoint was introduced for this component.
-
-### JavaScript responsibility
-
-Your script:
-
-- adds and removes `.sp-navbar--open` on `.sp-navbar` when the toggle is pressed;
-- keeps `aria-expanded` on the toggle in step with it;
-- closes the menu, if you want it to, when a link is chosen or `Escape` is
-  pressed.
+Navbar is documented on its own page: [Navbar](./navbar.md) — its slots, the
+`--open` state, the JavaScript it leaves to you, accessibility and common
+mistakes. The live example of the shell below includes one.
 
 ## `.sp-app-shell`
 
@@ -178,6 +99,7 @@ and is tracked as known, deferred debt.
 
 ## Related
 
+- [Navbar](./navbar.md) — the navigation row inside the shell.
 - [Page header](./page-header.md) — the title row inside the shell.
 - [Layout](./layout.md) — container, stack, cluster and grid, and the
   breakpoints.
